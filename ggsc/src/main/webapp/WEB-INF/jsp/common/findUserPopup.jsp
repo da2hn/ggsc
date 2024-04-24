@@ -14,7 +14,7 @@
 <script src="/gnoincoundb/js/jquery-1.11.2.min.js" ></script>
 <script type="text/javascript">
 	
-	function fn_select(userId, userNm, caseNo, cnsGb, birthDt, mobile, addr, gender, sigunCd){
+	function fn_select(userId, userNm, caseNo, cnsGb, birthDt, mobile, addr, gender, sigunCd, cnsCnt){
 		opener.document.getElementById("cnsleId").value = userId;
 		opener.document.getElementById("cnsleNm").value = userNm;
 		if(opener.document.getElementById("cnsleNm2")){
@@ -37,6 +37,7 @@
 		if(opener.document.getElementById("cnsGb")) opener.document.getElementById("cnsGb").value = cnsGb;
 		if(opener.document.getElementById("sigunCd")) opener.document.getElementById("sigunCd").value = sigunCd;
 		if(opener.document.getElementById("tel")) opener.document.getElementById("tel").value = mobile;
+		if(opener.document.getElementById("cnsCnt")) opener.document.getElementById("cnsCnt").value = cnsCnt;
 		
 		if(opener.getGb){
 			opener.getGb();
@@ -122,7 +123,7 @@
 				</c:if>
 				<c:if test="${list.size() > 0 }">
 					<c:forEach items="${list }" var="result" varStatus="rs">
-						<tr onclick="javascript:fn_select('${result.userId}', '${result.userNm }', '${result.caseNo }', '${result.cnsGb }', '${result.birthDt }', '${result.mobile }', '${result.addr }', '${result.gender }' , '${result.sigunCd }');">
+						<tr onclick="javascript:fn_select('${result.userId}', '${result.userNm }', '${result.caseNo }', '${result.cnsGb }', '${result.birthDt }', '${result.mobile }', '${result.addr }', '${result.gender }' , '${result.sigunCd }', '${result.cnsCnt }');">
 							<td>${result.rnum }</td>
 							<td>${result.caseNo }</td>
 							<td>${result.cnsGb }</td>

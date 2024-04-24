@@ -413,7 +413,7 @@
 		
 	});
 	
-	$(document).on('change', 'input[name="cns-RsvtDt"]', function(){
+	$(document).on('change', 'input[name="cnsRsvtDt"]', function(){
 		var dateString = $(this).val();
 		
 		var dayIndex = getDayOfWeek(dateString);
@@ -593,7 +593,7 @@
 						</td>
 						<th>다음상담예약일</th>
 						<td>
-							<span class="form"><input type="text" class="wd200" id="datepicker9" name="cns-RsvtDt" value="" readonly/></span>
+							<span class="form"><input type="text" class="wd200" id="datepicker9" name="cnsRsvtDt" value="" readonly/></span>
 							<input class="wd50 mg-l25" id="cnsRsvtWeekNm" name="cnsRsvtWeekNm" style="text-align: center;" readonly/>
 							<br>
 							(<input type="text" class="wd50" id="cnsRsvtStrtHour" name="cnsRsvtStrtHour" maxlength="2" onlynumber />시<input type="text" class="wd50" id="cnsRsvtStrtMin" name="cnsRsvtStrtMin" maxlength="2" onlynumber />분 ~
@@ -786,7 +786,7 @@
 						<td colspan="3"><textarea name="daftMng" style="width: 600px;"></textarea></td>
 					</tr>
 					
-					<tr>
+					<!-- <tr>
 						<td>정서적 편안함 정도</td>
 						<td colspan="3">
 							<input type="radio" id="emotCptvDegr1" name="emotCptvDegr" value="1" /><label for="emotCptvDegr1">1</label> 
@@ -833,7 +833,7 @@
 							<input type="radio" id="cnsChngDegr10" name="cnsChngDegr" value="10" /><label for="cnsChngDegr10">10</label>
 							<span class="cnsChngDegrRemove" style="cursor: pointer; text-decoration:underline">초기화</span> 
 						</td>
-					</tr>
+					</tr> -->
 					<%-- <tr>
 						<th rowspan="3">파일첨부</th>
 						<td colspan="4">

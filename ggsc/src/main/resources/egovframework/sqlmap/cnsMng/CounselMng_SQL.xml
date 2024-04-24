@@ -1281,6 +1281,7 @@
 		row_number() over(ORDER BY gca.NUM) AS RNUM ,
 		row_number() over(ORDER BY gca.NUM DESC) AS RNUM2 ,
 		gum.* ,
+		(SELECT COUNT(*) + 1 FROM GS_PER_CNS_DTL WHERE CNSLE_ID = gca.USER_ID) AS CNS_CNT,
 		gca.CASE_NO ,
 		gca.NUM ,
 		(SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G15' AND ODR = gca.CNS_GB) AS cnsGb

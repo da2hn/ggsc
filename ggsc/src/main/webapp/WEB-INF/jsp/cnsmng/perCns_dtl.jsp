@@ -44,6 +44,8 @@
 </style>
   </head>
 <script type="text/javascript">
+	const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+
 	$(document).ready(function() {
 		
 		var fileTarget = $('#file'); 
@@ -88,11 +90,11 @@
 		}
 		var cnsDtWeekCd = "${result.cnsDtWeekCd}";
 		if(cnsDtWeekCd != ""){
-			$("#cnsDtWeekCd").val(cnsDtWeekCd).prop("selected", true);
+			$("#cnsDtWeekNm").val(daysOfWeek[cnsDtWeekCd]);
 		}
 		var cnsRsvtWeekCd = "${result.cnsRsvtWeekCd}";
 		if(cnsRsvtWeekCd != ""){
-			$("#cnsRsvtWeekCd").val(cnsRsvtWeekCd).prop("selected", true);
+			$("#cnsRsvtWeekNm").val(daysOfWeek[cnsRsvtWeekCd]);
 		}
 		var cnsMethd = "${result.cnsMethd}";
 		if(cnsMethd != ""){
@@ -524,6 +526,121 @@
 		}
 	}
 	
+	$(document).on('change', 'input[name*="cnsDt"]', function(){
+		var cnsDtStdHour = $("input[name='cnsDtStdHour']").val();
+		var cnsDtStdMin = $("input[name='cnsDtStdMin']").val();
+		var cnsDtEndHour = $("input[name='cnsDtEndHour']").val();
+		var cnsDtEndMin = $("input[name='cnsDtEndMin']").val();
+		var cnsTimeTotMin = $("input[name='cnsTimeTotMin']");
+		
+		if(cnsDtStdHour !== "" && cnsDtStdMin !== "" && cnsDtEndHour !== "" && cnsDtEndMin !== ""){
+			// 입력된 값들을 정수로 변환합니다.
+	        cnsDtStdHour = parseInt(cnsDtStdHour);
+	        cnsDtStdMin = parseInt(cnsDtStdMin);
+	        cnsDtEndHour = parseInt(cnsDtEndHour);
+	        cnsDtEndMin = parseInt(cnsDtEndMin);
+	        
+	     	// 종료 시간이 시작 시간보다 이전인지 확인합니다.
+	        if(cnsDtEndHour < cnsDtStdHour || (cnsDtEndHour === cnsDtStdHour && cnsDtEndMin < cnsDtStdMin)){
+	            alert("종료 시간이 시작 시간보다 이전입니다.");
+	            $("input[name='cnsTimeTotMin']").val("");
+	            return; // 종료 시간이 시작 시간보다 이전이면 함수 종료
+	        }
+	     	
+			var stdTime = cnsDtStdHour + ":" + cnsDtStdMin;
+			var endTime = cnsDtEndHour + ":" + cnsDtEndMin;
+			
+			cnsTimeTotMin.val(calculateTimeDifference(stdTime, endTime));
+		}
+		
+	});
+	
+	$(document).on('change', 'input[name="cnsDt"]', function(){
+		var dateString = $(this).val();
+		
+		var dayIndex = getDayOfWeek(dateString);
+		
+		
+	    // 요일을 텍스트로 반환합니다.
+	    var dayOfWeek = daysOfWeek[dayIndex];
+	    
+	   dayIndex = dayIndex == 0 ? 7 : dayIndex; 
+	
+		$("input[name='cnsDtWeekCd']").val(dayIndex);
+		$("input[name='cnsDtWeekNm']").val(dayOfWeek);
+		
+	});
+	
+	$(document).on('change', 'input[name*="cnsRsvt"]', function(){
+		var cnsRsvtStrtHour = $("input[name='cnsRsvtStrtHour']").val();
+		var cnsRsvtStrtMin = $("input[name='cnsRsvtStrtMin']").val();
+		var cnsRsvtEndHour = $("input[name='cnsRsvtEndHour']").val();
+		var cnsRsvtEndMin = $("input[name='cnsRsvtEndMin']").val();
+		var cnsRsvtTotMin = $("input[name='cnsRsvtTotMin']");
+		
+		if(cnsRsvtStrtHour !== "" && cnsRsvtStrtMin !== "" && cnsRsvtEndHour !== "" && cnsRsvtEndMin !== ""){
+			// 입력된 값들을 정수로 변환합니다.
+	        cnsRsvtStrtHour = parseInt(cnsRsvtStrtHour);
+	        cnsRsvtStrtMin = parseInt(cnsRsvtStrtMin);
+	        cnsRsvtEndHour = parseInt(cnsRsvtEndHour);
+	        cnsRsvtEndMin = parseInt(cnsRsvtEndMin);
+	        
+	     	// 종료 시간이 시작 시간보다 이전인지 확인합니다.
+	        if(cnsRsvtEndHour < cnsRsvtStrtHour || (cnsRsvtEndHour === cnsRsvtStrtHour && cnsRsvtEndMin < cnsRsvtStrtMin)){
+	            alert("종료 시간이 시작 시간보다 이전입니다.");
+	            $("input[name='cnsRsvtTotMin']").val("");
+	            return; // 종료 시간이 시작 시간보다 이전이면 함수 종료
+	        }
+	     	
+			var stdTime = cnsRsvtStrtHour + ":" + cnsRsvtStrtMin;
+			var endTime = cnsRsvtEndHour + ":" + cnsRsvtEndMin;
+			
+			cnsRsvtTotMin.val(calculateTimeDifference(stdTime, endTime));
+		}
+		
+	});
+	
+	$(document).on('change', 'input[name="cnsRsvtDt"]', function(){
+		var dateString = $(this).val();
+		
+		var dayIndex = getDayOfWeek(dateString);		
+		
+	    // 요일을 텍스트로 반환합니다.
+	    var dayOfWeek = daysOfWeek[dayIndex];
+	    
+	   dayIndex = dayIndex == 0 ? 7 : dayIndex; 
+	
+		$("input[name='cnsRsvtWeekCd']").val(dayIndex);
+		$("input[name='cnsRsvtWeekNm']").val(dayOfWeek);
+		
+	});
+	
+	function getDayOfWeek(dateString) {
+	    // 입력된 날짜 문자열로부터 Date 객체 생성
+	    var date = new Date(dateString);
+
+	    // Date 객체에서 getDay() 메서드를 사용하여 요일을 숫자로 반환합니다.
+	    // 0: 일요일, 1: 월요일, ..., 6: 토요일
+	    var dayIndex = date.getDay();
+
+	    return dayIndex;
+	}
+	
+	function calculateTimeDifference(start, end) {
+	    // 시작 시간과 종료 시간을 ":"를 기준으로 시와 분으로 분리합니다.
+	    var [startHour, startMinute] = start.split(':').map(Number);
+	    var [endHour, endMinute] = end.split(':').map(Number);
+
+	    // 시작 시간과 종료 시간을 분 단위로 변환합니다.
+	    var startTimeInMinutes = startHour * 60 + startMinute;
+	    var endTimeInMinutes = endHour * 60 + endMinute;
+
+	    // 시간 차이를 계산하여 양수로 반환합니다.
+	    var timeDifference = Math.abs(endTimeInMinutes - startTimeInMinutes);
+
+	    return timeDifference;
+	}
+	
 </script>
 <section id="content">
 
@@ -547,11 +664,12 @@
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<input type="hidden" id="cnsleId" name="cnsleId" value="${result.cnsleId }" />
 				<input type="hidden" id="caseNo" name="caseNo" value="${result.caseNo }" />
+				<input type="hidden" id="cnsDtWeekCd" name="cnsDtWeekCd" value="${result.cnsDtWeekCd }" />
+				<input type="hidden" id="cnsRsvtWeekCd" name="cnsRsvtWeekCd"value="${result.cnsRsvtWeekCd }"  />
 				<input type="hidden" id="num" name="num" value="${result.num }" />
 				<input type="hidden" name="cnsrGb" value="${map.authCd }" />
 				<input type="hidden" id="dbInsTm" value="${fn:substring(result.dbInsTm, 0, 10) }" />
-				<input type="hidden" id="nowTime" value="${nowTime }" />
-				
+				<input type="hidden" id="nowTime" value="${nowTime }" />				
 				<table class="table-write">
 					<colgroup>
 						<col width="15%"></col>
@@ -650,7 +768,7 @@
 						</td>
 						<th>상담회기 <span style="color: red;">*</span></th>
 						<td>
-							<input type="text" class="wd200" id="cnsCnt" name="cnsCnt" value="${result.cnsCnt }" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+							<input type="text" class="wd200" id="cnsCnt" name="cnsCnt" value="${result.cnsCnt }" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" readonly/>
 						</td>
 					</tr>
 					<tr>
@@ -712,15 +830,7 @@
 						<th>상담일시 <span style="color: red;">*</span></th>
 						<td colspan="2">
 							<span class="form"><input type="text" class="wd200" id="datepicker8" name="cnsDt" value="${result.cnsDt }" readonly /></span>
-							<select class="wd50 mg-l25" id="cnsDtWeekCd" name="cnsDtWeekCd">
-								<option value="1" selected="selected">월</option>
-								<option value="2">화</option>
-								<option value="3">수</option>
-								<option value="4">목</option>
-								<option value="5">금</option>
-								<option value="6">토</option>
-								<option value="7">일</option>
-							</select>
+							<input class="wd50 mg-l25" id="cnsDtWeekNm" name="cnsDtWeekNm" style="text-align: center;" readonly/>
 							<br>
 							(<input type="text" class="wd50" id="cnsDtStdHour" name="cnsDtStdHour" value="${result.cnsDtStdHour }" />시
 							<input type="text" class="wd50" id="cnsDtStdMin" name="cnsDtStdMin" value="${result.cnsDtStdMin }" />분 ~
@@ -731,15 +841,7 @@
 						<th>다음상담예약일</th>
 						<td>
 							<span class="form"><input type="text" class="wd200" id="datepicker9" name="cnsRsvtDt" value="${result.cnsRsvtDt }" readonly /></span>
-							<select class="wd50 mg-l25" id="cnsRsvtWeekCd" name="cnsRsvtWeekCd">
-								<option value="1" selected="selected">월</option>
-								<option value="2">화</option>
-								<option value="3">수</option>
-								<option value="4">목</option>
-								<option value="5">금</option>
-								<option value="6">토</option>
-								<option value="7">일</option>
-							</select>
+							<input class="wd50 mg-l25" id="cnsRsvtWeekNm" name="cnsRsvtWeekNm" style="text-align: center;" readonly/>
 							<br>
 							(<input type="text" class="wd50" id="cnsRsvtStrtHour" name="cnsRsvtStrtHour" value="${result.cnsRsvtStrtHour }" />시
 							<input type="text" class="wd50" id="cnsRsvtStrtMin" name="cnsRsvtStrtMin" value="${result.cnsRsvtStrtMin }" />분 ~
@@ -931,7 +1033,7 @@
 						<td colspan="3"><textarea name="daftMng" style="width: 600px;">${result.daftMng }</textarea></td>
 					</tr>
 					
-					<tr>
+					<!-- <tr>
 						<td>정서적 편안함 정도</td>
 						<td colspan="3">
 							<input type="radio" id="emotCptvDegr1" name="emotCptvDegr" value="1" /><label for="emotCptvDegr1">1</label> 
@@ -978,7 +1080,7 @@
 							<input type="radio" id="cnsChngDegr10" name="cnsChngDegr" value="10" /><label for="cnsChngDegr10">10</label> 
 							<span class="cnsChngDegrRemove" style="cursor: pointer; text-decoration:underline">초기화</span>
 						</td>
-					</tr>
+					</tr> -->
 				</table>
 			</form>
 		</div>
