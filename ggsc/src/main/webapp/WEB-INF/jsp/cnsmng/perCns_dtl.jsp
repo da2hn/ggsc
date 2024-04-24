@@ -89,12 +89,20 @@
 			$("#cnsrGb").val(cnsrGb).prop("selected", true);
 		}
 		var cnsDtWeekCd = "${result.cnsDtWeekCd}";
-		if(cnsDtWeekCd != ""){
+		var cnsDt = "${result.cnsDtWeekCd}";
+		if(cnsDtWeekCd != "" && cnsDt != ""){
 			$("#cnsDtWeekNm").val(daysOfWeek[cnsDtWeekCd]);
 		}
 		var cnsRsvtWeekCd = "${result.cnsRsvtWeekCd}";
-		if(cnsRsvtWeekCd != ""){
+		var cnsRsvtDt = "${result.cnsRsvtDt}";
+		if(cnsRsvtWeekCd != "" && cnsRsvtDt != ""){
 			$("#cnsRsvtWeekNm").val(daysOfWeek[cnsRsvtWeekCd]);
+		}else{
+			$("#cnsRsvtStrtHour").val("");
+			$("#cnsRsvtStrtMin").val("");
+			$("#cnsRsvtEndHour").val("");
+			$("#cnsRsvtEndMin").val("");
+			$("#cnsRsvtTotMin").val("");
 		}
 		var cnsMethd = "${result.cnsMethd}";
 		if(cnsMethd != ""){
@@ -526,6 +534,22 @@
 		}
 	}
 	
+	$(document).on('focusout', 'input[name="cnsDtStdMin"]' ,function(){
+		var cnsDtStdMin = $("input[name='cnsDtStdMin']").val();
+		
+		if(cnsDtStdMin.length < 2){
+			$("input[name='cnsDtStdMin']").val("0" + cnsDtStdMin);
+		}
+	}); 
+	
+	$(document).on('focusout', 'input[name="cnsDtEndMin"]' ,function(){
+		var cnsDtEndMin = $("input[name='cnsDtEndMin']").val();
+		
+		if(cnsDtEndMin.length < 2){
+			$("input[name='cnsDtEndMin']").val("0" + cnsDtEndMin);
+		}
+	}); 
+	
 	$(document).on('change', 'input[name*="cnsDt"]', function(){
 		var cnsDtStdHour = $("input[name='cnsDtStdHour']").val();
 		var cnsDtStdMin = $("input[name='cnsDtStdMin']").val();
@@ -570,6 +594,22 @@
 		$("input[name='cnsDtWeekNm']").val(dayOfWeek);
 		
 	});
+	
+	$(document).on('focusout', 'input[name="cnsRsvtStrtMin"]' ,function(){
+		var cnsRsvtStrtMin = $("input[name='cnsRsvtStrtMin']").val();
+		
+		if(cnsRsvtStrtMin.length < 2){
+			$("input[name='cnsRsvtStrtMin']").val("0" + cnsRsvtStrtMin);
+		}
+	}); 
+	
+	$(document).on('focusout', 'input[name="cnsRsvtEndMin"]' ,function(){
+		var cnsRsvtEndMin = $("input[name='cnsRsvtEndMin']").val();
+		
+		if(cnsRsvtEndMin.length < 2){
+			$("input[name='cnsRsvtEndMin']").val("0" + cnsRsvtEndMin);
+		}
+	}); 
 	
 	$(document).on('change', 'input[name*="cnsRsvt"]', function(){
 		var cnsRsvtStrtHour = $("input[name='cnsRsvtStrtHour']").val();
@@ -682,7 +722,7 @@
 						<th><input type="radio" id="cnsStatRb" name="radioB" /> <label for="cnsStatRb">상담상태</label><span style="color: red;">*</span></th>
 						<td colspan="2">
 							<select class="wd200" id="cnsStat" name="cnsStat">
-								<c:forEach items="${cnsStatList }" var="list">
+								<c:forEach items="${cnsStatList }" var="list" begin="0" end="2">
 									<option value="${list.odr }">${list.mclassNm }</option>
 								</c:forEach>
 							</select> 

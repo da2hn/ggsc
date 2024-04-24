@@ -337,12 +337,29 @@
 		appl_detail(appl);
 	});
 	
+	$(document).on('focusout', 'input[name="cnsDtStdMin"]' ,function(){
+		var cnsDtStdMin = $("input[name='cnsDtStdMin']").val();
+		
+		if(cnsDtStdMin.length < 2){
+			$("input[name='cnsDtStdMin']").val("0" + cnsDtStdMin);
+		}
+	}); 
+	
+	$(document).on('focusout', 'input[name="cnsDtEndMin"]' ,function(){
+		var cnsDtEndMin = $("input[name='cnsDtEndMin']").val();
+		
+		if(cnsDtEndMin.length < 2){
+			$("input[name='cnsDtEndMin']").val("0" + cnsDtEndMin);
+		}
+	}); 
+	
 	$(document).on('change', 'input[name*="cnsDt"]', function(){
 		var cnsDtStdHour = $("input[name='cnsDtStdHour']").val();
 		var cnsDtStdMin = $("input[name='cnsDtStdMin']").val();
 		var cnsDtEndHour = $("input[name='cnsDtEndHour']").val();
 		var cnsDtEndMin = $("input[name='cnsDtEndMin']").val();
 		var cnsTimeTotMin = $("input[name='cnsTimeTotMin']");
+		
 		
 		if(cnsDtStdHour !== "" && cnsDtStdMin !== "" && cnsDtEndHour !== "" && cnsDtEndMin !== ""){
 			// 입력된 값들을 정수로 변환합니다.
@@ -366,6 +383,9 @@
 		
 	});
 	
+
+	
+	
 	$(document).on('change', 'input[name="cnsDt"]', function(){
 		var dateString = $(this).val();
 		
@@ -383,6 +403,22 @@
 		$("input[name='cnsDtWeekNm']").val(dayOfWeek);
 		
 	});
+	
+	$(document).on('focusout', 'input[name="cnsRsvtStrtMin"]' ,function(){
+		var cnsRsvtStrtMin = $("input[name='cnsRsvtStrtMin']").val();
+		
+		if(cnsRsvtStrtMin.length < 2){
+			$("input[name='cnsRsvtStrtMin']").val("0" + cnsRsvtStrtMin);
+		}
+	}); 
+	
+	$(document).on('focusout', 'input[name="cnsRsvtEndMin"]' ,function(){
+		var cnsRsvtEndMin = $("input[name='cnsRsvtEndMin']").val();
+		
+		if(cnsRsvtEndMin.length < 2){
+			$("input[name='cnsRsvtEndMin']").val("0" + cnsRsvtEndMin);
+		}
+	}); 
 	
 	$(document).on('change', 'input[name*="cnsRsvt"]', function(){
 		var cnsRsvtStrtHour = $("input[name='cnsRsvtStrtHour']").val();
@@ -486,7 +522,7 @@
 						<th><label>상담상태 <span style="color: red;">*</span></label></th>
 						<td colspan="2">
 							<select class="wd200" id="cnsStat" name="cnsStat">
-								<c:forEach items="${cnsStatList }" var="list">
+								<c:forEach items="${cnsStatList }" var="list"  begin="0" end="2">
 									<option value="${list.odr }">${list.mclassNm }</option>
 								</c:forEach>
 							</select> 
