@@ -429,7 +429,7 @@ public class AdminController {
 			// 센터관리 수정
 			adminManageService.updateCenterMng(centerVO);			
 		}
-		return "redirect:/gnoincoundb/center_mng_list.do?mnuCd=" + mnuCd;
+		return "redirect:/center_mng_list.do?mnuCd=" + mnuCd;
 	}
 	
 	// 

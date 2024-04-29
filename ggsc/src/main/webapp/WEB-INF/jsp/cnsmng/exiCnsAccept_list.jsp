@@ -77,7 +77,7 @@
 	
 	function list(curPage) {
 		$("#currentPageNo").val(curPage);
-		document.searchForm.action = "/gnoincoundb/exiCnsAcceptList.do";
+		document.searchForm.action = "/gnoincoundb/cnsAcceptList.do";
        	document.searchForm.submit();
 	}
 	
@@ -151,7 +151,7 @@
 		<div>
 			<ul class="tabs">
 				<li style="border-style: solid; border-bottom-style:none; border-width: thin;" onclick="fn_goLink(1);">신규접수관리</li>
-				<li style="border-style: solid; border-bottom-style:none; border-width: thin; background-color: gray;">기존접수관리</li>
+				<!-- <li style="border-style: solid; border-bottom-style:none; border-width: thin; background-color: gray;">기존접수관리</li> -->
 				<li style="border-style: solid; border-bottom-style:none; border-width: thin;" onclick="fn_goLink(3);">정보제공상담</li>
 			</ul>
 		</div>
@@ -159,6 +159,7 @@
 				검색 총수 : <span id="totalPageCnt"></span> 건 
 			</span>
 			<div class="btn" style="float: right; margin: 0;">
+				<button type="button" class="btn-basic" onClick="javascript:fn_popup('R', 0);" style="background-color: green;color:white;">등록</button>
 				<button type="button" class="btn-basic" onClick="fn_excelDownload(11, document.searchForm);" style="background-color: green;color:white;">Excel 다운로드</button>
 			</div>	
 			<table class="table-style1" style="margin-bottom: 5px;">
