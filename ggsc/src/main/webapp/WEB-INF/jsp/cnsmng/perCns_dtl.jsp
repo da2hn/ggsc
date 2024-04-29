@@ -680,7 +680,6 @@
 
 	    return timeDifference;
 	}
-	
 </script>
 <section id="content">
 
@@ -699,6 +698,7 @@
 					<button type="button" class="btn-basic" onClick="javascript:fn_delete();" style="background-color: green;color:white;">삭제</button>
 				</c:if>
 				<button type="button" class="btn-basic" id="showdisable" style="background-color: red;color:white; display:none;">수정불가</button>
+				<button type="button" class="btn-basic" id="showdisable" onClick="javascript:fn_popup('${result.num}')" style="background-color: #af841d;color:white;">심리검사</button>
 			</div>	
 			<form id="frm" name="frm" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -1056,7 +1056,7 @@
 						<td colspan="3"><textarea name="lifeQust">${result.lifeQust }</textarea></td>
 					</tr> --%>
 					<tr>
-						<th rowspan="8">상담내용</th>
+						<th rowspan="4">상담내용</th>
 						<td>상담내용</td>
 						<td colspan="3"><textarea name="cnsCntn" style="height: 250px; width: 600px;">${result.cnsCntn }</textarea></td>
 					</tr>
@@ -1073,6 +1073,16 @@
 						<td colspan="3"><textarea name="daftMng" style="width: 600px;">${result.daftMng }</textarea></td>
 					</tr>
 					
+					<tr>
+						<th>심리검사명</th>
+						<td colspan="2">
+							<input type="text" id="name" name="name" style="height: 80px;" value="" />
+						</td>
+						<th>점수</th>
+						<td>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+							<input type="text" id="score" name="score" style="height: 80px;" value="" />
+						</td>
+					</tr>
 					<!-- <tr>
 						<td>정서적 편안함 정도</td>
 						<td colspan="3">
