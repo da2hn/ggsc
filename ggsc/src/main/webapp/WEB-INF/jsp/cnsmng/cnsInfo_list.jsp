@@ -157,7 +157,7 @@
 		<div>
 			<ul class="tabs">
 				<li style="border-style: solid; border-bottom-style:none; border-width: thin;" onclick="fn_goLink(1);">신규접수관리</li>
-				<li style="border-style: solid; border-bottom-style:none; border-width: thin;" onclick="fn_goLink(2);">기존접수관리</li>
+				<!--<li style="border-style: solid; border-bottom-style:none; border-width: thin;" onclick="fn_goLink(2);">기존접수관리</li> -->
 				<li style="border-style: solid; border-bottom-style:none; border-width: thin; background-color: gray;">정보제공상담</li>
 			</ul>
 		</div>
