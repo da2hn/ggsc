@@ -24,6 +24,8 @@
 			opener.document.getElementById("atdeId").value = checkBoxArr2;
 		}
 		
+		window.opener.postMessage('popupClosed', '*');
+		
 		window.close();
 	}
 	
