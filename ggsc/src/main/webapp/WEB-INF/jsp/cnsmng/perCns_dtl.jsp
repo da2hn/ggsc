@@ -679,7 +679,16 @@
 	    var timeDifference = Math.abs(endTimeInMinutes - startTimeInMinutes);
 
 	    return timeDifference;
+	    
 	}
+	
+	function fn_popup(num){
+		var url = "/gnoincoundb/psyCnsPopup.do?num=" + num;
+		var name = "신청자정보";
+		var option = "width = 1530, height = 1750, top = 50, left = 250, location = yes";
+		window.open(url, name, option);
+	}
+	
 </script>
 <section id="content">
 

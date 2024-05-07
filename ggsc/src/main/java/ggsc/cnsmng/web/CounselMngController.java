@@ -11,7 +11,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -2672,6 +2670,8 @@ public class CounselMngController {
 		vo.setCaseNo(Integer.parseInt(request.getParameter("caseNo")));
 		vo.setCnsrId((String)login.get("userId"));
 		String msg = "";
+		System.out.println("@@@@@@@@@@@@@@@vo : " + vo);
+		
 
 		if (vo.getdtlIdx() == 0) {
 			counselMngService.insertPsyCnsDoc(vo);
@@ -2716,4 +2716,24 @@ public class CounselMngController {
 		return "psycnsdoc/psyCnsDoc1";
 	}
 
+	@RequestMapping(value = "/psyCnsPopup.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String psyCnsPopup(CnsAcptVO vo, HttpServletRequest request, ModelMap model) {
+		
+		String num = request.getParameter("num") == null ? "" : request.getParameter("num");
+		
+		int g_idx = 0;
+		try {
+			g_idx = Integer.parseInt(num);
+		} catch (NumberFormatException err) {
+			g_idx = 0;
+		}
+
+		List<EgovMap> psyCnsList = counselMngService.getPsyCnsListUser(g_idx);
+
+		System.out.println("psyCnsList : " + psyCnsList);
+		model.addAttribute("psyCnsList", psyCnsList);
+		
+		return "cnsmng/psyCns_popup";
+	}
+	
 }

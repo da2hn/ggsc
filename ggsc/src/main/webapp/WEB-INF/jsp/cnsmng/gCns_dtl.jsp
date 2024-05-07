@@ -36,6 +36,9 @@ $(document).ready(function() {
 	var str;
 	var name;
 	
+
+
+	
 /*  	str = "${result.psycQust}";
 	name = "psycQust";
 	fn_checked(str, name);
@@ -126,7 +129,7 @@ $(document).ready(function() {
 			$('#showdisable').show();
 		}
 	}*/
-	
+
 });
 	
 	
@@ -243,8 +246,31 @@ function findUserPopup(){
 	var url = "/gnoincoundb/userSelPopup.do?userNm=" + userNm+"&cnsTargetGb=Y&cnsPerTargetGb=Y";
 	var name = "회원 찾기";
 	var option = "width = 620, height = 750, top = 50, left = 100, location = yes";
-	window.open(url, name, option);encodeURI(encodeURIComponent(jindan_name));
+	window.open(url, name, option);
+	/* encodeURI(encodeURIComponent(jindan_name)); */
+
 }
+
+//메시지 이벤트 핸들러 등록
+window.addEventListener('message', function(event) {
+    // 전달된 메시지가 'popupClosed'인 경우
+    if (event.data === 'popupClosed') {
+        // 부모 창에서 처리할 작업을 수행
+        console.log('팝업이 닫혔습니다.');
+        // 예: 부모 창의 특정 함수 호출
+         parentWindowFunction();
+    }
+});
+
+function parentWindowFunction() {
+	
+	var atdeIdAr = $("#atdeId").val().split(",");
+	
+	$("#atdeId").val() == "" ? $("#atdeCnt").val(0) : $("#atdeCnt").val(atdeIdAr.length);
+			
+	
+}
+
 
 </script>
 
