@@ -499,36 +499,41 @@
 					<h1 style="text-align: center; font-size:x-large; padding-bottom: 20px;">노인상담선별척도지</h1><br>
 					<table border="1">
 						<colgroup>
-							<col width="8%"></col>
-							<col width="17%"></col>
-							<col width="10%"></col>
-							<col width="15%"></col>
-							<col width="10%"></col>
-							<col width="15%"></col>
-							<col width="10%"></col>
-							<col width="15%"></col>
+							 <col width="8%"></col>
+        					 <col width="17%"></col>
+        					 <col width="10%"></col>
+        					 <col width="15%"></col>
+        					 <col width="10%"></col>
+        					 <col width="40%"></col>
 						</colgroup>
 						<tr>
-							<td>내담자</td>			   
-							<td><input type="text" value="${detail.inputNm }" readonly /></td>
+							<td>작성자ID?</td>			   
+							<td><input type="text" value="${detail.cnsleId }" readonly /></td>
 							<td>사례번호</td>
 							<td><input type="text" id="rewdNo" name="rewdNo" value="${dccNum }" readonly /></td>
-							<td>시작시간</td>
-							<td><input type="text" style="width: 30px;" id="strtTime" name="strtTime" value="${detail.strtTime }" onlyNumber maxlength=2 />시 <input type="text" style="width: 30px;" id="strtMin" name="strtMin" value="${detail.strtMin }" onlyNumber maxlength=2/>분</td>
-							<td>생년월일</td>
-							<td><input type="text" id="birthDt" name="birthDt" value="${detail.birthDt }" onlyNumber maxlength=6 readonly/></td>
-						</tr>
-						<tr>
 							<td>작성일</td>
 							<td><input type="text" style="width: 45px;" id="year" name="year" value="${fn:substring(detail.writeDt,0,4) }" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="4"/>년
 							<input type="text" style="width: 25px;" id="month" name="month" value="${fn:substring(detail.writeDt,4,6) }" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="2"/>월
 							<input type="text" style="width: 25px;" id="day" name="day" value="${fn:substring(detail.writeDt,6,8) }" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="2"/>일</td>
+							<%-- 
+							<td><input type="text" id="rewdNo" name="rewdNo" value="${dccNum }" readonly /></td>
+							<td>시작시간</td>
+							<td><input type="text" style="width: 30px;" id="strtTime" name="strtTime" value="${detail.strtTime }" onlyNumber maxlength=2 />시 <input type="text" style="width: 30px;" id="strtMin" name="strtMin" value="${detail.strtMin }" onlyNumber maxlength=2/>분</td>
+							 --%>
+						</tr>
+						<tr>
+							<td>이름</td>			   
+							<td><input type="text" value="${detail.inputNm }" readonly /></td>
 							<td>성별</td>
 							<td><input type="radio" id="genderM" name="gender" value="M" />남&nbsp;&nbsp;&nbsp;<input type="radio" id="genderF" name="gender" value="F" />여</td>
+							<td>생년월일</td>
+							<td><input type="text" id="birthDt" name="birthDt" value="${detail.birthDt }" onlyNumber maxlength=6 readonly/></td>
+							<%-- 
 							<td>종료시간</td>
 							<td><input type="text" style="width: 30px;" id="endTimeHour" name="endTimeHour" value="${detail.endTimeHour }" onlyNumber maxlength=2 />시 <input type="text" style="width: 30px;" id="endTimeMin" name="endTimeMin" value="${detail.endTimeMin }" onlyNumber maxlength=2 />분</td>
 							<td>총 소요시간</td>
 							<td><input type="text" style="width: 50px;" id="totTime" name="totTime" value="${detail.totTime }" onlyNumber maxlength=3 />분</td>
+							 --%>
 						</tr>
 					</table>
 					<br>
@@ -592,22 +597,22 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">1. 나의 삶에 대해 대체로 만족하십니까?</td>
-								<td><input class="radBtn2" type="radio" id="qust1AnsrY" name="qust1Ansr" value="N" /></td>
-								<td class="bgcolor"><input class="radBtn" type="radio" id="qust1AnsrN" name="qust1Ansr" value="Y" /></td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">1. 혼자 남겨졌다고 느끼십니까</td>
+								<td class="bgcolor"><input class="radBtn" type="radio" id="qust1AnsrY" name="qust1Ansr" value="N" /></td>
+								<td class="radBtn2"><input class="radBtn" type="radio" id="qust1AnsrN" name="qust1Ansr" value="Y" /></td>
 							</tr>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">2. 다른 사람에게 도움이 되는 필요한 사람이라고 생각하십니까?</td>
-								<td><input class="radBtn2" type="radio" id="qust2AnsrY" name="qust2Ansr" value="N" /></td>
-								<td class="bgcolor"><input class="radBtn" type="radio"  id="qust2AnsrN" name="qust2Ansr" value="Y" /></td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">2. 주변에 당신을 정말 이해해주는 사람들이 있다고 느낍니까?</td>
+								<td><input class="radBtn2" type="radio" id="qust2AnsrY" name="qust2Ansr" value="Y" /></td>
+								<td class="bgcolor"><input class="radBtn" type="radio"  id="qust2AnsrN" name="qust2Ansr" value="N" /></td>
 							</tr>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">3. 최근 활동이나 관심거리가 많이 줄었습니까?</td>
-								<td class="bgcolor"><input class="radBtn" type="radio" id="qust3AnsrY" name="qust3Ansr" value="Y" /></td>
-								<td><input class="radBtn2" type="radio" id="qust3AnsrN" name="qust3Ansr" value="N" /></td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">3. 아플 때 의지하고 도움을 요청할 수 있는 사람이 있습니까?</td>
+								<td class="radBtn2"><input class="radBtn" type="radio" id="qust3AnsrY" name="qust3Ansr" value="N" /></td>
+								<td class="bgcolor"><input class="radBtn" type="radio" id="qust3AnsrN" name="qust3Ansr" value="Y" /></td>
 							</tr>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">4. 손발이 떨리고 안절부절 못할 때가 있습니까?</td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">4. 안절부절 못하거나 가슴이 두근거리고, 걱정하느라 잠을 못 잔 적이 있습니까?</td>
 								<td class="bgcolor"><input class="radBtn" type="radio" id="qust4AnsrY" name="qust4Ansr" value="Y" /></td>
 								<td><input class="radBtn2" type="radio" id="qust4AnsrN" name="qust4Ansr" value="N" /></td>
 							</tr>
@@ -617,54 +622,39 @@
 								<td><input class="radBtn2" type="radio" id="qust5AnsrN" name="qust5Ansr" value="N" /></td>
 							</tr>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">6. 고민이나 문제가 생길 때 하소연할 사람(곳)이 있습니까?</td>
-								<td><input class="radBtn2" type="radio" id="qust6AnsrY" name="qust6Ansr" value="N" /></td>
-								<td class="bgcolor"><input class="radBtn" type="radio" id="qust6AnsrN" name="qust6Ansr" value="Y" /></td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">6. 최근 한 달 이내에 사랑하는 가족이나 지인 혹은 반려동물의 죽음을 경험한 적이 있습니까?</td>
+								<td class="bgcolor"><input class="radBtn" type="radio" id="qust6AnsrY" name="qust6Ansr" value="N" /></td>
+								<td class="radBtn2"><input class="radBtn" type="radio" id="qust6AnsrN" name="qust6Ansr" value="Y" /></td>
 							</tr>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">7. 최근 나에게 중요한 사람, 반려동물이나 물건을 상실한 경험이 있습니까?</td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">7. 최근(2주 이내)에 사소한 일에도 화가 나거나, 주변 사람들에게 짜증을 내는 경우가 자주 있습니까?</td>
 								<td class="bgcolor"><input class="radBtn" type="radio" id="qust7AnsrY" name="qust7Ansr" value="Y" /></td>
 								<td><input class="radBtn2" type="radio" id="qust7AnsrN" name="qust7Ansr" value="N" /></td>
 							</tr>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">8. 쉽게 화를 내거나 참지 못할 때가 자주 있습니까?</td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">8. 기분이 가라앉거나 우울할 때가 있습니까?</td>
 								<td class="bgcolor"><input class="radBtn" type="radio" id="qust8AnsrY" name="qust8Ansr" value="Y" /></td>
 								<td><input class="radBtn2" type="radio" id="qust8AnsrN" name="qust8Ansr" value="N" /></td>
 							</tr>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">9. 기분이 가라앉거나 우울할 때가 있습니까?</td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">9. 최근(2주 이내)에 죽고 싶다는 생각을 한 적이 있습니까?</td>
 								<td class="bgcolor"><input class="radBtn" type="radio" id="qust9AnsrY" name="qust9Ansr" value="Y" /></td>
 								<td><input class="radBtn2" type="radio" id="qust9AnsrN" name="qust9Ansr" value="N" /></td>
 							</tr>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">10. 최근 가까운 사람(가족, 동거인)에게 소외나 무시를 당한다고 느낀 적이 있습니까?</td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">10. 살아온 삶이 의미없다고 생각하신 적이 있습니까?</td>
 								<td class="bgcolor"><input class="radBtn" type="radio" id="qust10AnsrY" name="qust10Ansr" value="Y" /></td>
 								<td><input class="radBtn2" type="radio" id="qust10AnsrN" name="qust10Ansr" value="N" /></td>
 							</tr>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">11. 최근 스스로 죽고 싶다는 생각을 한 적이 있습니까?</td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">11. 최근(2주 이내)에 식욕이 줄거나 평소 하던 일에 대한 흥미가 없고 즐거움을 느끼지 못한 적이 있습니까?</td>
 								<td class="bgcolor"><input class="radBtn" type="radio" id="qust11AnsrY" name="qust11Ansr" value="Y" /></td>
 								<td><input class="radBtn2" type="radio" id="qust11AnsrN" name="qust11Ansr" value="N" /></td>
 							</tr>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">12. 자신이 헛되이 살았다고 느껴질 때가 있습니까?</td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">12. 나는 쓸모가 없는 사람이라는 생각을 한 적이 있습니까?</td>
 								<td class="bgcolor"><input class="radBtn" type="radio" id="qust12AnsrY" name="qust12Ansr" value="Y" /></td>
 								<td><input class="radBtn2" type="radio" id="qust12AnsrN" name="qust12Ansr" value="N" /></td>
-							</tr>
-							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">13. 나에게 아무도 관심을 갖지 않아 혼자 된 것 같습니까?</td>
-								<td class="bgcolor"><input class="radBtn" type="radio" id="qust13AnsrY" name="qust13Ansr" value="Y" /></td>
-								<td><input class="radBtn2" type="radio" id="qust13AnsrN" name="qust13Ansr" value="N" /></td>
-							</tr>
-							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">14. 신체·정서·경제적 부당한 대우(학대)를 받은 적이 있습니까?</td>
-								<td class="bgcolor"><input class="radBtn" type="radio" id="qust14AnsrY" name="qust14Ansr" value="Y" /></td>
-								<td><input class="radBtn2" type="radio" id="qust14AnsrN" name="qust14Ansr" value="N" /></td>
-							</tr>
-							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">15. 아플 때 돌봐줄 사람이 있습니까?</td>
-								<td><input class="radBtn2" type="radio" id="qust15AnsrY" name="qust15Ansr" value="N" /></td>
-								<td class="bgcolor"><input class="radBtn" type="radio" id="qust15AnsrN" name="qust15Ansr" value="Y" /></td>
 							</tr>
 							<tr>
 								<td>채점</td>
