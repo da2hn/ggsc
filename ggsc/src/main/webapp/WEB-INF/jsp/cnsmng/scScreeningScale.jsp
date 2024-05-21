@@ -596,7 +596,7 @@
 							<th>아니오</th>
 						</thead>
 						<tbody>
-							<tr>
+							<tr> 
 								<td colspan="2" style="text-align: left; padding-left: 5px;">1. 혼자 남겨졌다고 느끼십니까</td>
 								<td class="bgcolor"><input class="radBtn" type="radio" id="qust1AnsrY" name="qust1Ansr" value="N" /></td>
 								<td class="radBtn2"><input class="radBtn" type="radio" id="qust1AnsrN" name="qust1Ansr" value="Y" /></td>
