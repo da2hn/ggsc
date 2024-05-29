@@ -758,56 +758,6 @@
 	    
 	}
 	
-	function fn_popup(num){
-		var url = "/gnoincoundb/psyCnsPopup.do?num=" + num;
-		var name = "신청자정보";
-		var option = "width = 1530, height = 1750, top = 50, left = 250, location = yes";
-		window.open(url, name, option);
-	}
-	
-	//메시지 이벤트 핸들러 등록
-	window.addEventListener('message', function(event) {
-	    // 전달된 메시지가 'popupClosed'인 경우
-	    if (event.data === 'psyCnsPopupClosed') {
-	        // 부모 창에서 처리할 작업을 수행
-	        console.log('팝업이 닫혔습니다.');
-	        // 예: 부모 창의 특정 함수 호출
-	         parentWindowFunction();
-	    }
-	});
-	
-	function parentWindowFunction(){
-		
-		var parCaseNo = $("#caseNo").val();
-		var parNum = $("#num").val();
-		var token = $("meta[name='_csrf']").attr("th:content");
-		var header = $("meta[name='_csrf_header']").attr("th:content");
-		console.log(parCaseNo);
-		console.log(parNum);
-		$.ajax({
-			type : "POST" ,
-			url  : "/gnoincoundb/getExamDocScoreList_ajax.do" ,
-			data : {caseNo: parCaseNo, num: parNum},
-			dataType : "json",
-			beforeSend : function(xhr){ 
-				xhr.setRequestHeader(header, token);
-			},
-			success : function(json) {
-				var element = document.getElementById('examDoc');
-				element.innerHTML = "";
-				var html = "";
-				$.each(json.exam, function(i, d) {
-					html += "검사지명&nbsp;" + '<input type="text" name ="examDocNm" id="examDocNm" value="'+ d.examDocNm +'" style="width: 328px;" readOnly>'
-					html += "&nbsp;점수&nbsp;" + '<input type="text" name ="examScore" id="examScore" value="'+ d.score +'" class="wd100" readOnly>';
-				});
-				element.innerHTML += html;
-			},
-			error : function(e) {
-				alert("서버와 통신 오류입니다");	
-			}
-		});
-		
-	}
 	
 	document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('add-row').addEventListener('click', function() {
