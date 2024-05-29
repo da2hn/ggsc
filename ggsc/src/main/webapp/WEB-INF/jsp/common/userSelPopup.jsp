@@ -10,115 +10,143 @@
 	body{min-width: 620px;}
 </style>
 <script type="text/javascript">
-	var checkBoxArr = [];
-	var checkBoxArr2 = [];
-	$(function() {
-		list(1); // ajax 불러오기
-		$("#header").css("display","none");
-	});
+const sendData = JSON.parse(localStorage.getItem('sendData'));
+var checkBoxArr = [];
+var checkBoxArr2 = [];
+$(function() {
+	list(1); // ajax 불러오기
+	$("#header").css("display","none");
+});
+
+function fn_select(){
 	
-	function fn_select(){
+	
+	if(sendData.atdeId != ""){
+		var resultId = []; 
+		var resultNm = [];
+		
+		if(sendData.atdeId.includes(',')){
+			resultId = sendData.atdeId.split(',');
+			resultNm = sendData.atdeNm.split(',');
+		}else{
+			resultId.push(sendData.atdeId);
+			resultNm.push(sendData.atdeNm);
+		}
+		
+		for(var i in checkBoxArr2){
+			if(!resultId.includes(checkBoxArr2[i])){
+				resultId.push(checkBoxArr2[i]);
+				resultNm.push(checkBoxArr[i]);
+			}
+		}
+		
+		opener.document.getElementById("atdeNm").value = resultNm;
+		opener.document.getElementById("atdeId").value = resultId;
+		
+		
+	}else{
 		
 		if(opener.document.getElementById("atdeNm")){
 			opener.document.getElementById("atdeNm").value = checkBoxArr;
 			opener.document.getElementById("atdeId").value = checkBoxArr2;
 		}
-		
-		window.opener.postMessage('popupClosed', '*');
-		
-		window.close();
 	}
-	
-	function list(curPage) {
-		
-		$("#currentPageNo").val(curPage);
-		var param = $("#searchForm").serialize(); //ajax로 넘길 data
-		var token = $("meta[name='_csrf']").attr("th:content");
-		var header = $("meta[name='_csrf_header']").attr("th:content");
-		
-		
-		$.ajax({
-			type : "POST",
-			url : "/gnoincoundb/userSelPopupAjax.do",
-			data : param,
-			dataType : "json",
-			beforeSend : function(xhr){
-				xhr.setRequestHeader(header, token);
-			},
-			success : function(json) {
-				console.log(json.list);
-				var html = '';
-				$("#totalPageCnt").html(json.totalPageCnt);
-				$.each(json.list, function(i, d) {
-					var num = 0;
-					
-					num = (json.totalPageCnt - d.rnum) + 1;
-					html += '<tr onclick="javascript:fn_sel(\''+ d.rnum +'\',\''+ d.userId +'\');">';
-					/* html += '<td><input type="checkbox" id="chk'+d.rnum+'" name="userChk" value="'+d.userNm+'@'+d.userId+'"></td>'; */
-					html += '<td><input type="checkbox" id="chk'+d.rnum+'" name="userChk" value="'+d.userNm+'"></td>';
-					html += '<td>' + d.rnum + '</td>';
-					html += '<td>' + d.caseNo+ '</td>';
-					html += '<td>' + d.cnsGb+ '</td>';
-					html += '<td style="text-align: left; text-indent:10px;">' + d.userId + '</td>';
-					html += '<td>' + d.userNm + '</td>';
-					html += '</tr>';
-					
-				});
-				if (json.list.length == 0) {
-					html += '<tr><td colspan="6">정보가 없습니다.</td></tr>';
-				}
-				$("#tby1").html(html);
+	window.opener.postMessage('popupClosed', '*');
+	window.close();
+}
 
-				var p = json.paginationInfo;
-	        	var pageView = Paging(p.totalRecordCount,10,10,
-	        			p.currentPageNo ,'list' ,1);
-	        	$("#page1").empty().html(pageView);
-	        	
-	        	var checkBoxArr = $("#checkBoxArr").val();
-	    		
-	    		if(checkBoxArr.length > 0) {
-	    			if(checkBoxArr != "") {
-	    				var checkBoxArrSplit = checkBoxArr.split(",");
-	    				for (var idx in checkBoxArrSplit) {
-	    					$("input[name=userChk][value=" + checkBoxArrSplit[idx] + "]").attr("checked", true);
-	    				}			
-	    			}
-	    		}
-	        	
-			},
-			error : function(e) {
-				alert("서버와 통신 오류입니다.");
+function list(curPage) {
+	console.log(sendData);
+	$("#currentPageNo").val(curPage);
+	var param = $("#searchForm").serialize(); //ajax로 넘길 data
+	var token = $("meta[name='_csrf']").attr("th:content");
+	var header = $("meta[name='_csrf_header']").attr("th:content");
+	
+	
+	$.ajax({
+		type : "POST",
+		url : "/gnoincoundb/userSelPopupAjax.do",
+		data : param,
+		dataType : "json",
+		beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
+		success : function(json) {
+			console.log(json.list);
+			var html = '';
+			$("#totalPageCnt").html(json.totalPageCnt);
+			$.each(json.list, function(i, d) {
+				var num = 0;
+				
+				num = (json.totalPageCnt - d.rnum) + 1;
+				html += '<tr onclick="javascript:fn_sel(\''+ d.rnum +'\',\''+ d.userId +'\');">';
+				/* html += '<td><input type="checkbox" id="chk'+d.rnum+'" name="userChk" value="'+d.userNm+'@'+d.userId+'"></td>'; */
+				html += '<td><input type="checkbox" id="chk'+d.rnum+'" name="userChk" value="'+d.userNm+'"></td>';
+				html += '<td>' + d.rnum + '</td>';
+				html += '<td>' + d.caseNo+ '</td>';
+				html += '<td>' + d.cnsGb+ '</td>';
+				html += '<td style="text-align: left; text-indent:10px;">' + d.userId + '</td>';
+				html += '<td>' + d.userNm + '</td>';
+				html += '</tr>';
+				
+			});
+			if (json.list.length == 0) {
+				html += '<tr><td colspan="6">정보가 없습니다.</td></tr>';
 			}
-		});
+			$("#tby1").html(html);
+
+			var p = json.paginationInfo;
+        	var pageView = Paging(p.totalRecordCount,10,10,
+        			p.currentPageNo ,'list' ,1);
+        	$("#page1").empty().html(pageView);
+        	
+        	var checkBoxArr = $("#checkBoxArr").val();
+    		
+    		if(checkBoxArr.length > 0) {
+    			if(checkBoxArr != "") {
+    				var checkBoxArrSplit = checkBoxArr.split(",");
+    				for (var idx in checkBoxArrSplit) {
+    					$("input[name=userChk][value=" + checkBoxArrSplit[idx] + "]").attr("checked", true);
+    				}			
+    			}
+    		}
+        	
+		},
+		error : function(e) {
+			alert("서버와 통신 오류입니다.");
+		}
+	});
+}
+
+function fn_sel(rowId,userId) {
+	
+	var row = "chk"+rowId;
+	
+	if($("input[name=userChk][id="+row+"]").is(":checked") == true) {
+		$("input[name=userChk][id="+row+"]").attr("checked", false);
+		checkBoxArr.pop();
+	} else {
+		$("input[name=userChk][id="+row+"]").attr("checked", true);		
+		var abc = $("input[name=userChk][id="+row+"]").val();
+		checkBoxArr.push(abc);
 	}
 	
-	function fn_sel(rowId,userId) {
-		
-		var row = "chk"+rowId;
-		
-		if($("input[name=userChk][id="+row+"]").is(":checked") == true) {
-			$("input[name=userChk][id="+row+"]").attr("checked", false);
-			checkBoxArr.pop();
-		} else {
-			$("input[name=userChk][id="+row+"]").attr("checked", true);		
-			var abc = $("input[name=userChk][id="+row+"]").val();
-			checkBoxArr.push(abc);
-		}
-		
-		if($("input[name=userChk][id="+row+"]").is(":checked") == true) {
-			checkBoxArr2.push(userId);
-		} else {
-			checkBoxArr2.pop();
-		}
-		
-		/* $("input[name=userChk]:checked").each(function(i){
-			checkBoxArr.push($(this).val());
-		}); */
-		
-		$("#checkBoxArr").val(checkBoxArr);
-		$("#checkBoxArr2").val(checkBoxArr2);
+	if($("input[name=userChk][id="+row+"]").is(":checked") == true) {
+		checkBoxArr2.push(userId);
+	} else {
+		checkBoxArr2.pop();
 	}
 	
+	/* $("input[name=userChk]:checked").each(function(i){
+		checkBoxArr.push($(this).val());
+	}); */
+	
+	$("#checkBoxArr").val(checkBoxArr);
+	$("#checkBoxArr2").val(checkBoxArr2);
+}
+
+
+
 	
 </script>
 <section id="content">

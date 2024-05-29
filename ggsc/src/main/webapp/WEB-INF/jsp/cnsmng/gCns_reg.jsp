@@ -104,6 +104,8 @@
 	} */
 	
 	function findUserPopup(){
+		var sendData = {"atdeId" : atdeId.value, "atdeNm" : atdeNm.value};
+		localStorage.setItem('sendData', JSON.stringify(sendData));
 		var userNm = $("#cnsleNm").val();
 		userNm = encodeURI(encodeURIComponent(userNm));		
 		var url = "/gnoincoundb/userSelPopup.do?userNm=" + userNm+"&cnsTargetGb=Y&cnsPerTargetGb=Y";
@@ -111,6 +113,12 @@
 		var option = "width = 620, height = 750, top = 50, left = 100, location = yes";
 		window.open(url, name, option);encodeURI(encodeURIComponent(jindan_name));
 	}
+	
+	function cancelAtde(){
+		atdeId.value = "";
+		atdeNm.value = "";
+	}
+
 	
 </script>
 
@@ -247,9 +255,13 @@
 							<input type="text" class="wd200" id="atdeCnt" name="atdeCnt" onlyNumber maxlength="3"/>명 
 						</td>
 						<th>참석자명</th>
-						<td>
+						<td style="display: flex;">
 							<!-- <input type="text" id="atdeNm" name="atdeNm" style="width: 89%;" readonly/><button type="button" class="btn-basic" style="padding: 2px 6px;" onclick="javascript:findUserPopup();">찾기</button> -->
-							<textarea id="atdeNm" name="atdeNm" style="width: 89%;" readonly></textarea><button type="button" class="btn-basic" style="padding: 2px 6px;" onclick="javascript:findUserPopup();">찾기</button>
+							<textarea id="atdeNm" name="atdeNm" style="width: 89%;" readonly></textarea>
+							<div style="width: 60px; text-align: center; margin: auto;">
+								<button type="button" class="btn-basic" style="padding: 2px 6px; margin-bottom: 3px; background: green;" onclick="javascript:findUserPopup();">찾기</button>
+								<button type="button" class="btn-basic" style="padding: 2px 6px;" onclick="javascript:cancelAtde();">취소</button>
+							</div>
 						</td>
 					</tr>
 					<tr>

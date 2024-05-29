@@ -37,7 +37,6 @@ $(document).ready(function() {
 	var name;
 	
 
-
 	
 /*  	str = "${result.psycQust}";
 	name = "psycQust";
@@ -241,6 +240,9 @@ function fn_list(mnuCd){
 } */
 
 function findUserPopup(){
+	var sendData = {"atdeId" : atdeId.value, "atdeNm" : atdeNm.value};
+	localStorage.setItem('sendData', JSON.stringify(sendData));
+	
 	var userNm = $("#cnsleNm").val();
 	userNm = encodeURI(encodeURIComponent(userNm));		
 	var url = "/gnoincoundb/userSelPopup.do?userNm=" + userNm+"&cnsTargetGb=Y&cnsPerTargetGb=Y";
@@ -263,14 +265,68 @@ window.addEventListener('message', function(event) {
 });
 
 function parentWindowFunction() {
-	
 	var atdeIdAr = $("#atdeId").val().split(",");
 	
 	$("#atdeId").val() == "" ? $("#atdeCnt").val(0) : $("#atdeCnt").val(atdeIdAr.length);
-			
-	
+    
 }
 
+function cancelAtde(){
+	atdeCnt.value = 0;
+	atdeId.value = "";
+	atdeNm.value = "";
+}
+
+function fn_popup(num){
+	var url = "/gnoincoundb/psyCnsPopup.do?num=" + num;
+	var name = "신청자정보";
+	var option = "width = 1530, height = 1750, top = 50, left = 250, location = yes";
+	window.open(url, name, option);
+}
+
+//메시지 이벤트 핸들러 등록
+window.addEventListener('message', function(event) {
+    // 전달된 메시지가 'popupClosed'인 경우
+    if (event.data === 'psyCnsPopupClosed') {
+        // 부모 창에서 처리할 작업을 수행
+        console.log('팝업이 닫혔습니다.');
+        // 예: 부모 창의 특정 함수 호출
+         parentWindowFunction2();
+    }
+});
+
+function parentWindowFunction2(){
+	
+	var parCaseNo = $("#caseNo").val();
+	var parNum = $("#num").val();
+	var token = $("meta[name='_csrf']").attr("th:content");
+	var header = $("meta[name='_csrf_header']").attr("th:content");
+	console.log(parCaseNo);
+	console.log(parNum);
+	$.ajax({
+		type : "POST" ,
+		url  : "/gnoincoundb/getExamDocScoreList_ajax.do" ,
+		data : {caseNo: parCaseNo, num: parNum},
+		dataType : "json",
+		beforeSend : function(xhr){ 
+			xhr.setRequestHeader(header, token);
+		},
+		success : function(json) {
+			var element = document.getElementById('examDoc');
+			element.innerHTML = "";
+			var html = "";
+			$.each(json.exam, function(i, d) {
+				html += "검사지명&nbsp;" + '<input type="text" name ="examDocNm" id="examDocNm" value="'+ d.examDocNm +'" style="width: 328px;" readOnly>'
+				html += "&nbsp;점수&nbsp;" + '<input type="text" name ="examScore" id="examScore" value="'+ d.score +'" class="wd100" readOnly>';
+			});
+			element.innerHTML += html;
+		},
+		error : function(e) {
+			alert("서버와 통신 오류입니다");	
+		}
+	});
+	
+}
 
 </script>
 
@@ -285,6 +341,9 @@ function parentWindowFunction() {
 					<button type="button" id="dBtn" class="btn-basic" onClick="javascript:fn_delete();" style="background-color: green;color:white;">삭제</button>
 				</c:if>
 				<button type="button" class="btn-basic" id="showdisable" style="background-color: red;color:white; display:none;">수정불가</button>
+				<%--
+				<button type="button" class="btn-basic" id="openPsyCnsPop" onClick="javascript:fn_popup('${result.num}')" style="background-color: #af841d;color:white;">심리검사</button>
+				 --%>
 			</div>	
 			<form id="frm" name="frm" method="post">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -410,9 +469,13 @@ function parentWindowFunction() {
 							<input type="text" class="wd200" id="atdeCnt" name="atdeCnt" value="${result.atdeCnt }" onlyNumber maxlength="3" />명 
 						</td>
 						<th>참석자명</th>
-						<td>
+						<td style="display: flex;">
 							<%-- <input type="text" id="atdeNm" name="atdeNm" value="${result.atdeNm }" readonly style="width: 88%" /><button type="button" class="btn-basic" style="padding: 2px 6px;" onclick="javascript:findUserPopup();">찾기</button> --%>
-							<textarea id="atdeNm" name="atdeNm" style="width: 89%;" readonly><c:out value="${result.atdeNm }"/></textarea><button type="button" class="btn-basic" style="padding: 2px 6px;" onclick="javascript:findUserPopup();">찾기</button>
+							<textarea id="atdeNm" name="atdeNm" style="width: 89%;" readonly><c:out value="${result.atdeNm }"/></textarea>
+							<div style="width: 60px; text-align: center; margin: auto;">
+								<button type="button" class="btn-basic" style="padding: 2px 6px; margin-bottom: 3px; background: green;" onclick="javascript:findUserPopup();">찾기</button>
+								<button type="button" class="btn-basic" style="padding: 2px 6px;" onclick="javascript:cancelAtde();">취소</button>
+							</div>
 						</td>
 					</tr>
 					<tr>
@@ -461,6 +524,16 @@ function parentWindowFunction() {
 							<textarea id="etc" name="etc">${result.etc }</textarea> 
 						</td>
 					</tr>
+					<%--
+					<tr>
+						<th>심리검사</th>
+						<td colspan="4" id="examDoc">
+							<c:forEach items="${exam }" var="list">
+								검사지명&nbsp; <input type="text" value="${list.examDocNm}" style="width: 328px;" readOnly> &nbsp;점수&nbsp; <input type="text" value="${list.score}" class="wd100" readOnly>
+							</c:forEach>
+						</td>
+					</tr>
+					 --%>
 					<!-- <tr>
 						<th>심리문제</th>
 						<td colspan="4">
