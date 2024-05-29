@@ -24,6 +24,7 @@
 	 	if(msg.length > 0) {
 	  		alert(msg);
 	 	}
+	 	window.opener.postMessage('psyCnsPopupClosed', '*');
 		window.close();
 	}
 	$(document).ready(function() {

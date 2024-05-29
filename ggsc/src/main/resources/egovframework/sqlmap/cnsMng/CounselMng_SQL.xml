@@ -1280,6 +1280,7 @@
 		row_number() over(ORDER BY gca.NUM) AS RNUM ,
 		row_number() over(ORDER BY gca.NUM DESC) AS RNUM2 ,
 		gum.* ,
+		(SELECT COUNT(*) + 1 FROM GS_PER_CNS_DTL WHERE CNSLE_ID = GCA.USER_ID  ) AS CNS_CNT,
 		gca.CASE_NO ,
 		gca.NUM ,
 		(SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G15' AND ODR = gca.CNS_GB) AS cnsGb
@@ -3656,6 +3657,17 @@
 		CALL gs_sp_PsyCnsList_ajax(#g_idx#)
 	</select>
 	
+	<select id="cnsMngDao.getPerPsyCnsListUser" parameterClass="int"
+		resultClass="EgovMap">
+		SELECT 
+			@rownum := @rownum + 1 AS ROWNUM
+			,EXAM_DOC_NM
+			, NO1
+		FROM GS_PSY_CNS_DOC_DTL
+				, (SELECT @rownum := 0) r
+		WHERE CNS_DTL_NUM = #g_idx#
+	</select>
+	
 	<!-- 상담내용 목록 갯수 (심리) -->
 	<select id="cnsMngDao.getPsyCnsListTotCnt" parameterClass="psyCnsVO" resultClass="Integer">
 		SELECT
@@ -3724,7 +3736,7 @@
 		ON PCNS.CASE_NO = CNSD.CASE_NO
 		) A
 	</select>
-
+	
 	<!-- 상담내용 목록(연계) -->
 	<select id="cnsMngDao.getLinkCnsList" parameterClass="linkReqVO"
 		resultClass="EgovMap">
@@ -5538,6 +5550,72 @@
 			FROM GS_PSY_CNS_DOC_DTL
 		WHERE
 			NUM = #dtlIdx#
+	</update>
+	
+	<!--개인상담 심리 검사 목록 SELECT -->
+	<select id="cnsMngDao.selectPerPsyCnsDocList"
+		parameterClass="int" resultClass="egovMap">
+		SELECT
+		NUM
+		,CASE_NO
+		,CNS_GB
+		,EXAM_DOC_NM
+		,NO1
+		FROM gs_psy_cns_doc_dtl
+		WHERE
+		CNS_DTL_NUM = #gIdx#
+	</select>
+	
+	<!--개인상담 번호 SELECT -->
+	<select id="cnsMngDao.selectCnsDtlNum" resultClass="int">
+		SELECT
+		MAX(NUM)
+		FROM GS_PER_CNS_DTL
+	</select>
+	
+	<!-- 개인상담 심리 검사 INSERT -->
+	<insert id="cnsMngDao.insertPerPsyCnsDoc"
+		parameterClass="java.util.ArrayList">
+		INSERT INTO gs_psy_cns_doc_dtl
+		(
+		CNS_DTL_NUM
+		,CASE_NO
+		,CNS_GB
+		,EXAM_DOC_NM
+		,NO1
+		,DB_INS_TM
+		)
+		VALUES
+			<iterate conjunction=",">
+	        (
+	        #[].cnsDtlNum#,
+	        #[].caseNo#,
+	        #[].cnsGb#,
+	        #[].examDocNm#,
+	        #[].no1#,
+	        now()
+	        )
+	    </iterate>
+	</insert>
+	
+	<!-- 개인상담 심리 검사 UPDATE -->
+	<update id="cnsMngDao.updatePerPsyCnsDoc" parameterClass="egovMap">
+		  UPDATE GS_PSY_CNS_DOC_DTL
+	      SET
+	        EXAM_DOC_NM = #examDocNm#,
+	        NO1 = #no1#
+	      WHERE NUM = #num#
+	</update>
+	
+	<!-- 개인상담 심리 검사 DELETE -->
+	<update id="cnsMngDao.deletePerPsyCnsDoc" parameterClass="java.util.ArrayList">
+		DELETE 
+			FROM GS_PSY_CNS_DOC_DTL
+		WHERE
+			NUM IN
+		<iterate open="(" conjunction="," close=")">
+			#[].num#
+		</iterate>
 	</update>
 	
 	<update id="cnsMngDao.deleteUser" parameterClass="java.lang.String">

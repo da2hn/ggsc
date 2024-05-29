@@ -55,8 +55,6 @@
 		var birth = birthDt.substring(0,4);
 		var age = new Date().getFullYear()-parseInt(birth);
 		if(opener.document.getElementById("age")) opener.document.getElementById("age").value = age;
-		
-		
 		window.close();
 	}
 	

@@ -11,6 +11,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1371,7 +1372,9 @@ public class CounselMngController {
 
 	@RequestMapping(value = "/perCnsDtl.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String perCnsDtl(PerCnsVO vo, HttpServletRequest request, ModelMap model) {
+		int num = vo.getNum();
 		String mnuCd = request.getParameter("mnuCd") == null ? "" : request.getParameter("mnuCd");
+		List<EgovMap> exam = null;
 		model.addAttribute("mnuCd", mnuCd);
 
 		EgovMap map = (EgovMap) request.getSession().getAttribute("LoginVO");
@@ -1410,6 +1413,11 @@ public class CounselMngController {
         LocalDate now = LocalDate.now();
         
 		EgovMap result = counselMngService.getPerCns(vo);
+		if(num != 0) {
+			exam = counselMngService.selectPerPsyCnsDocList(num);
+		}
+		
+		model.addAttribute("exam", exam);
 		model.addAttribute("result", result);
 		model.addAttribute("nowTime", now);
 		return "cnsmng/perCns_dtl.main";
@@ -1417,8 +1425,10 @@ public class CounselMngController {
 
 	@RequestMapping(value = "/perCnsReg.do", method = RequestMethod.POST)
 	public String perCnsReg(PerCnsVO vo, HttpServletRequest request, ModelMap model) {
-
+		
 		EgovMap loginVO = (EgovMap) request.getSession().getAttribute("LoginVO");
+		String[] newExamDocNmList = request.getParameterValues("newExamDocNm");
+		boolean checkInsert = false;
 		vo.setCnsrId(loginVO.get("userId").toString());
 		
 		EgovMap Details = counselMngService.getCnsAcceptDtl(String.format("%s", vo.getCaseNo()));
@@ -1438,10 +1448,32 @@ public class CounselMngController {
 		GroupVO param = new GroupVO();
 		param.setHclassCd("G14");
 		List<EgovMap> cnsMethdList = adminManageService.getGroupMngDtlMList(param);
+		String[] newNo1List = request.getParameterValues("newNo1");
+		List<EgovMap> insertRowList = new ArrayList<EgovMap>();
 		vo.setCnsMethdNm((String) cnsMethdList.get(Integer.parseInt(vo.getCnsMethd()) - 1).get("mclassNm"));
 		
 		counselMngService.insertPerCns(vo);
-
+		
+		
+		if(newExamDocNmList != null) {
+			System.out.println("length : " + newExamDocNmList.length);
+			for (int i = 0; i < newExamDocNmList.length; i++) {
+				EgovMap insertRowDatas = new EgovMap();
+				insertRowDatas.put("cnsDtlNum", counselMngService.selectCnsDtlNum());
+				insertRowDatas.put("caseNo", vo.getCaseNo());
+				insertRowDatas.put("cnsGb", vo.getCnsGb());
+				insertRowDatas.put("cnsDtlGbCd", vo.getCnsDtlGbCd());
+				insertRowDatas.put("zoneGb", vo.getZoneGb());
+				insertRowDatas.put("localGb", vo.getLocalGb());
+				insertRowDatas.put("centerGb", vo.getCenterGb());
+				insertRowDatas.put("examDocNm", newExamDocNmList[i]);
+				insertRowDatas.put("no1", newNo1List[i]);
+				insertRowList.add(insertRowDatas);
+				checkInsert = true;
+			}
+			if(checkInsert) counselMngService.insertPerPsyCnsDoc(insertRowList);
+			}
+		
 		return "redirect:/gnoincoundb/perCnsList.do?mnuCd=" + mnuCd;
 	}
 	
@@ -1458,6 +1490,15 @@ public class CounselMngController {
 	@RequestMapping(value = "/perCnsUpd.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String perCnsUpd(PerCnsVO vo, HttpServletRequest request, ModelMap model) {
 		String mnuCd = request.getParameter("mnuCd") == null ? "" : request.getParameter("mnuCd");
+		String[] newExamDocNmList = request.getParameterValues("newExamDocNm");
+		String[] examNumList = request.getParameterValues("examNum");
+		String[] delExamNumList = request.getParameterValues("delExamNumList");
+		String[] newNo1List = request.getParameterValues("newNo1");
+		List<EgovMap> insertRowList = new ArrayList<EgovMap>();
+		List<EgovMap> updateRowList = new ArrayList<EgovMap>();
+		List<EgovMap> delKeys = new ArrayList<EgovMap>();
+		boolean checkUpdate = false;
+		boolean checkInsert = false;
 		model.addAttribute("mnuCd", mnuCd);
 
 		EgovMap map = (EgovMap) request.getSession().getAttribute("LoginVO");
@@ -1467,6 +1508,56 @@ public class CounselMngController {
 		//vo.setLocalGb((String) map.get("localGb"));
 		//vo.setCnsrGb((String) map.get("cnsrGb"));
 		counselMngService.updatePerCns(vo);
+		System.out.println(examNumList);
+		System.out.println(newExamDocNmList);
+		System.out.println(newNo1List);
+		
+ 		if(newExamDocNmList != null) {
+			System.out.println("length : " + newExamDocNmList.length);
+			for (int i = 0; i < newExamDocNmList.length; i++) {
+					if(!examNumList[i].isEmpty()) {
+						EgovMap updateRowDatas = new EgovMap();
+						updateRowDatas.put("num", examNumList[i]);
+						updateRowDatas.put("examDocNm", newExamDocNmList[i]);
+						updateRowDatas.put("no1", newNo1List[i]);
+						updateRowList.add(updateRowDatas);
+						checkUpdate = true;
+					}else {
+						EgovMap insertRowDatas = new EgovMap();
+						insertRowDatas.put("cnsDtlNum", vo.getNum());
+						insertRowDatas.put("caseNo", vo.getCaseNo());
+						insertRowDatas.put("cnsGb", vo.getCnsGb());
+						insertRowDatas.put("cnsDtlGbCd", vo.getCnsDtlGbCd());
+						insertRowDatas.put("zoneGb", vo.getZoneGb());
+						insertRowDatas.put("localGb", vo.getLocalGb());
+						insertRowDatas.put("centerGb", vo.getCenterGb());
+						insertRowDatas.put("examDocNm", newExamDocNmList[i]);
+						insertRowDatas.put("no1", newNo1List[i]);
+						insertRowList.add(insertRowDatas);
+						checkInsert = true;
+					}
+			}
+			if(checkInsert) counselMngService.insertPerPsyCnsDoc(insertRowList);
+			if(checkUpdate) {
+				for(EgovMap updateRow : updateRowList) {
+					counselMngService.updatePerPsyCnsDoc(updateRow);
+				}
+			}
+		
+ 		}
+ 		
+ 		if(delExamNumList != null) {
+ 			
+ 			for (int i = 0; i < delExamNumList.length; i++) {
+ 				EgovMap delValues = new EgovMap();
+ 				delValues.put("num", delExamNumList[i]);
+ 				delKeys.add(i, delValues);
+			}
+ 			
+ 			counselMngService.deletePerPsyCnsDoc(delKeys);
+ 		}
+		
+		
 
 		return "redirect:/gnoincoundb/perCnsList.do?mnuCd=" + mnuCd;
 	}
@@ -1697,7 +1788,8 @@ public class CounselMngController {
 		model.addAttribute("cnsCenterList", cnsCenterList);
 
 		EgovMap result = counselMngService.getGcns(vo);
-        // 현재 날짜 구하기
+		
+		// 현재 날짜 구하기
         LocalDate now = LocalDate.now();
         model.addAttribute("nowTime", now);
 		model.addAttribute("result", result);
@@ -1796,8 +1888,10 @@ public class CounselMngController {
 
 		// 상담내용 목록(심리)
 		List<EgovMap> psyList = counselMngService.getPsyCnsList(vo);
+		List<String> examDocNmList = new ArrayList<String>();
 		int totalPageCnt = counselMngService.getPsyCnsListTotCnt(vo);
 		model.addAttribute("psyList", psyList);
+		model.addAttribute("examDocNmList", examDocNmList);
 		model.addAttribute("totalPageCnt", totalPageCnt);
 		paginationInfo.setTotalRecordCount(totalPageCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
@@ -1818,7 +1912,7 @@ public class CounselMngController {
 			g_idx = 0;
 		}
 
-		List<EgovMap> psyCnsList = counselMngService.getPsyCnsListUser(g_idx);
+		List<EgovMap> psyCnsList = counselMngService.getPerPsyCnsListUser(g_idx);
 
 		model.addAttribute("psyCnsList", psyCnsList);
 

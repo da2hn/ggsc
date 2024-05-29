@@ -92,6 +92,22 @@
 		document.location.href = "/gnoincoundb/psyCnsList.do?mnuCd="+mnuCd;
 	}
 	
+	//메시지 이벤트 핸들러 등록
+	window.addEventListener('message', function(event) {
+	    // 전달된 메시지가 'popupClosed'인 경우
+	    if (event.data === 'psyCnsPopupClosed') {
+	        // 부모 창에서 처리할 작업을 수행
+	        console.log('팝업이 닫혔습니다.');
+	        // 예: 부모 창의 특정 함수 호출
+	         parentWindowFunction();
+	    }
+	});
+	
+	function parentWindowFunction(){
+	 	window.opener.postMessage('psyCnsPopupClosed', '*');
+		window.close();
+	}
+	
 	
 </script>
 

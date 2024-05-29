@@ -12,6 +12,9 @@ public interface CounselMngService {
 	// 사용자 심리검사 목록
 	List<EgovMap> getPsyCnsListUser(int g_idx);
 	
+	// 사용자 심리검사 및 점수 목록
+	List<EgovMap> getPerPsyCnsListUser(int g_idx);
+	
 	// 상담접수관리 목록
 	List<EgovMap> getCnsAcceptList(CnsAcptVO vo);
 	
@@ -181,6 +184,9 @@ public interface CounselMngService {
 	// 개인상담일지 등록
 	void insertPerCns(PerCnsVO vo);
 	
+	// 개인상담일지 번호 조회
+	int selectCnsDtlNum();
+	
 	// 개인상담일지 수정
 	void updatePerCns(PerCnsVO vo);
 	
@@ -213,6 +219,9 @@ public interface CounselMngService {
 	
 	// 심리검사지 목록
 	List<EgovMap> getExamDocList(PsyCnsVO vo);
+	
+	// 심리검사지 점수 목록
+	List<EgovMap> selectPerPsyCnsDocList(int num);
 	
 	// 상담내용 목록(연계)
 	List<EgovMap> getLinkCnsList(LinkReqVO vo);
@@ -298,11 +307,20 @@ public interface CounselMngService {
 	// 심리 검사 INSERT
 	void insertPsyCnsDoc(PsyCnsDocVO vo);
 	
+	// 심리 검사 INSERT
+	void insertPerPsyCnsDoc(List<EgovMap> insertRowList);
+	
 	// 심리 검사 UPDATE
 	void updatePsyCnsDoc(PsyCnsDocVO vo);
 	
+	// 심리 검사 UPDATE
+	void updatePerPsyCnsDoc(EgovMap updateRowList);
+	
 	// 심리 검사 DELETE
 	void deletePsyCnsDoc(PsyCnsDocVO vo);
+
+	// 심리 검사 DELETE
+	void deletePerPsyCnsDoc(List<EgovMap> delKeys);
 	
 	// 상담 사전·사후 기록지 등록
 	void insertPsyCnsDoc1(PsyCnsDoc1VO vo);
