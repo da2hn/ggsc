@@ -507,7 +507,7 @@
         					 <col width="40%"></col>
 						</colgroup>
 						<tr>
-							<td>작성자ID?</td>			   
+							<td>작성자</td>			   
 							<td><input type="text" value="${detail.cnsleId }" readonly /></td>
 							<td>사례번호</td>
 							<td><input type="text" id="rewdNo" name="rewdNo" value="${dccNum }" readonly /></td>

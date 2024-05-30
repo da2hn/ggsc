@@ -70,7 +70,7 @@
 </style>
 <section id="content">
 
-	<h2 class="h2-title"><i class="fa fa-check-square"></i>실적보고서</h2>
+	<!-- <h2 class="h2-title"><i class="fa fa-check-square"></i>실적보고서</h2> -->
 		
 		<div class="box-style1 x-scroll-auto" >
 				<!-- 검색영역 -->
@@ -124,7 +124,7 @@
 		</form>
 		
 		
-        <h3 class="h3-title" style="margin-top: 15px; margin-bottom:15px;">실적보고서
+        <!-- <h3 class="h3-title" style="margin-top: 15px; margin-bottom:15px;">실적보고서 -->
 			<div class="btn" style="float: right; margin: 0;">
 				<!-- <button type="button" class="btn-basic" onclick="fn_excelDownload(16, document.searchForm)" style="background-color:green;color:white;">Excel 다운로드</button> -->		
 				<c:if test="${authCd eq 1 }">
@@ -133,7 +133,734 @@
 			</div>
 		</h3>
 		
+		<!-- 새 코드 시작-->
+
+		<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 8%;" />
+        <col style="width: 8%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 8%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th scope="col" colspan="16" style="text-align: left;">1. 일반현황</th>
+  </tr></thead>
+<tbody>
+  <tr style="background-color: #f0f0f0;">
+    <th colspan="7">1-1. 성별(정보제공상담, 개인상담, 집단상담 참석자)</th>
+    <th colspan="9">1-2. 내담자와의 관계(개인상담, 집단상담 참석자)</th>
+  </tr>
+  <tr style="background-color: white">
+    <td rowspan="4">구분</td>
+    <td colspan="2" rowspan="2">계</td>
+    <td colspan="4">성별</td>
+    <td rowspan="4">구분</td>
+    <td rowspan="2">계</td>
+    <td rowspan="2">본인</td>
+    <td colspan="6">본인 외</td>
+  </tr>
+  <tr>
+    <td colspan="2">남</td>
+    <td colspan="2">여</td>
+    <td>소계</td>
+    <td>배우자</td>
+    <td>자녀</td>
+    <td>친인척</td>
+    <td>이웃</td>
+    <td>유관기관</td>
+  </tr>
+  <tr style="background-color: white">
+    <td>명(실인원)</td>
+    <td>건(연인원)</td>
+    <td>명</td>
+    <td>건</td>
+    <td>명</td>
+    <td>건</td>
+    <td>건(연인원)</td>
+    <td>건</td>
+    <td>건</td>
+    <td>건</td>
+    <td>건</td>
+    <td>건</td>
+    <td>건</td>
+    <td>건</td>
+  </tr>
+  <tr>
+    <td data-class='c1'>&nbsp;</td>
+    <td data-class='c2'>&nbsp;</td>
+    <td data-class='c3'>&nbsp;</td>
+    <td data-class='c4'>&nbsp;</td>
+    <td data-class='c5'>&nbsp;</td>
+    <td data-class='c6'>&nbsp;</td>
+    <td data-class='c7'>&nbsp;</td>
+    <td data-class='c8'>&nbsp;</td>
+    <td data-class='c9'>&nbsp;</td>
+    <td data-class='c10'>&nbsp;</td>
+    <td data-class='c11'>&nbsp;</td>
+    <td data-class='c12'>&nbsp;</td>
+    <td data-class='c13'>&nbsp;</td>
+    <td data-class='c14'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>
 		
+		<br>
+		
+<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 8%;" />
+        <col style="width: 8%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 8%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th colspan="15" style="text-align: left;">1-3. 연령별 현황(정보제공상담, 개인상담, 집단상담 참석자)</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td rowspan="4">구분</td>
+    <td colspan="2" rowspan="2">계</td>
+    <td colspan="12">연령</td>
+  </tr>
+  <tr style="background-color: white">
+    <td colspan="2">50대 미만</td>
+    <td colspan="2">50대</td>
+    <td colspan="2">60대</td>
+    <td colspan="2">70대</td>
+    <td colspan="2">80대</td>
+    <td colspan="2">90대 이상</td>
+  </tr>
+  <tr>
+    <td>명(실인원)</td>
+    <td>건(연인원)</td>
+    <td>명</td>
+    <td>건</td>
+    <td>명</td>
+    <td>건</td>
+    <td>명</td>
+    <td>건</td>
+    <td>명</td>
+    <td>건</td>
+    <td>명</td>
+    <td>건</td>
+    <td>명</td>
+    <td>건</td>
+  </tr>
+  <tr style="background-color: white">
+    <td data-class='c15'>&nbsp;</td>
+    <td data-class='c16'>&nbsp;</td>
+    <td data-class='c29'>&nbsp;</td>
+    <td data-class='c30'>&nbsp;</td>
+    <td data-class='c17'>&nbsp;</td>
+    <td data-class='c18'>&nbsp;</td>
+    <td data-class='c21'>&nbsp;</td>
+    <td data-class='c22'>&nbsp;</td>
+    <td data-class='c23'>&nbsp;</td>
+    <td data-class='c24'>&nbsp;</td>
+    <td data-class='c25'>&nbsp;</td>
+    <td data-class='c26'>&nbsp;</td>
+    <td data-class='c27'>&nbsp;</td>
+    <td data-class='c28'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>		
+		<br>
+		
+<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th colspan="16" style="text-align: left;">2. 신규내담자 상담경위</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td rowspan="4">구분</td>
+    <td rowspan="3">계(명)</td>
+    <td colspan="14">신규 내담자(명)</td>
+  </tr>
+  <tr style="background-color: white">
+    <td rowspan="2">내부 의뢰<br>(수행기관)</td>
+    <td rowspan="2">발굴<br>(자발적신청/외부발굴 등)</td>
+    <td colspan="12">외부의뢰</td>
+  </tr>
+  <tr>
+    <td>소계</td>
+    <td>정신건강<br>자살예방센터</td>
+    <td>노인보호<br>전문기관</td>
+    <td>보건소<br>방문간호</td>
+    <td>일자리관련<br>기관</td>
+    <td>법률기관</td>
+    <td>성폭력,<br>가정폭력 상담소</td>
+    <td>치매관련<br>기관</td>
+    <td>건강가정<br>다문화가정<br>지원센터</td>
+    <td>재가노인<br>관련기관</td>
+    <td>행정기관<br>(무한돌봄)</td>
+    <td>기타</td>
+  </tr>
+  <tr style="background-color: white">
+    <td data-class='c31'>&nbsp;</td>
+    <td data-class='c32'>&nbsp;</td>
+    <td data-class='c46'>&nbsp;</td>
+    <td data-class='c34'>&nbsp;</td>
+    <td data-class='c35'>&nbsp;</td>
+    <td data-class='c36'>&nbsp;</td>
+    <td data-class='c37'>&nbsp;</td>
+    <td data-class='c38'>&nbsp;</td>
+    <td data-class='c39'>&nbsp;</td>
+    <td data-class='c40'>&nbsp;</td>
+    <td data-class='c41'>&nbsp;</td>
+    <td data-class='c42'>&nbsp;</td>
+    <td data-class='c43'>&nbsp;</td>
+    <td data-class='c44'>&nbsp;</td>
+    <td data-class='c45'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>		
+			<br>
+
+<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th colspan="11" style="text-align: left;">3. 상담방법</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td rowspan="3">구분</td>
+    <td rowspan="2">계(건)</td>
+    <td colspan="6">개인상담(건)</td>
+    <td colspan="3">집단상담(건)</td>
+  </tr>
+  <tr style="background-color: white">
+    <td>소계</td>
+    <td>내방</td>
+    <td>방문</td>
+    <td>전화</td>
+    <td>온라인</td>
+    <td>기타</td>
+    <td>소계</td>
+    <td>대면</td>
+    <td>온라인</td>
+  </tr>
+  <tr>
+    <td data-class='c48'>&nbsp;</td>
+    <td data-class='c49'>&nbsp;</td>
+    <td data-class='c50'>&nbsp;</td>
+    <td data-class='c51'>&nbsp;</td>
+    <td data-class='c52'>&nbsp;</td>
+    <td data-class='c53'>&nbsp;</td>
+    <td data-class='c55'>&nbsp;</td>
+    <td data-class='c56'>&nbsp;</td>
+    <td data-class='c57'>&nbsp;</td>
+    <td data-class='c58'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>
+		<br>
+		
+<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th colspan="19">4. 상담내용</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <th colspan="19" style="text-align: left;">4-1. 개인상담 주호소문제</th>
+  </tr>
+  <tr style="background-color: white">
+    <td rowspan="2">구분</td>
+    <td>계(건)</td>
+    <td>소계</td>
+    <td>심리정서</td>
+    <td>대인관계</td>
+    <td>치매</td>
+    <td>중독</td>
+    <td>정신건강장애</td>
+    <td>자살</td>
+    <td>건강</td>
+    <td>경제</td>
+    <td>생활</td>
+    <td>성</td>
+    <td>부부</td>
+    <td>가족</td>
+    <td>학대</td>
+    <td>노년생애준비</td>
+    <td>재난</td>
+    <td>기타</td>
+  </tr>
+  <tr>
+    <td data-class='c66'>&nbsp;</td>
+    <td data-class='c67'>&nbsp;</td>
+    <td data-class='c68'>&nbsp;</td>
+    <td data-class='c69'>&nbsp;</td>
+    <td data-class='c70'>&nbsp;</td>
+    <td data-class='c71'>&nbsp;</td>
+    <td data-class='c72'>&nbsp;</td>
+    <td data-class='c81'>&nbsp;</td>
+    <td data-class='c73'>&nbsp;</td>
+    <td data-class='c74'>&nbsp;</td>
+    <td data-class='c75'>&nbsp;</td>
+	<td data-class='c76'>&nbsp;</td>
+    <td data-class='c77'>&nbsp;</td>
+    <td data-class='c78'>&nbsp;</td>
+    <td data-class='c79'>&nbsp;</td>
+    <td data-class='c80'>&nbsp;</td>
+    <td data-class='c82'>&nbsp;</td>
+    <td data-class='c83'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>
+		<br>
+		
+		<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th colspan="8" style="text-align: left;">○ 4-2. 집단상담 주제</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td>소계</td>
+    <td>사별애도</td>
+    <td>죽음준비</td>
+    <td>관계개선<br>의사소통</td>
+    <td>심리정서</td>
+    <td>자아통합</td>
+    <td>치매예방</td>
+    <td>기타</td>
+  </tr>
+  <tr>
+    <td data-class='c84'>&nbsp;</td>
+    <td data-class='c85'>&nbsp;</td>
+    <td data-class='c86'>&nbsp;</td>
+    <td data-class='c87'>&nbsp;</td>
+    <td data-class='c88'>&nbsp;</td>
+    <td data-class='c89'>&nbsp;</td>
+    <td data-class='c90'>&nbsp;</td>
+    <td data-class='c91'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>
+		<br>
+		
+<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th colspan="9">5. 연계</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <th colspan="9" style="background-color: #f0f0f0; text-align: left;">5-1. 연계(내부)</th>
+  </tr>
+  <tr style="background-color: white">
+    <td rowspan="3">구분</td>
+    <td rowspan="2">합계(건)<br>(내부+외부)</td>
+    <td colspan="7">내부연계(수행기관)</td>
+  </tr>
+  <tr>
+    <td>내부연계소계</td>
+    <td>여가</td>
+    <td>법률,세무</td>
+    <td>경제후원</td>
+    <td>취업, 일자리</td>
+    <td>생활, 식생활, 주거</td>
+    <td>기타</td>
+  </tr>
+  <tr style="background-color: white">
+    <td data-class='c109'>&nbsp;</td>
+    <td data-class='c110'>&nbsp;</td>
+    <td data-class='c111'>&nbsp;</td>
+    <td data-class='c112'>&nbsp;</td>
+    <td data-class='c113'>&nbsp;</td>
+    <td data-class='c114'>&nbsp;</td>
+    <td data-class='c115'>&nbsp;</td>
+    <td data-class='c116'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>		
+		<br>
+				
+<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th colspan="13" style="text-align: left;">5-2. 연계(외부)</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td rowspan="3">구분</td>
+    <td colspan="12">외부연계</td>
+  </tr>
+  <tr style="background-color: white">
+    <td>외부연계소계</td>
+    <td>정신건강 자살예방센터</td>
+    <td>노인 보호전문 기관</td>
+    <td>보건소 방문간호</td>
+    <td>일자리 관련기관</td>
+    <td>법률기관</td>
+    <td>성폭력, 가정폭력 상담소</td>
+    <td>치매관련기관</td>
+    <td>건강가정 다문화가정 지원센터</td>
+    <td>재가노인 관련기관</td>
+    <td>행정기관(무한돌봄)</td>
+    <td>기타</td>
+  </tr>
+  <tr>
+    <td data-class='c117'>&nbsp;</td>
+    <td data-class='c118'>&nbsp;</td>
+    <td data-class='c119'>&nbsp;</td>
+    <td data-class='c120'>&nbsp;</td>
+    <td data-class='c121'>&nbsp;</td>
+    <td data-class='c123'>&nbsp;</td>
+    <td data-class='c124'>&nbsp;</td>
+    <td data-class='c125'>&nbsp;</td>
+    <td data-class='c126'>&nbsp;</td>
+    <td data-class='c122'>&nbsp;</td>
+    <td data-class='c127'>&nbsp;</td>
+    <td data-class='c128'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>
+		<br>
+
+<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th colspan="8">6. 네트워크 활동</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td rowspan="2">구분</td>
+    <td>계(건)</td>
+    <td>권역 네트워크회의</td>
+    <td>수행기관<br>네트워크회의</td>
+    <td>실무회의</td>
+    <td>기관내부 사례회의</td>
+    <td>지역사회 네트워크 회의</td>
+    <td>기타</td>
+  </tr>
+  <tr style="background-color: white">
+    <td data-class='c162'>&nbsp;</td>
+    <td data-class='c163'>&nbsp;</td>
+    <td data-class='c164'>&nbsp;</td>
+    <td data-class='c165'>&nbsp;</td>
+    <td data-class='c166'>&nbsp;</td>
+    <td data-class='c167'>&nbsp;</td>
+    <td data-class='c168'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>
+		<br>
+		
+<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th colspan="13">7. 교육</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <th colspan="13" style="text-align: left;">7-1. 교육대상</th>
+  </tr>
+  <tr style="background-color: white">
+    <td rowspan="3">구분</td>
+    <td colspan="2">계</td>
+    <td colspan="2">노인</td>
+    <td colspan="2">일반주민</td>
+    <td colspan="2">소속기관</td>
+    <td colspan="2">유관기관</td>
+    <td colspan="2">기타</td>
+  </tr>
+  <tr>
+    <td>회</td>
+    <td>명</td>
+    <td>회</td>
+    <td>명</td>
+    <td>회</td>
+    <td>명</td>
+    <td>회</td>
+    <td>명</td>
+    <td>회</td>
+    <td>명</td>
+    <td>회</td>
+    <td>명</td>
+  </tr>
+  <tr style="background-color: white">
+    <td data-class='c169'>&nbsp;</td>
+    <td data-class='c170'>&nbsp;</td>
+    <td data-class='c171'>&nbsp;</td>
+    <td data-class='c172'>&nbsp;</td>
+    <td data-class='c173'>&nbsp;</td>
+    <td data-class='c174'>&nbsp;</td>
+    <td data-class='c175'>&nbsp;</td>
+    <td data-class='c176'>&nbsp;</td>
+    <td data-class='c177'>&nbsp;</td>
+    <td data-class='c178'>&nbsp;</td>
+    <td data-class='c179'>&nbsp;</td>
+    <td data-class='c180'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>
+		<br>
+
+<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th colspan="17" style="text-align: left;">7-2. 교육내용</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td rowspan="3">구분</td>
+    <td colspan="2">계</td>
+    <td colspan="2">심리정서</td>
+    <td colspan="2">관계개선</td>
+    <td colspan="2">사별애도</td>
+    <td colspan="2">죽음준비</td>
+    <td colspan="2">치매예방</td>
+    <td colspan="2">인권(학대)</td>
+    <td colspan="2">기타</td>
+  </tr>
+  <tr style="background-color: white">
+    <td>회</td>
+    <td>명</td>
+	<td>회</td>
+    <td>명</td>
+    <td>회</td>			
+    <td>명</td>	
+    <td>회</td>
+    <td>명</td>
+    <td>회</td>
+    <td>명</td>
+    <td>회</td>
+    <td>명</td>
+    <td>회</td>
+    <td>명</td>
+    <td>회</td>
+    <td>명</td>
+  </tr>
+  <tr>
+    <td data-class='c187'>&nbsp;</td>
+    <td data-class='c188'>&nbsp;</td>
+    <td data-class='c189'>&nbsp;</td>
+    <td data-class='c190'>&nbsp;</td>
+    <td data-class='c191'>&nbsp;</td>
+    <td data-class='c192'>&nbsp;</td>
+    <td data-class='c193'>&nbsp;</td>
+    <td data-class='c194'>&nbsp;</td>
+    <td data-class='c195'>&nbsp;</td>
+    <td data-class='c196'>&nbsp;</td>
+    <td data-class='c197'>&nbsp;</td>
+    <td data-class='c198'>&nbsp;</td>
+    <td data-class='c199'>&nbsp;</td>
+    <td data-class='c200'>&nbsp;</td>
+    <td data-class='c201'>&nbsp;</td>
+    <td data-class='c202'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>		
+		<br>
+
+<table class="table-style1" style="margin-top:15px;">
+    <colgroup>
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+        <col style="width: 4%;" />
+    </colgroup>
+    <thead>
+  <tr>
+    <th colspan="8" style="text-align: left;">8. 홍보</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td rowspan="3">구분</td>
+    <td>계</td>
+    <td>대중매체 홍보</td>
+    <td>온라인 홍보</td>
+    <td>설치물 활용</td>
+    <td>직접 활동</td>
+    <td>홍보물품 및 자료 제작</td>
+    <td>기타</td>
+  </tr>
+  <tr style="background-color: white">
+    <td>회</td>
+    <td>회</td>
+    <td>회</td>
+    <td>회</td>
+    <td>회</td>
+    <td>회</td>
+    <td>회</td>
+  </tr>
+  <tr>
+    <td data-class='c203'>&nbsp;</td>
+    <td data-class='c206'>&nbsp;</td>
+    <td data-class='c207'>&nbsp;</td>
+    <td data-class='c208'>&nbsp;</td>
+    <td data-class='c209'>&nbsp;</td>
+    <td data-class='c212'>&nbsp;</td>
+    <td data-class='c215'>&nbsp;</td>
+  </tr>
+</tbody>
+</table>		
+		<br>
+		<!-- 새 코드 끝-->
+		<!--
 		<table class="table-style1" style="margin-top:1px; width: 13400px;">
                <colgroup>
                    <%
@@ -496,8 +1223,8 @@
                </tbody>                 
            </table>                     
                                         
-	</div>                           
-	<!-- end -->                     
+	</div>
+	  -->                           
                                          
 	</section>                           
                                          
