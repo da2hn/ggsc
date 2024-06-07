@@ -145,12 +145,12 @@
 			
 			if(confirm("파일업로드를 하시겠습니까?")) {
 				
-				$("#strtTime").val(1);
-				$("#strtMin").val(1);
-				$("#endTimeHour").val(1);
-				$("#endTimeMin").val(1);
-				$("#totTime").val(1);
-				$("#strtTime").val(1);
+				//$("#strtTime").val(1);
+				//$("#strtMin").val(1);
+				//$("#endTimeHour").val(1);
+				//$("#endTimeMin").val(1);
+				//$("#totTime").val(1);
+				//$("#strtTime").val(1);
 				$("#yesTotScore").val(1);
 				$("#noTotScore").val(1);
 				$("#cnsrOptnScore").val(1);
@@ -181,6 +181,7 @@
 				$("#rewdNo").focus();
 				return;
 			}
+			/*
 			if($("#strtTime").val()==""){
 				alert("시작시간(시)을 입력해주세요.");
 				$("#strtTime").focus();
@@ -201,6 +202,7 @@
 				$("#strtMin").focus();
 				return;
 			}
+			*/
 			if($("#birthDt").val()==""){
 				alert("생년월일을 입력해주세요.");
 				$("#birthDt").focus();
@@ -235,6 +237,7 @@
 				$("#day").focus();
 				return;
 			}
+			/*
 			if($("#endTimeHour").val()==""){
 				alert("종료시간(시)을 입력해주세요.");
 				$("#endTimeHour").focus();
@@ -260,6 +263,7 @@
 				$("#totTime").focus();
 				return;
 			}
+			*/
 			if($('input:radio[name="ansr1"]').is(':checked')==false){
 				alert("응답1을 선택해주세요.");
 				return;
@@ -324,6 +328,7 @@
 				alert("질문12 답을 선택해주세요.");
 				return;
 			}
+			/*
 			if($('input:radio[name="qust13Ansr"]').is(':checked')==false){
 				alert("질문13 답을 선택해주세요.");
 				return;
@@ -336,6 +341,7 @@
 				alert("질문15 답을 선택해주세요.");
 				return;
 			}
+			*/
 			if($("#yesTotScore").val()==""){
 				alert("예 합계점수를 입력해주세요.");
 				$("#yesTotScore").focus();
@@ -444,7 +450,7 @@
 					<input type="hidden" id="caseNo" name="caseNo" value="0" />
 					<input type="hidden" id="examDocCd" name="examDocCd" value="4" />
 					<input type="hidden" id="docGb" name="docGb" value="1" />
-					<input type="hidden" value="${userNm }" oninput="this.value = this.value.replace(/[^ㄱ-힣]/, '');"/></td>
+					<input type="hidden" value="${userNm }" oninput="this.value = this.value.replace(/[^ㄱ-힣]/, '');"/>
 					<input type="hidden" id="localGb" name="localGb" value="9"/>
 					<input type="hidden" id="docCntnPath" name="docCntnPath" value="Y" />
 					<table border="1" class="table-write" style="width: 101.2%; position: relative; left: -10px; top: -10px; border-left-style:hidden; border-right-style: hidden; border-top-style: hidden;">
@@ -569,10 +575,16 @@
 							<td><input type="text" id="ansr2Cntn" name="ansr2Cntn" maxlength="20" value="${detail.ansr2Cntn }" /></td>
 						</tr>
 						<tr>
-							<td style="text-align: left; padding-left: 5px;">3. 신경정신 관련 진단을 받은 바 있다. (예: 치매진단을 받은 적이 있다.)</td>
+							<td style="text-align: left; padding-left: 5px;">3. 신경정신 관련 진단을 받은 바 있다. (예: 치매진단)</td>
 							<td><input type="radio" id="ansr3Y" name="ansr3" value="Y" /></td>
 							<td><input type="radio" id="ansr3N" name="ansr3" value="N" /></td>
 							<td><input type="text" id="ansr3Cntn" name="ansr3Cntn" maxlength="20" value="${detail.ansr3Cntn }" /></td>
+						</tr>
+						 	<tr>
+							<td style="text-align: left; padding-left: 5px;">4. 신체적 학대(부당한 대우)를 받은 적이 있다.</td>
+							<td><input type="radio" id="ansr4Y" name="ansr4" value="Y" /></td>
+							<td><input type="radio" id="ansr4N" name="ansr4" value="N" /></td>
+							<td><input type="text" id="ansr4Cntn" name="ansr3Cntn" maxlength="20" value="${detail.ansr4Cntn }" /></td>
 						</tr>
 					</table>
 					<br>
