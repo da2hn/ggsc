@@ -25,6 +25,11 @@ public class SupportDAO extends EgovAbstractDAO {
 		return (EgovMap)select("supportDao." + sqlName, vo);
 	}
 	
+	// 심리검사List
+	public List<EgovMap> getPDFperPsyCnsDocList(PdfVO vo) {
+		return (List<EgovMap>)list("supportDao.getPDFperPsyCnsDocList", vo);
+	}
+	
 	// FAQ 목록
 	@SuppressWarnings("unchecked")
 	public List<EgovMap> getFaqList(FaqVO vo) {
