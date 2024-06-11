@@ -111,4 +111,7 @@ public interface SupportService {
 	
 	// 개인정보동의 PDF
 	EgovMap PDFDownload(PdfVO vo, String sqlName);
+	
+	// 심리검사List
+	List<EgovMap> getPDFperPsyCnsDocList(PdfVO vo);
 }

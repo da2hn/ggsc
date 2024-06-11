@@ -65,6 +65,8 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		var caseNo = "${caseNo}";
+		var cnsleId = "${detail.cnsleId }";
 		$("#Ubtn").css("display", "none");
 		var fileTarget = $('#file'); 
 		fileTarget.on('change', function(){ // 값이 변경되면
@@ -75,7 +77,11 @@
 			if($("input[name=writeYn]:checked").val() == "Y"){
 				$("#uploadTr").css("display", "none");
 				$("#Ubtn").css("display", "none");
+				if(cnsleId != ""){
+				$("#Ibtn").css("display", "none");
+				}else{
 				$("#Ibtn").css("display", "");
+				}
 			}else if($("input[name=writeYn]:checked").val() == "N"){
 				$("#uploadTr").css("display", "");
 				$("#Ubtn").css("display", "");
@@ -83,8 +89,6 @@
 			}
 		});
 		
-		var caseNo = "${caseNo}";
-		var cnsleId = "${detail.cnsleId }";
 		if(cnsleId != "") {
 			$("#caseNo").val("${caseNo}");
 			$("#Ibtn").css("display","none");
@@ -93,6 +97,7 @@
 			$('input:radio[name=ansr1]:input[value=${detail.ansr1}]').attr("checked", true);
 			$('input:radio[name=ansr2]:input[value=${detail.ansr2}]').attr("checked", true);
 			$('input:radio[name=ansr3]:input[value=${detail.ansr3}]').attr("checked", true);
+			$('input:radio[name=ansr4]:input[value=${detail.ansr4}]').attr("checked", true);
 			$('input:radio[name=gender]:input[value=${detail.gender}]').attr("checked", true);
 			
 			$("input:radio[name=qust1Ansr]:input[value=${detail.qust1Ansr}]").attr("checked", true);
@@ -107,9 +112,11 @@
 			$("input:radio[name=qust10Ansr]:input[value=${detail.qust10Ansr}]").attr("checked", true);
 			$("input:radio[name=qust11Ansr]:input[value=${detail.qust11Ansr}]").attr("checked", true);
 			$("input:radio[name=qust12Ansr]:input[value=${detail.qust12Ansr}]").attr("checked", true);
+			/*
 			$("input:radio[name=qust13Ansr]:input[value=${detail.qust13Ansr}]").attr("checked", true);
 			$("input:radio[name=qust14Ansr]:input[value=${detail.qust14Ansr}]").attr("checked", true);
 			$("input:radio[name=qust15Ansr]:input[value=${detail.qust15Ansr}]").attr("checked", true);
+			*/
 			
 		} else {
 			$("#Ibtn").css("display","");
@@ -136,6 +143,8 @@
 
 	function fn_reg(save){
 		
+		//console.log($("#strtTime").val());
+		
 		if(save == "U") {
 			var cnsleId = $("#cnsleId").val();
 			if(cnsleId == "") {
@@ -144,13 +153,14 @@
 			}
 			
 			if(confirm("파일업로드를 하시겠습니까?")) {
-				
+				/*
 				$("#strtTime").val(1);
 				$("#strtMin").val(1);
 				$("#endTimeHour").val(1);
 				$("#endTimeMin").val(1);
 				$("#totTime").val(1);
 				$("#strtTime").val(1);
+				*/
 				$("#yesTotScore").val(1);
 				$("#noTotScore").val(1);
 				$("#cnsrOptnScore").val(1);
@@ -181,11 +191,13 @@
 				$("#rewdNo").focus();
 				return;
 			}
+			/*
 			if($("#strtTime").val()==""){
 				alert("시작시간(시)을 입력해주세요.");
 				$("#strtTime").focus();
 				return;
 			}
+			
 			if($("#strtTime").val().length != 2){
 				alert("시작시간(시)앞에 0을 입력해주세요.");
 				$("#strtTime").focus();
@@ -201,6 +213,7 @@
 				$("#strtMin").focus();
 				return;
 			}
+			*/
 			if($("#birthDt").val()==""){
 				alert("생년월일을 입력해주세요.");
 				$("#birthDt").focus();
@@ -235,6 +248,7 @@
 				$("#day").focus();
 				return;
 			}
+			/*
 			if($("#endTimeHour").val()==""){
 				alert("종료시간(시)을 입력해주세요.");
 				$("#endTimeHour").focus();
@@ -260,6 +274,7 @@
 				$("#totTime").focus();
 				return;
 			}
+			*/
 			if($('input:radio[name="ansr1"]').is(':checked')==false){
 				alert("응답1을 선택해주세요.");
 				return;
@@ -324,6 +339,7 @@
 				alert("질문12 답을 선택해주세요.");
 				return;
 			}
+			/*
 			if($('input:radio[name="qust13Ansr"]').is(':checked')==false){
 				alert("질문13 답을 선택해주세요.");
 				return;
@@ -336,6 +352,7 @@
 				alert("질문15 답을 선택해주세요.");
 				return;
 			}
+			*/
 			if($("#yesTotScore").val()==""){
 				alert("예 합계점수를 입력해주세요.");
 				$("#yesTotScore").focus();
@@ -538,7 +555,7 @@
 					</table>
 					<br>
 					<font style="font-size: medium;"> ※ 상담사는 아래의 척도를 시행하기에 앞서 신체적 질병 및 인지·지각장애 사항을 점검하고, 
-					그로 인하여 파생되는 어려움은 아닌지에 대하여 변별 사용하시길 바랍니다.</font><br><br>
+					그로 인하여 파생되는 어려움은 아닌지에 대하여 변별·사용하시길 바랍니다.</font><br><br>
 					<table border="1">
 						<colgroup>
 							<col width="*"></col>
@@ -569,10 +586,16 @@
 							<td><input type="text" id="ansr2Cntn" name="ansr2Cntn" maxlength="20" value="${detail.ansr2Cntn }" /></td>
 						</tr>
 						<tr>
-							<td style="text-align: left; padding-left: 5px;">3. 신경정신 관련 진단을 받은 바 있다. (예: 치매진단을 받은 적이 있다.)</td>
+							<td style="text-align: left; padding-left: 5px;">3. 신경정신 관련 진단을 받은 바 있다. (예: 치매진단)</td>
 							<td><input type="radio" id="ansr3Y" name="ansr3" value="Y" /></td>
 							<td><input type="radio" id="ansr3N" name="ansr3" value="N" /></td>
 							<td><input type="text" id="ansr3Cntn" name="ansr3Cntn" maxlength="20" value="${detail.ansr3Cntn }" /></td>
+						</tr>
+						<tr>
+							<td style="text-align: left; padding-left: 5px;">4. 신체적 학대(부당한 대우)를 받은 적이 있다.</td>
+							<td><input type="radio" id="ansr4Y" name="ansr4" value="Y" /></td>
+							<td><input type="radio" id="ansr4N" name="ansr4" value="N" /></td>
+							<td><input type="text" id="ansr4Cntn" name="ansr4Cntn" maxlength="20" value="${detail.ansr4Cntn }" /></td>
 						</tr>
 					</table>
 					<br>
@@ -597,9 +620,9 @@
 						</thead>
 						<tbody>
 							<tr> 
-								<td colspan="2" style="text-align: left; padding-left: 5px;">1. 혼자 남겨졌다고 느끼십니까</td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">1. 혼자 남겨졌다고 느끼십니까?</td>
 								<td class="bgcolor"><input class="radBtn" type="radio" id="qust1AnsrY" name="qust1Ansr" value="N" /></td>
-								<td class="radBtn2"><input class="radBtn" type="radio" id="qust1AnsrN" name="qust1Ansr" value="Y" /></td>
+								<td><input class="radBtn2" type="radio" id="qust1AnsrN" name="qust1Ansr" value="Y" /></td>
 							</tr>
 							<tr>
 								<td colspan="2" style="text-align: left; padding-left: 5px;">2. 주변에 당신을 정말 이해해주는 사람들이 있다고 느낍니까?</td>
@@ -608,8 +631,8 @@
 							</tr>
 							<tr>
 								<td colspan="2" style="text-align: left; padding-left: 5px;">3. 아플 때 의지하고 도움을 요청할 수 있는 사람이 있습니까?</td>
-								<td class="radBtn2"><input class="radBtn" type="radio" id="qust3AnsrY" name="qust3Ansr" value="N" /></td>
-								<td class="bgcolor"><input class="radBtn" type="radio" id="qust3AnsrN" name="qust3Ansr" value="Y" /></td>
+								<td><input class="radBtn2" type="radio" id="qust3AnsrY" name="qust3Ansr" value="Y" /></td>
+								<td class="bgcolor"><input class="radBtn" type="radio" id="qust3AnsrN" name="qust3Ansr" value="N" /></td>
 							</tr>
 							<tr>
 								<td colspan="2" style="text-align: left; padding-left: 5px;">4. 안절부절 못하거나 가슴이 두근거리고, 걱정하느라 잠을 못 잔 적이 있습니까?</td>
@@ -617,14 +640,14 @@
 								<td><input class="radBtn2" type="radio" id="qust4AnsrN" name="qust4Ansr" value="N" /></td>
 							</tr>
 							<tr>
-								<td colspan="2" style="text-align: left; padding-left: 5px;">5. 가까운 사람(가족, 동거인)들과 해결되지 못한 문제로 갈등이 있습니까?</td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">5. 가족이나 주변 사람들과 갈등이 있습니까?</td>
 								<td class="bgcolor"><input class="radBtn" type="radio" id="qust5AnsrY" name="qust5Ansr" value="Y" /></td>
 								<td><input class="radBtn2" type="radio" id="qust5AnsrN" name="qust5Ansr" value="N" /></td>
 							</tr>
 							<tr>
 								<td colspan="2" style="text-align: left; padding-left: 5px;">6. 최근 한 달 이내에 사랑하는 가족이나 지인 혹은 반려동물의 죽음을 경험한 적이 있습니까?</td>
 								<td class="bgcolor"><input class="radBtn" type="radio" id="qust6AnsrY" name="qust6Ansr" value="N" /></td>
-								<td class="radBtn2"><input class="radBtn" type="radio" id="qust6AnsrN" name="qust6Ansr" value="Y" /></td>
+								<td><input class="radBtn2" type="radio" id="qust6AnsrN" name="qust6Ansr" value="Y" /></td>
 							</tr>
 							<tr>
 								<td colspan="2" style="text-align: left; padding-left: 5px;">7. 최근(2주 이내)에 사소한 일에도 화가 나거나, 주변 사람들에게 짜증을 내는 경우가 자주 있습니까?</td>
@@ -657,16 +680,17 @@
 								<td><input class="radBtn2" type="radio" id="qust12AnsrN" name="qust12Ansr" value="N" /></td>
 							</tr>
 							<tr>
-								<td>채점</td>
-								<td style="text-align: left; padding-left: 5px;">※ 진한 색에 1점부여, 그 외 0점을 부여함</td>
-								<td colspan="2"><input type="text" class="wd50" id="yesTotScore" name="yesTotScore" value="${detail.yesTotScore }" readonly onlyNumber maxlength=2>점</td>
-								<td style="display:none;"><input type="text" class="wd30" id="noTotScore" name="noTotScore" value="${detail.noTotScore }" readonly onlyNumber maxlength=2>점</td>
+								<td colspan="2" style="text-align: left; padding-left: 5px;">■상담사 평점 : 이 응답자의 심리상담 개입 필요정도를 0~6점 중에서 작성해 주세요</td>
+								<td colspan="2"><input type="text" class="wd50" id="cnsrOptnScore" name="cnsrOptnScore" value="${detail.cnsrOptnScore }" onlyNumber maxlength=2>점</td>
 							</tr>
 							<tr>
-								<td>상담자소견(5점)</td>
-								<td style="text-align: left; padding-left: 5px;">※총20점(설문 15점, 상담자소견 점) 중 10점이상인 경우 상담대상자로 선정함<br>※긴급상황으로 여겨질 수 있는 11번과 14번의 답이 "예:일 경우 상담대상자로 선정</td>
-								<td><input type="text" class="wd30" id="cnsrOptnScore" name="cnsrOptnScore" value="${detail.cnsrOptnScore }" onlyNumber maxlength=2>점</td>
-								<td><input type="text" class="wd30" id="cnsrOptnTot" name="cnsrOptnTot" value="${detail.cnsrOptnTot }" readonly onlyNumber maxlength=2>점</td>
+								<td>채점</td>
+								<td style="text-align: left; padding-left: 5px;">※ 총 18점(설문 12점, 상담사 평정 6점) 중 9점 이상인 경우 상담대상자로 선정함. 진한 색에 1점 부여, 그 외 0점을 부여하되, 긴급 상황으로 여겨질 수 있는 9번의 경우 전체 점수가 9점이 되지 않더라도 대상자로 선정할 수 있음. </td>
+								<td colspan="2"><input type="text" class="wd30" id="yesTotScore" name="yesTotScore" value="${detail.yesTotScore }" readonly onlyNumber maxlength=2>점 / 12점</td>
+							</tr>
+							<tr>
+								<td colspan="2">총점</td>
+								<td colspan="2"><input type="text" class="wd30" id="cnsrOptnTot" name="cnsrOptnTot" value="${detail.cnsrOptnTot }" readonly onlyNumber maxlength=2>점 / 18점</td>
 							</tr>
 						</tbody>
 					</table>
@@ -675,28 +699,38 @@
 			</div>
 		</div>
 	<script>
-		$(".radBtn, .radBtn2").change(function(e) {
+		$(".radBtn, .radBtn2, #cnsrOptnScore").change(function(e) {
 			var y = $(".radBtn:checked").length, n= $(".radBtn2:checked").length;
 			$("#yesTotScore").val(y);
 			$("#noTotScore").val(n);
 			var yesTotal = $("#yesTotScore").val();
 			var noTotal = $("#noTotScore").val();
 			var total = parseInt(yesTotal)+parseInt(noTotal);
-			if(total == 15) {
-				//$("#cnsrOptnScore").val(0);
-			}
 			var cnsrOptnScore = $("#cnsrOptnScore").val();
-			var total2 = parseInt(cnsrOptnScore)+parseInt(yesTotal);
-			if(total == 15) {
-				//$("#cnsrOptnTot").val(total2);
+			if(cnsrOptnScore > 6) {
+				alert("상담사 평점은 0~6점 까지만 입력 가능합니다.");
+				cnsrOptnScore = 0;
+				$("#cnsrOptnScore").val(0)
+				$("#cnsrOptnScore").focus();
+			}
+			console.log(yesTotal);
+			console.log(noTotal);
+			if(cnsrOptnScore){
+				console.log("null아니야");
+				$("#cnsrOptnTot").val(parseInt(yesTotal) + parseInt(cnsrOptnScore));
+			}else{
+				console.log("null이야");
+				console.log(yesTotal);
+				$("#cnsrOptnTot").val(parseInt(yesTotal));
 			}
 		});
 		
-		$("#cnsrOptnScore").change(function(e) {
+		
+		$("#cnsrOptnTot").change(function(e) {
 			var a = $("#cnsrOptnScore").val();
 			var b = $("#yesTotScore").val();
 			var tot = parseInt(a)+parseInt(b);
-			$("#cnsrOptnTot").val(tot);
+			//$("#cnsrOptnTot").val(tot);
 			
 			var q11 = $("input[name=qust11Ansr]:checked").val();
 			var q14 = $("input[name=qust14Ansr]:checked").val();
