@@ -279,11 +279,23 @@
 		// end if
 		}
 		
+		// 현재 날짜 객체 생성
+		var currentDate = new Date();
+
+		// 비교할 날짜 객체 생성 (2024년 6월 30일)
+		var targetDate = new Date("2024-06-30");
+		
 		if(cnsrGb == 1){
 			$('.btn-basic[onClick*=fn_update]').show();
 			$('.btn-basic[onClick*=fn_delete]').show();
 			$('#showdisable').hide();
+		}else if((currentDate < targetDate) && cnsrGb == 3){
+			$('.btn-basic[onClick*=fn_update]').show();
+			$('.btn-basic[onClick*=fn_delete]').show();
+			$('#showdisable').hide();
+			
 		}
+
 		
 	});
 	
@@ -944,7 +956,7 @@
 						</td>
 						<th>상담회기 <span style="color: red;">*</span></th>
 						<td>
-							<input type="text" class="wd200" id="cnsCnt" name="cnsCnt" value="${result.cnsCnt }" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" readonly/>
+							<input type="text" class="wd200" id="cnsCnt" name="cnsCnt" value="${result.cnsCnt }" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
 						</td>
 					</tr>
 					<tr>
