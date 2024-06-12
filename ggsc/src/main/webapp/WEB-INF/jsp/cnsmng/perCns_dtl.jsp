@@ -99,11 +99,11 @@
 		if(cnsRsvtWeekCd != "" && cnsRsvtDt != ""){
 			$("#cnsRsvtWeekNm").val(daysOfWeek[cnsRsvtWeekCd]);
 		}else{
-			$("#cnsRsvtStrtHour").val("");
-			$("#cnsRsvtStrtMin").val("");
-			$("#cnsRsvtEndHour").val("");
-			$("#cnsRsvtEndMin").val("");
-			$("#cnsRsvtTotMin").val("");
+			$("#cnsRsvtStrtHour").val(0);
+			$("#cnsRsvtStrtMin").val(0);
+			$("#cnsRsvtEndHour").val(0);
+			$("#cnsRsvtEndMin").val(0);
+			$("#cnsRsvtTotMin").val(0);
 		}
 		var cnsMethd = "${result.cnsMethd}";
 		if(cnsMethd != ""){
@@ -574,29 +574,6 @@
 	}
 	
 	function fn_delete() {	
-		var cnsRsvtStrtHour = $("#cnsRsvtStrtHour").val();
-		var cnsRsvtStrtMin = $("#cnsRsvtStrtMin").val();
-		var cnsRsvtEndHour = $("#cnsRsvtEndHour").val();
-		var cnsRsvtEndMin = $("#cnsRsvtEndMin").val();
-		var cnsRsvtTotMin = $("#cnsRsvtTotMin").val();
-
-		
-		if(cnsRsvtStrtHour.length == 0) {
-			$("#cnsRsvtStrtHour").val(0);
-		}
-		if(cnsRsvtStrtMin.length == 0) {
-			$("#cnsRsvtStrtMin").val(0);
-		}
-		if(cnsRsvtEndHour.length == 0) {
-			$("#cnsRsvtEndHour").val(0);
-		}
-		if(cnsRsvtEndMin.length == 0) {
-			$("#cnsRsvtEndMin").val(0);
-		}
-		if(cnsRsvtTotMin.length == 0) {
-			$("#cnsRsvtTotMin").val(0);
-		}
-		
 		if(confirm("개인상담과 연결된 심리검사와 종결서(상담회기 기준)까지 삭제됩니다. 삭제 하시겠습니까?")) {
 			document.frm.action = "/gnoincoundb/perCnsDel.do?mnuCd=${mnuCd}";
 	       	document.frm.submit();
