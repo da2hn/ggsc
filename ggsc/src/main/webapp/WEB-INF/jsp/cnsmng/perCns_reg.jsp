@@ -664,7 +664,7 @@
 						</td>
 						<th>상담회기 <span style="color: red;">*</span></th>
 						<td>
-							<input type="text" class="wd200" id="cnsCnt" name="cnsCnt" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" readOnly/>
+							<input type="text" class="wd200" id="cnsCnt" name="cnsCnt" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
 						</td>
 					</tr>
 					<tr>
