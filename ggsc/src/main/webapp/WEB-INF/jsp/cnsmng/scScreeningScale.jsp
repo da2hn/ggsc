@@ -364,7 +364,7 @@
 				return;
 			}
 			if($("#cnsrOptnScore").val()==""){
-				alert("상담자소견 점수를 입력해주세요.");
+				alert("상담사 평점 점수를 입력해주세요.");
 				$("#cnsrOptnScore").focus();
 				return;
 			}
@@ -380,6 +380,15 @@
 				return;
 			}
 		}
+		
+		var tot = parseInt($("#cnsrOptnTot").val());
+		var q9 = $("input[name=qust9Ansr]:checked").val();
+			
+		if(tot >= 9 ) {
+			alert("검사 결과 9점 이상이므로  상담대상자로 선정됐습니다.");
+		} else if(q9 == "Y"){
+			alert("9번 항목을 체크하셨으므로  상담대상자로 선정됐습니다.");
+		} 
 		
 		if(save == "I") {
 			if(confirm("등록 하시겠습니까?")){
@@ -707,41 +716,22 @@
 			var noTotal = $("#noTotScore").val();
 			var total = parseInt(yesTotal)+parseInt(noTotal);
 			var cnsrOptnScore = $("#cnsrOptnScore").val();
+			
 			if(cnsrOptnScore > 6) {
 				alert("상담사 평점은 0~6점 까지만 입력 가능합니다.");
 				cnsrOptnScore = 0;
 				$("#cnsrOptnScore").val(0)
 				$("#cnsrOptnScore").focus();
 			}
-			console.log(yesTotal);
-			console.log(noTotal);
-			if(cnsrOptnScore){
-				console.log("null아니야");
-				$("#cnsrOptnTot").val(parseInt(yesTotal) + parseInt(cnsrOptnScore));
-			}else{
-				console.log("null이야");
-				console.log(yesTotal);
-				$("#cnsrOptnTot").val(parseInt(yesTotal));
-			}
-		});
-		
-		
-		$("#cnsrOptnTot").change(function(e) {
-			var a = $("#cnsrOptnScore").val();
-			var b = $("#yesTotScore").val();
-			var tot = parseInt(a)+parseInt(b);
-			//$("#cnsrOptnTot").val(tot);
 			
-			var q11 = $("input[name=qust11Ansr]:checked").val();
-			var q14 = $("input[name=qust14Ansr]:checked").val();
-
-			if(tot >= 10 ) {
-				alert("검사 결과 10점 이상이므로  상담대상자로 선정됐습니다.");
-			} else if(q11 == "Y" || q14 == "Y"){
-				alert("11번 또는 14번 항목을 체크하셨으므로  상담대상자로 선정됐습니다.");
-				$("#cnsrOptnTot").val(10);
-			} 
+			if(cnsrOptnScore){
+				$("#cnsrOptnTot").val(parseInt(yesTotal) + parseInt(cnsrOptnScore)).trigger('change');
+			}else{
+				$("#cnsrOptnTot").val(parseInt(yesTotal)).trigger('change');
+			}
+			
 		});
+		
 	</script>
 
 		<!-- end -->
