@@ -1093,21 +1093,21 @@
 		  
 		   (
 		   		select 
-					(select COUNT(DISTINCT case_no) FROM gs_per_cns_dtl as gpcd where 1=1
+					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl not in('14') WHERE 1=1
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						CNS_GB = #schCnsGb#
+						gpcd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						CENTER_GB = #schCenterGb#
+						gpcd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>)
 					+
-					(select count(*) from GS_CNS_INFO as gci where 1=1
+					(select count(*) from GS_CNS_INFO as gci where 1=1 and cns_dtl NOT IN('14')
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
 						gci.CNS_GB = #schCnsGb#
 					</isNotEmpty>
@@ -1211,7 +1211,7 @@
 						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>)
 					-
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='1' WHERE 1=1
+					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl IN('1','13','14') WHERE 1=1
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
 						gpcd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
@@ -1225,7 +1225,7 @@
 						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>)
 					-
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '1'
+					(select count(*) from GS_CNS_INFO as gci where CNS_DTL IN('1','13','14')
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
 						gci.CNS_GB = #schCnsGb#
 					</isNotEmpty>
