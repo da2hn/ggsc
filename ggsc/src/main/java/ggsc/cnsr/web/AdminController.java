@@ -30,8 +30,7 @@ import ggsc.join.service.UsermVO;
 public class AdminController {
 	
 	@Resource(name = "beanValidator")
-	protected DefaultBeanValidator beanValidator;	
-	 
+	protected DefaultBeanValidator beanValidator;
 	 
 	@Resource(name = "AdminManageService")
 	private AdminManageService adminManageService;
@@ -40,7 +39,7 @@ public class AdminController {
 	private ComCodeService comCodeService;
 	
 	@RequestMapping(value = "/counsellor_mng_list.do", method = RequestMethod.GET )
-	public String counsellor_mngList(HttpServletRequest request, ModelMap model, AdminVO vo) {		
+	public String counsellor_mngList(HttpServletRequest request, ModelMap model, AdminVO vo) {
 		
 		// 권한 관리 시작
 		EgovMap loginVo = (EgovMap) request.getSession().getAttribute("LoginVO");

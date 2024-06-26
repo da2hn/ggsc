@@ -1632,22 +1632,7 @@
 		   ) as 'C47' ,
 		   (
 		   		select
-					(select count(*) from gs_per_cns_dtl as gpct WHERE cns_dtl_gb_cd = '1' AND use_yn = 'Y' 
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						CNS_GB = #schCnsGb#
-					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpct.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+ 
-					<!-- (select TRUNCATE(IFNULL(sum(cns_cnt),0)+0 ,0) from gs_per_cns_dtl as gpct WHERE cns_dtl_gb_cd = '2' AND use_yn = 'Y'-->
-					(select count(*) from gs_per_cns_dtl as gpct WHERE cns_dtl_gb_cd = '2' AND use_yn = 'Y' 
+					(select count(*) from gs_per_cns_dtl as gpct WHERE cns_dtl_gb_cd IN (1,2) AND use_yn = 'Y' 
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
 						CNS_GB = #schCnsGb#
 					</isNotEmpty>

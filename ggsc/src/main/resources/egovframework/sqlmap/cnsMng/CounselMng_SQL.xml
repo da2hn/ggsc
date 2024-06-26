@@ -57,7 +57,6 @@
 		GS_CNS_ACPT gca, GS_USER_M gum
 		WHERE
 		gca.USER_ID = gum.USER_ID
-		AND gca.ACPT_YN != 'Y'
 		<isNotEmpty property="schCnsGb" prepend="AND">
 			gca.CNS_GB = #schCnsGb#
 		</isNotEmpty>
@@ -222,7 +221,6 @@
 		WHERE
 		1=1
 		AND gca.USER_ID = gum.USER_ID
-		AND gca.ACPT_YN != 'Y'
 		<isNotEmpty property="schCnsGb" prepend="AND">
 			gca.CNS_GB = #schCnsGb#
 		</isNotEmpty>

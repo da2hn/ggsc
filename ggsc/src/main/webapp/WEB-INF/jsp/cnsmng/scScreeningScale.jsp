@@ -93,6 +93,7 @@
 			$('input:radio[name=ansr1]:input[value=${detail.ansr1}]').attr("checked", true);
 			$('input:radio[name=ansr2]:input[value=${detail.ansr2}]').attr("checked", true);
 			$('input:radio[name=ansr3]:input[value=${detail.ansr3}]').attr("checked", true);
+			$('input:radio[name=ansr4]:input[value=${detail.ansr4}]').attr("checked", true);
 			$('input:radio[name=gender]:input[value=${detail.gender}]').attr("checked", true);
 			
 			$("input:radio[name=qust1Ansr]:input[value=${detail.qust1Ansr}]").attr("checked", true);
@@ -580,11 +581,12 @@
 							<td><input type="radio" id="ansr3N" name="ansr3" value="N" /></td>
 							<td><input type="text" id="ansr3Cntn" name="ansr3Cntn" maxlength="20" value="${detail.ansr3Cntn }" /></td>
 						</tr>
-						 	<tr>
+						  
+						 <tr>
 							<td style="text-align: left; padding-left: 5px;">4. 신체적 학대(부당한 대우)를 받은 적이 있다.</td>
 							<td><input type="radio" id="ansr4Y" name="ansr4" value="Y" /></td>
 							<td><input type="radio" id="ansr4N" name="ansr4" value="N" /></td>
-							<td><input type="text" id="ansr4Cntn" name="ansr3Cntn" maxlength="20" value="${detail.ansr4Cntn }" /></td>
+							<td><input type="text" id="ansr4Cntn" name="ansr4Cntn" maxlength="20" value="${detail.ansr4Cntn }" /></td>
 						</tr>
 					</table>
 					<br>

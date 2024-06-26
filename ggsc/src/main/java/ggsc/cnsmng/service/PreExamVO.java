@@ -529,12 +529,6 @@ public class PreExamVO extends PageVO {
 	public void setAnsr3(String ansr3) {
 		this.ansr3 = ansr3;
 	}
-	public String getAnsr3Cntn() {
-		return ansr3Cntn;
-	}
-	public void setAnsr3Cntn(String ansr3Cntn) {
-		this.ansr3Cntn = ansr3Cntn;
-	}
 	public String getAnsr4() {
 		return ansr4;
 	}
@@ -546,6 +540,12 @@ public class PreExamVO extends PageVO {
 	}
 	public void setAnsr4Cntn(String ansr4Cntn) {
 		this.ansr4Cntn = ansr4Cntn;
+	}
+	public String getAnsr3Cntn() {
+		return ansr3Cntn;
+	}
+	public void setAnsr3Cntn(String ansr3Cntn) {
+		this.ansr3Cntn = ansr3Cntn;
 	}
 	public String getQust1Ansr() {
 		return qust1Ansr;
