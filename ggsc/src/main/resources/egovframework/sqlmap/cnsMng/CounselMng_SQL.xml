@@ -57,7 +57,6 @@
 		GS_CNS_ACPT gca, GS_USER_M gum
 		WHERE
 		gca.USER_ID = gum.USER_ID
-		AND gca.ACPT_YN != 'Y'
 		<isNotEmpty property="schCnsGb" prepend="AND">
 			gca.CNS_GB = #schCnsGb#
 		</isNotEmpty>
@@ -222,7 +221,6 @@
 		WHERE
 		1=1
 		AND gca.USER_ID = gum.USER_ID
-		AND gca.ACPT_YN != 'Y'
 		<isNotEmpty property="schCnsGb" prepend="AND">
 			gca.CNS_GB = #schCnsGb#
 		</isNotEmpty>
@@ -1384,13 +1382,14 @@
 			gcad.YEAR ,
 			gcad.MONTH ,
 			gcad.DAY ,
-			gcad.CNSLE_NM ,
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = gcad.CNSLE_ID) AS CNSLE_NM ,
 			gcad.WRITE_DT ,
 			gcad.CNS_CSNT_SIGN 
 		FROM
 			GS_CNS_AGRE_DOC AS gcad
 		WHERE
 			gcad.CASE_NO = #caseNum#
+		
 	</select>
 	
 	<!-- 개인정보동의서 상세보기 -->
@@ -1408,7 +1407,7 @@
 			gpia.CNSLE_ID ,
 			gpia.CASE_NO ,
 			gpia.LOCAL_GB ,
-			gpia.CNSLE_NM ,
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = gpia.CNSLE_ID) AS CNSLE_NM ,
 			gpia.CENTER_NM ,
 			gpia.IDVL_INFO_CNTN1_YN ,
 			gpia.IDVL_INFO_CNTN2_YN ,
@@ -1443,7 +1442,7 @@
 			gdcc.DOC_NO ,
 			gdcc.DOC_NM ,
 			gdcc.NAME ,
-			gdcc.INPUT_NM ,
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = gdcc.CNSLE_ID) AS INPUT_NM ,
 			gdcc.REWD_NO ,
 			gdcc.STRT_TIME ,
 			gdcc.STRT_MIN ,
@@ -1585,7 +1584,7 @@
 		ROW_NUMBER() OVER(ORDER BY gpem.NUM DESC) AS RNUM2,
 		gpem.NUM ,
 		gpem.CASE_NO ,
-		gpem.USER_NM ,
+		(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = gpem.USER_ID) AS USER_NM ,
 		(SELECT mclass_nm FROM gs_m_class WHERE hclass_cd = 'G89' and odr = gpem.sigun_cd) AS sigunCd ,
 		(SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G15' AND ODR = gpem.CNS_GB) AS cnsGbNm ,
 		(SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G72' AND ODR = gpem.LOCAL_GB ) AS localGbNm ,
@@ -2577,7 +2576,7 @@
 					ROW_NUMBER() OVER(ORDER BY NUM DESC) AS RNUM2 ,	
 					CASE_NO ,
 					CNSR_NM ,
-					CNSLE_NM ,
+					(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = GS_PER_CNS_DTL.CNSLE_ID) AS CNSLE_NM ,
 					GENDER ,
 					CNS_END_YN ,
 					CNS_CNTN ,
@@ -3597,7 +3596,7 @@
 			dtl.CNS_CNT,
 			dtl.CNS_GB ,
 			dtl.CNSR_NM ,
-			dtl.CNSLE_NM ,
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = dtl.CNSLE_ID) AS CNSLE_NM,
 			dtl.GENDER ,
 			dtl.CNS_DT ,
 			ealy.EDU ,
@@ -4568,7 +4567,7 @@
 				gcpp.NUM ,
 				gcpp.CASE_NO ,
 				gcpp.PREV_POST_GB ,
-				gcpp.CNSLE_NM ,
+				(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = gcpp.CNSLE_ID) AS CNSLE_NM,
 				gcpp.MAJOR_APPL_CD ,
 				DATE_FORMAT(gcpp.INSPECT_DT, '%Y-%m-%d') AS inspectDt ,
 				gcpp.INSPECT_CNT 
@@ -5549,6 +5548,7 @@
 			gca.CASE_NO = #caseNo#
 	</update>
 	
+	<!--접수관리 삭제-->
 	<update id="cnsMngDao.deleteCnsAccept" parameterClass="java.lang.String">
 		DELETE 
 			FROM gs_cns_acpt
@@ -5905,6 +5905,12 @@
 			CASE_NO = #caseNo#
 	</update>
 	
-	
+	<!--접수관리 삭제-->
+	<update id="cnsMngDao.deleteAcpt" parameterClass="java.lang.String">
+		DELETE 
+			FROM gs_cns_acpt
+		WHERE 
+			CASE_NO = #caseNo#
+	</update>
 	
 </sqlMap>

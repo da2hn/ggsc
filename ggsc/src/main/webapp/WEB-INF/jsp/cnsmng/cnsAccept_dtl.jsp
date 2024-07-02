@@ -183,8 +183,6 @@
 			return;
 		}
 		
-		
-		
 		if(type == "R"){
 			url = "/gnoincoundb/cnsAcptReg_ajax.do";
 		}else if(type == "D"){
@@ -292,6 +290,36 @@
 				alert("서버와 통신 오류입니다.");
 			}
 		});
+	}
+	
+	function fn_delete(){
+		if(confirm("정말로 삭제하시겠습니까?")){
+			var caseNo = $('#caseNo').val();
+			var token = $("meta[name='_csrf']").attr("th:content");
+			var header = $("meta[name='_csrf_header']").attr("th:content");
+			
+			$.ajax({
+				type: "POST",
+				url: "/gnoincoundb/deleteAcpt.do",
+				data: {caseNo: caseNo},
+				dataType: "json",
+				beforeSend: function(xhr){
+					xhr.setRequestHeader(header, token);
+				},
+				success: function(json){
+					if(json.msg){
+						alert(json.msg);
+						opener.parent.location.reload();
+						window.close();
+					} else {
+						alert("삭제 중 오류가 발생했습니다.");
+					}
+				},
+				error: function(e){
+					alert("서버와 통신 오류입니다.");
+				}
+			});
+		}
 	}
 </script>
 </head>
@@ -490,6 +518,9 @@
 		</c:if>
 		<button type="button" id="sBtn" class="btn-basic" onclick="javascript:fn_save('${type}');">저장</button>
 		<button type="button" id="uBtn" class="btn-basic" onclick="javascript:fn_save('D');">수정</button>
+		<c:if test="${type == 'D' }">
+			<button type="button" id="dBtn" class="btn-basic" onclick="javascript:fn_delete();">삭제</button>
+		</c:if>
 		<button type="button" class="btn-basic" id="showdisable" style="background-color: red;color:white; display:none;">수정불가</button>
 		<button type="button" class="btn-basic" onclick="window.close();">닫기</button>
 	</div>

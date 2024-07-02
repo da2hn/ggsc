@@ -1056,7 +1056,24 @@ public class CounselMngServiceImpl extends EgovAbstractServiceImpl implements Co
 		cnsMngDao.deleteGcns(num);
 		cnsMngDao.deleteGcnsPer(num);
 	}
+
+	//접수관리 삭제
+	/*
+	@Override
+	public boolean deleteAcpt(String num) {
+		try {
+			cnsMngDao.deleteAcpt(num);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}	
+	}
+	*/
 	
+	@Override
+	public void deleteAcpt(String caseNo) {
+		cnsMngDao.deleteAcpt(caseNo);
+	}
 
 	
 }
