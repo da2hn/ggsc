@@ -379,5 +379,8 @@ public interface CounselMngService {
 	// 집단상담(개인상담도) 삭제
 	void deleteGcns(int num);
 	
+	//  접수관리 삭제
+	void deleteAcpt(String caseNo);
+	
 	
 }

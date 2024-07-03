@@ -891,5 +891,9 @@ public class CounselMngDAO extends EgovAbstractDAO {
 	public void updateExiPrevPost(CnsAcptVO vo) {
 		update("cnsMngDao.updateExiPrevPost", vo);
 	}
+
+	public void deleteAcpt(String caseNo) {
+		update("cnsMngDao.deleteAcpt", caseNo);
+	}
 	
 }

@@ -29,6 +29,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ams.cmm.AES256Crypto;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -502,6 +504,47 @@ public class CounselMngController {
 		return "redirect:/gnoincoundb/cnsInfoList.do?mnuCd=" + mnuCd;
 	}
 
+	//접수관리 삭제
+	@RequestMapping(value = "/deleteAcpt.do", method = RequestMethod.POST)
+	public String deleteAcpt(HttpServletRequest request, ModelMap model) {
+		
+		String mnuCd = request.getParameter("mnuCd") == null ? "" : request.getParameter("mnuCd");
+		model.addAttribute("mnuCd", mnuCd);
+		
+		String caseNo = request.getParameter("caseNo") == null ? "" : request.getParameter("caseNo");
+		
+		counselMngService.deleteAcpt(caseNo);
+		
+		String msg = "상담신청이 삭제되었습니다.";
+
+		model.addAttribute("msg", msg);
+		
+		return "jsonView";
+	}
+	
+	
+	/*
+	@RequestMapping(value = "/deleteAcpt.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> cnsAcptDel(@RequestParam("caseNo") String caseNo){
+		Map<String, Object> response = new HashMap<String, Object>(); //HashMap타입 객체 생성
+		
+		try {
+			boolean isDeleted = counselMngService.deleteAcpt(caseNo);
+			counselMngService.deleteAcpt(caseNo);
+			response.put("success", isDeleted);
+		} catch (Exception e) {
+			response.put("success", false);
+			response.put("error", e.getMessage());
+			
+		} //try-catch
+		return response;
+		
+	} //method
+	*/
+	
+	
+	
 	
 	@RequestMapping(value = "/idCheck_ajax.do", method = RequestMethod.POST)
 	public String idCheckAjax(HttpServletRequest request, ModelMap model) {
@@ -1075,6 +1118,7 @@ public class CounselMngController {
 		return "jsonView";
 	}
 
+	//초기상담신청
 	@RequestMapping(value = "/ealyCnsDocList.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String ealyCnsDocList(EalyCnsDocVO vo, HttpServletRequest request, ModelMap model) {
 		
