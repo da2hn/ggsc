@@ -41,6 +41,12 @@ public class CounselMngServiceImpl extends EgovAbstractServiceImpl implements Co
 		return cnsMngDao.getPsyCnsListUser(g_idx);
 	}
 	
+	// 사용자 심리검사 및 점수 목록
+	@Override
+	public List<EgovMap> getPerPsyCnsListUser(int g_idx) {
+		return cnsMngDao.getPerPsyCnsListUser(g_idx);
+	}
+	
 	// 상담접수관리 목록
 	@Override
 	public List<EgovMap> getCnsAcceptList(CnsAcptVO vo) {
@@ -460,6 +466,12 @@ public class CounselMngServiceImpl extends EgovAbstractServiceImpl implements Co
 		// cnsMngDao.insertPerCnsPdf(vo);
 	}
 	
+	// 개인상담일지 번호 조회
+	@Override
+	public int selectCnsDtlNum() {
+		return cnsMngDao.selectCnsDtlNum();
+	}
+	
 	// 개인상담일지 수정
 	@Override
 	public void updatePerCns(PerCnsVO vo) {
@@ -610,6 +622,12 @@ public class CounselMngServiceImpl extends EgovAbstractServiceImpl implements Co
 	@Override
 	public List<EgovMap> getExamDocList(PsyCnsVO vo) {
 		return cnsMngDao.getExamDocList(vo);
+	}
+	
+	// 심리검사지 점수 목록
+	@Override
+	public List<EgovMap> selectPerPsyCnsDocList(int num) {
+		return cnsMngDao.selectPerPsyCnsDocList(num);
 	}
 	
 	// 심리검사지 목록(연계)
@@ -894,14 +912,31 @@ public class CounselMngServiceImpl extends EgovAbstractServiceImpl implements Co
 		cnsMngDao.insertPsyCnsDoc(vo);
 	}
 	
+	// 심리 검사 INSERT
+	@Override
+	public void insertPerPsyCnsDoc(List<EgovMap> insertRowList) {
+		cnsMngDao.insertPerPsyCnsDoc(insertRowList);
+	}
+	
 	//심리 검사 UPDATE
 	public void updatePsyCnsDoc(PsyCnsDocVO vo) {
 		cnsMngDao.updatePsyCnsDoc(vo);
 	}
 	
+	// 심리 검사 UPDATE
+	@Override
+	public void updatePerPsyCnsDoc(EgovMap updateRowList) {
+		cnsMngDao.updatePerPsyCnsDoc(updateRowList);
+	}
+	
 	//심리 검사 DELETE
 	public void deletePsyCnsDoc(PsyCnsDocVO vo) {
 		cnsMngDao.deletePsyCnsDoc(vo);
+	}
+	
+	//심리 검사 DELETE
+	public void deletePerPsyCnsDoc(List<EgovMap> delKeys) {
+		cnsMngDao.deletePerPsyCnsDoc(delKeys);
 	}
 	
 	// 상담 사전·사후 기록지 등록

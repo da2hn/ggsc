@@ -48,6 +48,11 @@ public class SupportServiceImpl extends EgovAbstractServiceImpl implements Suppo
 		return supportDao.PDFDownload(vo, sqlName); 
 	}
 	
+	@Override 
+	public List<EgovMap> getPDFperPsyCnsDocList(PdfVO vo){
+		return supportDao.getPDFperPsyCnsDocList(vo); 
+	}
+	
 	// FAQ 목록
 	@Override
 	public List<EgovMap> getFaqList(FaqVO vo) {

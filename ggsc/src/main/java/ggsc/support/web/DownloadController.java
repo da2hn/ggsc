@@ -79,8 +79,28 @@ public class DownloadController {
 		vo.setNum( Integer.parseInt(request.getParameter("num").toString()));
 		String inputFile = utility.func.pdfTemplatePath + vo.getTemplateName() + ".html";
 		String fontPath = utility.func.pdfTemplatePath + "NanumGothic-Bold.ttf";
+		String perPstCnsDoc = "";
+		List<EgovMap> perPsyCnsDocList;
 		
 		EgovMap result = supportService.PDFDownload(vo, vo.getTemplateSQLName()); 	
+		
+		if(vo.getNumber() == 34) {
+			perPsyCnsDocList = supportService.getPDFperPsyCnsDocList(vo);
+			if(!perPsyCnsDocList.isEmpty()) {
+				
+				for (int i = 0; i < perPsyCnsDocList.size(); i++) {
+					String perPstCnsDocRow = "";
+					perPstCnsDocRow = "심리검사명 : " + perPsyCnsDocList.get(i).get("examDocNm") + " 점수 : " +  perPsyCnsDocList.get(i).get("no1") + "\r\n";
+					perPstCnsDoc += perPstCnsDocRow;
+				}
+				
+				perPstCnsDoc = perPstCnsDoc.replace("\n", "<br />");
+				
+			}
+		}
+		
+		System.out.println(perPstCnsDoc);
+		
 		if(result==null) {
 			return;
 		}
@@ -117,6 +137,7 @@ public class DownloadController {
 						.replaceAll("##위기긴급성##", replaceText(result.get("emgcyUrgt")))
 						.replaceAll("##자살사례##", replaceText(result.get("killsOptn")))
 						.replaceAll("##항우울제지원여부##", replaceText(result.get("ahydSuptYn")))
+						.replaceAll("##심리검사##", replaceText(perPstCnsDoc))
 						.replaceAll("##게시일##", replaceText(result.get("ahydAcptDt")))
 						.replaceAll("##종결일##", replaceText(result.get("ahydEndDt")))
 						.replaceAll("##학대사례##", replaceText(result.get("abusOptn")))
@@ -208,6 +229,7 @@ public class DownloadController {
 						.replaceAll("##설문3내용##", replaceText(result.get("survey3str")))
 						.replaceAll("##설문4Y##", replaceText(result.get("survey4y")))
 						.replaceAll("##설문4N##", replaceText(result.get("survey4n")))
+						.replaceAll("##설문4내용##", replaceText(result.get("survey4str")))
 						.replaceAll("##설문5Y##", replaceText(result.get("survey5y")))
 						.replaceAll("##설문5N##", replaceText(result.get("survey5n")))
 						.replaceAll("##설문6Y##", replaceText(result.get("survey6y")))

@@ -111,19 +111,23 @@
 				console.log(json.psyCnsList);
 				$.each(json.psyCnsList, function(i, d) {
 					html += '<tr>';
-					html += '<td onclick="javascript:fn_popupDoc(\''+d.psyNum+'\' , \''+d.gIdx+'\', \''+d.dtlIdx+'\', \'' + d.psyOrder + '\');">' + d.psyOrder + '</td>';
+					html += '<td>' + d.rownum + '</td>';
+					html += '<td>' + d.examDocNm + '</td>';
+					html += '<td>' + d.no1 + '</td>';
+				/*	html += '<td onclick="javascript:fn_popupDoc(\''+d.psyNum+'\' , \''+d.gIdx+'\', \''+d.dtlIdx+'\', \'' + d.psyOrder + '\');">' + d.psyOrder + '</td>';
 					html += '<td onclick="javascript:fn_popupDoc(\''+d.psyNum+'\' , \''+d.gIdx+'\', \''+d.dtlIdx+'\', \'' + d.psyOrder + '\');" style="text-align:left; text-indent:10px;">' + d.psyName + '</td>';
-					html += '<td onclick="javascript:fn_popupDoc(\''+d.psyNum+'\' , \''+d.gIdx+'\', \''+d.dtlIdx+'\', \'' + d.psyOrder + '\');">'+ d.psyGubun +'</td>';
+					html += '<td onclick="javascript:fn_popupDoc(\''+d.psyNum+'\' , \''+d.gIdx+'\', \''+d.dtlIdx+'\', \'' + d.psyOrder + '\');">'+ d.psyGubun +'</td>'; */
+					/* html += '<td>' + ( d.psyCustomer == null ? '' : d.psyCustomer) + '</td>' +
 					/* html += '<td>' + ( d.psyCustomer == null ? '' : d.psyCustomer) + '</td>' +
 							'<td>' + ( d.psyStart == null ? '' : d.psyStart) + '</td>' + 
 							'<td>' + ( d.psyEnd == null ? '' : d.psyEnd) + '</td>' + 
 							'</tr>'; */
-					html += '<td>' + ( d.psyCustomer == null ? '' : d.psyCustomer) + '</td>';
-						if(d.psyCustomer == null) {
+					//html += '<td>' + ( d.psyCustomer == null ? '' : d.psyCustomer) + '</td>';
+						/*if(d.psyCustomer == null) {
 							html += '<td></td>';
 						} else {
 							html += '<td><button type="button" id="pdfBtn" class="btn-basic btn-primary" onclick="javascript:fn_pdfDownload(\''+d.psyOrder+'\',\''+d.dtlIdx+'\');">PDF 다운</button></td>';
-						}	
+						}	*/
 							//+'</td>'	
 							//'+'</tr>';
 					html += '</tr>';
@@ -170,7 +174,7 @@
 
 	<h2 class="h2-title"><i class="fa fa-check-square"></i>심리검사</h2>
 		
-		<div class="box-style1 x-scroll-auto" >
+		<div>
 		<!-- 검색영역 -->
 		<form name="searchForm" id="searchForm" action="/psyCnsList.do" method="get" onsubmit="return false">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -242,12 +246,11 @@
 			</div>
 			 -->	
 			<h3 class="h3-title"><i class="fa fa-star"></i>상담내용</h3>
-			<table class="table-style1" style="margin-bottom: 5px;">
+			<div style="overflow-x: auto;">
+			<table class="table-style1" style="margin-bottom: 5px; word-break: auto-phrase; white-space: nowrap;">
 				<colgroup> 
 					<col width="5%"></col>
 					<col width="7%"></col> 
-					<col width="7%"></col>
-					<col width="7%"></col>
 					<col width="7%"></col>
 					<col width="7%"></col>
 					<col width="7%"></col>
@@ -305,6 +308,7 @@
 					</c:if>
 				</tbody>
 			</table>
+			</div>
 			<!-- // 페이징 -->
 			<div class="paginate" id="page1">
 				<div id="paging">
@@ -314,9 +318,11 @@
                     </ul>
                 </div>
 			</div>
-			
+		
 			<h3 class="h3-title" style="margin-top:50px;"><i class="fa fa-star"></i>심리검사 <span class='caseNo'></span></h3>
-			<%-- <table class="table-style1" style="margin-bottom: 5px;">
+			<%--
+		
+			<table class="table-style1" style="margin-bottom: 5px;">
 				<colgroup> 
 					<col width="2%"></col>
 					<col width="7%"></col> 
@@ -356,24 +362,29 @@
 						</c:forEach>
 					</c:if>
 				</tbody>
-			</table> --%>
-			
+			</table> 
+			 --%>
 			<table class="table-style1" style="margin-bottom: 5px;">
 				<colgroup> 
 					<col width="2%"></col>
-					<col width="7%"></col> 
+					<col width="7%"></col>
+					<col width="7%"></col>
+					<%-- <col width="7%"></col> 
 					<col width="7%"></col>
 					<col width="5%"></col>
-					<col width="7%"></col>
+					<col width="7%"></col>--%>
+			
 					<%-- <col width="7%"></col> --%>
-				</colgroup>
+			</colgroup>
 				<thead>
 					<tr>
 						<th scope="col">순번</th>
-						<th scope="col">구분명</th>
+						<th scope="col">심리검사명</th>
+						<th scope="col">점수</th>
+						<%-- <th scope="col">구분명</th>
 						<th scope="col">구분</th>
 						<th scope="col">상담자</th> 
-						<th scope="col">PDF</th>
+						<th scope="col">PDF</th>--%>
 						<!-- <th scope="col">종결일자</th> -->
 					</tr>
 				</thead>
@@ -381,6 +392,7 @@
 				
 				</tbody>
 			</table>
+			 		
 			
 		</div>
 		<!-- end -->

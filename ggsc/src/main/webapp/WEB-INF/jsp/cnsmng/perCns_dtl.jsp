@@ -45,7 +45,8 @@
   </head>
 <script type="text/javascript">
 	const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-
+	const delExamNumList = [];
+	
 	$(document).ready(function() {
 		
 		var fileTarget = $('#file'); 
@@ -98,11 +99,11 @@
 		if(cnsRsvtWeekCd != "" && cnsRsvtDt != ""){
 			$("#cnsRsvtWeekNm").val(daysOfWeek[cnsRsvtWeekCd]);
 		}else{
-			$("#cnsRsvtStrtHour").val("");
-			$("#cnsRsvtStrtMin").val("");
-			$("#cnsRsvtEndHour").val("");
-			$("#cnsRsvtEndMin").val("");
-			$("#cnsRsvtTotMin").val("");
+			$("#cnsRsvtStrtHour").val(0);
+			$("#cnsRsvtStrtMin").val(0);
+			$("#cnsRsvtEndHour").val(0);
+			$("#cnsRsvtEndMin").val(0);
+			$("#cnsRsvtTotMin").val(0);
 		}
 		var cnsMethd = "${result.cnsMethd}";
 		if(cnsMethd != ""){
@@ -278,6 +279,24 @@
 		// end if
 		}
 		
+		// 현재 날짜 객체 생성
+		var currentDate = new Date();
+
+		// 비교할 날짜 객체 생성 (2024년 6월 30일)
+		var targetDate = new Date("2024-06-30");
+		
+		if(cnsrGb == 1){
+			$('.btn-basic[onClick*=fn_update]').show();
+			$('.btn-basic[onClick*=fn_delete]').show();
+			$('#showdisable').hide();
+		}else if((currentDate < targetDate) && cnsrGb == 3){
+			$('.btn-basic[onClick*=fn_update]').show();
+			$('.btn-basic[onClick*=fn_delete]').show();
+			$('#showdisable').hide();
+			
+		}
+
+		
 	});
 	
 	function fn_checked(str, name){
@@ -363,7 +382,7 @@
 			return;
 		}
 		if(cnsDtStdMin.length != 2){
-			alert("상담일시 분을 2자리로 입력해 주세요.");
+			alert("상담일시 분을 2자리로 입력 해주세요.");
 			$("#cnsDtStdMin").focus();
 			return;
 		}
@@ -420,11 +439,86 @@
 		if(cnsRsvtTotMin.length == 0) {
 			$("#cnsRsvtTotMin").val(0);
 		}
-
+		
+		if(validateExamDoc() == 'f') {
+		    alert("검사지명과 점수를 모두 입력해주세요.")
+			return;
+		}else{
+			var dataToSend = validateExamDoc();
+			var form = document.getElementById("frm");
+			
+			dataToSend.forEach(function(i){
+				// 새로운 input 요소 생성
+	            var newExamInput = document.createElement("input");
+	            newExamInput.type = "hidden";
+	            newExamInput.name = "newExamDocNm";
+	            newExamInput.value = i.examDocNm;
+	            form.appendChild(newExamInput);
+	            
+	            var newNo1Input = document.createElement("input");
+	            newNo1Input.type = "hidden";
+	            newNo1Input.name = "newNo1";
+	            newNo1Input.value = i.no1;
+	            form.appendChild(newNo1Input);
+	            
+			});
+			
+			//삭제리스트 추가
+			if(delExamNumList.length > 0){
+				delExamNumList.forEach(function(i){
+		            var delExamNumInput = document.createElement("input");
+		            delExamNumInput.type = "hidden";
+		            delExamNumInput.name = "delExamNumList";
+		            delExamNumInput.value = i;
+		            form.appendChild(delExamNumInput);
+				});
+			}
+			
+			
+		}
+		
 		if(confirm("수정 하시겠습니까?")){
 			document.frm.action = "/gnoincoundb/perCnsUpd.do?mnuCd=${mnuCd}";
 	       	document.frm.submit();
 		}
+	}
+	
+	function validateExamDoc(){
+		 var dataToSend = [];
+		 var flag = 't';
+	        // 모든 입력 컨테이너를 선택
+	        var inputContainers = document.querySelectorAll('.input-container');
+		
+	        // 각 입력 컨테이너에 대하여 반복
+	        inputContainers.forEach(function(container) {
+	           // var examNumInput = container.querySelector('input[name="examNum"]');
+	            var examDocNmInput = container.querySelector('input[name="examDocNm"]');
+	            var no1Input = container.querySelector('input[name="no1"]');
+	            
+	            // examDocNm와 no1이 모두 값이 있는 경우에만 데이터를 추가
+	            if (examDocNmInput.value.trim() !== '' && no1Input.value.trim() !== '') {
+	                var rowData = {
+	                    //examNum: examNumInput.value.trim(),
+	                    examDocNm: examDocNmInput.value.trim(),
+	                    no1: no1Input.value.trim()
+	                };
+	                dataToSend.push(rowData);
+	            }else if (examDocNmInput.value.trim() === '' && no1Input.value.trim() === '') {
+	                // 두 입력 모두 값이 없을 때 아무런 처리 없음
+	                flag = 'f';
+	            } else if (examDocNmInput.value.trim() === '') {
+	                flag = 'f';
+	            } else if (no1Input.value.trim() === '') {
+	                flag = 'f';
+	            }
+	        });
+	        console.log(flag);
+	        for (var i = 0; i < dataToSend.length; i++) {
+				console.log(dataToSend[i].examDocNm);
+				console.log(dataToSend[i].no1);
+			}
+	        
+	        return flag == 'f' ? flag : dataToSend;
 	}
 	
 	function appl_detailInit(appl) {
@@ -491,7 +585,7 @@
 		});
 	}
 	
-	function fn_delete() {
+	function fn_delete() {	
 		if(confirm("개인상담과 연결된 심리검사와 종결서(상담회기 기준)까지 삭제됩니다. 삭제 하시겠습니까?")) {
 			document.frm.action = "/gnoincoundb/perCnsDel.do?mnuCd=${mnuCd}";
 	       	document.frm.submit();
@@ -653,6 +747,7 @@
 		$("input[name='cnsRsvtWeekCd']").val(dayIndex);
 		$("input[name='cnsRsvtWeekNm']").val(dayOfWeek);
 		
+		console.log("들어왔는데?");
 	});
 	
 	function getDayOfWeek(dateString) {
@@ -682,12 +777,54 @@
 	    
 	}
 	
-	function fn_popup(num){
-		var url = "/gnoincoundb/psyCnsPopup.do?num=" + num;
-		var name = "신청자정보";
-		var option = "width = 1530, height = 1750, top = 50, left = 250, location = yes";
-		window.open(url, name, option);
-	}
+	
+	document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('add-row').addEventListener('click', function() {
+            var inputFields = document.getElementById('input-fields');
+            
+            if(inputFields.children.length == 10){
+            	alert("입력 가능한 심리검사는 최대 10개입니다.");
+            	return
+            }
+            
+        	 // 새로운 input-container div 생성
+            var newDiv = document.createElement('div');
+            newDiv.className = 'input-container';
+
+            // 새로운 input 태그와 텍스트 노드 추가
+            newDiv.innerHTML = '검사지명&nbsp; <input type="text" name="examDocNm" value="" style="width: 250px;"/> &nbsp;점수&nbsp; <input type="text" name="no1" class="wd100" value="" onkeyup="this.value=this.value.replace(/[^0-9]/g,\'\');"/><input type="hidden" name="examNum" value=""/>';
+
+            document.getElementById('input-fields').appendChild(newDiv);
+        });
+
+        document.getElementById('remove-row').addEventListener('click', function() {
+            var inputFields = document.getElementById('input-fields');
+            // 가장 마지막 input-container div를 찾음
+            //var lastInputContainer = inputFields.lastElementChild;
+               // id가 'input-container'인 모든 div 요소를 찾음
+		    var inputContainers = inputFields.querySelectorAll('div.input-container');
+		    
+		    // 가장 마지막 input-container div를 찾음
+		    var lastInputContainer = inputContainers[inputContainers.length - 1];
+    
+            if (inputFields.children.length > 0) {
+                inputFields.removeChild(lastInputContainer);
+            }
+            
+        	
+            // input_fields 하위에 있는 name이 "examNum" 인 input 태그들의 값을 배열에 저장
+            var lastExamNumInputs = lastInputContainer.querySelectorAll('input[name="examNum"]');
+            lastExamNumInputs.forEach(function(input) {
+                // -1이 아닌 값을 배열에 추가
+                if (input.value !== "") {
+                	delExamNumList.push(input.value);
+                	console.log(input.value);
+                }
+            });
+            
+         	
+        });
+    });
 	
 </script>
 <section id="content">
@@ -707,7 +844,9 @@
 					<button type="button" class="btn-basic" onClick="javascript:fn_delete();" style="background-color: green;color:white;">삭제</button>
 				</c:if>
 				<button type="button" class="btn-basic" id="showdisable" style="background-color: red;color:white; display:none;">수정불가</button>
-				<button type="button" class="btn-basic" id="showdisable" onClick="javascript:fn_popup('${result.num}')" style="background-color: #af841d;color:white;">심리검사</button>
+				<%--
+				<button type="button" class="btn-basic" id="openPsyCnsPop" onClick="javascript:fn_popup('${result.num}')" style="background-color: #af841d;color:white;">심리검사</button>
+				 --%>
 			</div>	
 			<form id="frm" name="frm" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -817,7 +956,7 @@
 						</td>
 						<th>상담회기 <span style="color: red;">*</span></th>
 						<td>
-							<input type="text" class="wd200" id="cnsCnt" name="cnsCnt" value="${result.cnsCnt }" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" readonly/>
+							<input type="text" class="wd200" id="cnsCnt" name="cnsCnt" value="${result.cnsCnt }" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
 						</td>
 					</tr>
 					<tr>
@@ -912,12 +1051,28 @@
 						</td>
 					</tr>
 					<tr>
-						<th>항우울제지원여부</th>
-						<td colspan="2">
-							<input type="radio" id="ahydSuptY" name="ahydSuptYn" value="Y" /><label for="ahydSuptY">예</label>
-							<input type="radio" id="ahydSuptN" name="ahydSuptYn" value="N" /><label for="ahydSuptN">아니오</label><br>
-							<span class="form">게시일<input type="text" class="wd150" id="datepicker5" name="ahydAcptDt"  value="${result.ahydAcptDt }" readonly /></span>
-							<span class="form mg-l25">종결일<input type="text" class="wd150" id="datepicker6" name="ahydEndDt" value="${result.ahydEndDt }" readonly /></span>
+						<th>심리검사</th>
+						<td colspan="2" id="examDoc">
+							<div style="min-height: 66px; display: flex;">
+								<div id="input-fields" style="float: left; width:464px">
+									<c:choose>
+										<%--
+										<c:when test="${empty exam}">
+										 	<div class="input-container">검사지명&nbsp; <input type="text" name="examDocNm" value="" style="width: 250px;"/> &nbsp;점수&nbsp; <input type="text" name="no1" class="wd100" value="" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');"/><input type="hidden" name="examNum" value="" /></div>
+										</c:when>
+										 --%>
+										<c:when test="${not empty exam}">
+										 	<c:forEach var="i" items="${exam}">
+											 	<div class="input-container">검사지명&nbsp; <input type="text" name="examDocNm" value="${i.examDocNm}" style="width: 250px;"/> &nbsp;점수&nbsp; <input type="text" name="no1" class="wd100" value="${i.no1}" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');"/><input type="hidden" name="examNum" value="${i.num}" /></div>
+										 	</c:forEach>
+										</c:when>
+									</c:choose>
+								</div>
+								<div style="width: 60px; text-align: center; float: left;margin-left: 10px; position: relative;">
+									<button type="button" class="btn-basic" id="add-row" style="padding: 2px 6px; margin-bottom: 3px; background: green;">행추가</button>
+									<button type="button" class="btn-basic" id="remove-row" style="padding: 2px 6px;">행삭제</button>
+								</div>
+							</div>
 						</td>
 						<th>학대사례</th>
 						<td>
@@ -1082,16 +1237,7 @@
 						<td colspan="3"><textarea name="daftMng" style="width: 600px;">${result.daftMng }</textarea></td>
 					</tr>
 					
-					<tr>
-						<th>심리검사명</th>
-						<td colspan="2">
-							<input type="text" id="name" name="name" style="height: 80px;" value="" />
-						</td>
-						<th>점수</th>
-						<td>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-							<input type="text" id="score" name="score" style="height: 80px;" value="" />
-						</td>
-					</tr>
+
 					<!-- <tr>
 						<td>정서적 편안함 정도</td>
 						<td colspan="3">

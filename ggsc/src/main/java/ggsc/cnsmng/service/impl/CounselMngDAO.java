@@ -32,6 +32,12 @@ public class CounselMngDAO extends EgovAbstractDAO {
 		return (List<EgovMap>)list("cnsMngDao.getPsyCnsListUser", g_idx);
 	}
 	
+	// 사용자 심리검사 및 점수 목록
+	@SuppressWarnings("unchecked")
+	public List<EgovMap> getPerPsyCnsListUser(int g_idx){
+		return (List<EgovMap>)list("cnsMngDao.getPerPsyCnsListUser", g_idx);
+	}
+	
 	// 상담접수관리 목록
 	@SuppressWarnings("unchecked")
 	public List<EgovMap> getCnsAcceptList(CnsAcptVO vo){
@@ -385,6 +391,10 @@ public class CounselMngDAO extends EgovAbstractDAO {
 	public void insertPerCnsDtl(PerCnsVO vo){
 		insert("cnsMngDao.insertPerCnsDtl", vo);
 	}
+	// 개인상담일지 번호 조회
+	public int selectCnsDtlNum(){
+		return (Integer)select("cnsMngDao.selectCnsDtlNum");
+	}
 	// 개인상담일지 pdf 저장
 	/*public void insertPerCnsPdf(PerCnsVO vo){
 		insert("cnsMngDao.insertPerCnsPdf", vo);
@@ -470,6 +480,12 @@ public class CounselMngDAO extends EgovAbstractDAO {
 	@SuppressWarnings("unchecked")
 	public List<EgovMap> getExamDocList(PsyCnsVO vo) {
 		return (List<EgovMap>)list("cnsMngDao.getExamDocList", vo);
+	}
+	
+	// 심리검사지 점수 목록
+	@SuppressWarnings("unchecked")
+	public List<EgovMap> selectPerPsyCnsDocList(int num) {
+		return (List<EgovMap>)list("cnsMngDao.selectPerPsyCnsDocList", num);
 	}
 	
 	// 상담내용 목록(연계)
@@ -658,14 +674,29 @@ public class CounselMngDAO extends EgovAbstractDAO {
 		insert("cnsMngDao.insertPsyCnsDoc", vo);
 	}
 	
+	// 심리 검사 INSERT
+	public void insertPerPsyCnsDoc(List<EgovMap> insertRowList) {
+		insert("cnsMngDao.insertPerPsyCnsDoc", insertRowList);
+	}
+	
 	//심리 검사 UPDATE
 	public void updatePsyCnsDoc(PsyCnsDocVO vo) {
 		update("cnsMngDao.updatePsyCnsDoc", vo);
 	}
 	
+	// 심리 검사 UPDATE
+	public void updatePerPsyCnsDoc(EgovMap updateRowList) {
+		insert("cnsMngDao.updatePerPsyCnsDoc", updateRowList);
+	}
+	
 	//심리 검사 DELETE
 	public void deletePsyCnsDoc(PsyCnsDocVO vo) {
 		update("cnsMngDao.deletePsyCnsDoc", vo);
+	}
+	
+	//심리 검사 DELETE
+	public void deletePerPsyCnsDoc(List<EgovMap> delKeys) {
+		update("cnsMngDao.deletePerPsyCnsDoc", delKeys);
 	}
 	
 	// 상담 사전·사후 기록지 등록

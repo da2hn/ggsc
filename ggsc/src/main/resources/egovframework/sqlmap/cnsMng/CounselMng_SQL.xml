@@ -1457,6 +1457,8 @@
 			gdcc.ANSR2_CNTN ,
 			gdcc.ANSR3 ,
 			gdcc.ANSR3_CNTN ,
+			gdcc.ANSR4 ,
+			gdcc.ANSR4_CNTN ,
 			gdcc.QUST1_ANSR ,
 			gdcc.QUST2_ANSR ,
 			gdcc.QUST3_ANSR ,
@@ -1469,9 +1471,6 @@
 			gdcc.QUST10_ANSR ,
 			gdcc.QUST11_ANSR ,
 			gdcc.QUST12_ANSR ,
-			gdcc.QUST13_ANSR ,
-			gdcc.QUST14_ANSR ,
-			gdcc.QUST15_ANSR ,
 			gdcc.YES_TOT_SCORE ,
 			gdcc.NO_TOT_SCORE ,
 			gdcc.CNSR_OPTN_SCORE ,
@@ -2110,6 +2109,8 @@
 		, ANSR2_CNTN
 		, ANSR3
 		, ANSR3_CNTN
+		, ANSR4
+		, ANSR4_CNTN
 		, QUST1_ANSR
 		, QUST2_ANSR
 		, QUST3_ANSR
@@ -2122,9 +2123,6 @@
 		, QUST10_ANSR
 		, QUST11_ANSR
 		, QUST12_ANSR
-		, QUST13_ANSR
-		, QUST14_ANSR
-		, QUST15_ANSR
 		, YES_TOT_SCORE
 		, NO_TOT_SCORE
 		, CNSR_OPTN_SCORE
@@ -2158,6 +2156,8 @@
 		, #ansr2Cntn#
 		, #ansr3#
 		, #ansr3Cntn#
+		, #ansr4#
+		, #ansr4Cntn#
 		, #qust1Ansr#
 		, #qust2Ansr#
 		, #qust3Ansr#
@@ -2170,9 +2170,6 @@
 		, #qust10Ansr#
 		, #qust11Ansr#
 		, #qust12Ansr#
-		, #qust13Ansr#
-		, #qust14Ansr#
-		, #qust15Ansr#
 		, #yesTotScore#
 		, #noTotScore#
 		, #cnsrOptnScore#
@@ -2198,6 +2195,8 @@
 				ANSR2_CNTN = #ansr2Cntn# ,
 				ANSR3 = #ansr3# ,
 				ANSR3_CNTN = #ansr3Cntn# ,
+				ANSR4 = #ansr4# ,
+				ANSR4_CNTN = #ansr4Cntn# ,
 				QUST1_ANSR = #qust1Ansr# ,
 				QUST2_ANSR = #qust2Ansr# ,
 				QUST3_ANSR = #qust3Ansr# ,
@@ -2210,9 +2209,6 @@
 				QUST10_ANSR = #qust10Ansr# ,
 				QUST11_ANSR = #qust11Ansr# ,
 				QUST12_ANSR = #qust12Ansr# ,
-				QUST13_ANSR = #qust13Ansr# ,
-				QUST14_ANSR = #qust14Ansr# ,
-				QUST15_ANSR = #qust15Ansr# ,
 				YES_TOT_SCORE = #yesTotScore# ,
 				NO_TOT_SCORE = #noTotScore# ,
 				CNSR_OPTN_SCORE = #cnsrOptnScore# ,
@@ -3655,6 +3651,17 @@
 		CALL gs_sp_PsyCnsList_ajax(#g_idx#)
 	</select>
 	
+	<select id="cnsMngDao.getPerPsyCnsListUser" parameterClass="int"
+		resultClass="EgovMap">
+		SELECT 
+			@rownum := @rownum + 1 AS ROWNUM
+			,EXAM_DOC_NM
+			, NO1
+		FROM GS_PSY_CNS_DOC_DTL
+				, (SELECT @rownum := 0) r
+		WHERE CNS_DTL_NUM = #g_idx#
+	</select>
+	
 	<!-- 상담내용 목록 갯수 (심리) -->
 	<select id="cnsMngDao.getPsyCnsListTotCnt" parameterClass="psyCnsVO" resultClass="Integer">
 		SELECT
@@ -3723,7 +3730,7 @@
 		ON PCNS.CASE_NO = CNSD.CASE_NO
 		) A
 	</select>
-
+	
 	<!-- 상담내용 목록(연계) -->
 	<select id="cnsMngDao.getLinkCnsList" parameterClass="linkReqVO"
 		resultClass="EgovMap">
@@ -5537,6 +5544,72 @@
 			FROM GS_PSY_CNS_DOC_DTL
 		WHERE
 			NUM = #dtlIdx#
+	</update>
+	
+	<!--개인상담 심리 검사 목록 SELECT -->
+	<select id="cnsMngDao.selectPerPsyCnsDocList"
+		parameterClass="int" resultClass="egovMap">
+		SELECT
+		NUM
+		,CASE_NO
+		,CNS_GB
+		,EXAM_DOC_NM
+		,NO1
+		FROM gs_psy_cns_doc_dtl
+		WHERE
+		CNS_DTL_NUM = #gIdx#
+	</select>
+	
+	<!--개인상담 번호 SELECT -->
+	<select id="cnsMngDao.selectCnsDtlNum" resultClass="int">
+		SELECT
+		MAX(NUM)
+		FROM GS_PER_CNS_DTL
+	</select>
+	
+	<!-- 개인상담 심리 검사 INSERT -->
+	<insert id="cnsMngDao.insertPerPsyCnsDoc"
+		parameterClass="java.util.ArrayList">
+		INSERT INTO gs_psy_cns_doc_dtl
+		(
+		CNS_DTL_NUM
+		,CASE_NO
+		,CNS_GB
+		,EXAM_DOC_NM
+		,NO1
+		,DB_INS_TM
+		)
+		VALUES
+			<iterate conjunction=",">
+	        (
+	        #[].cnsDtlNum#,
+	        #[].caseNo#,
+	        #[].cnsGb#,
+	        #[].examDocNm#,
+	        #[].no1#,
+	        now()
+	        )
+	    </iterate>
+	</insert>
+	
+	<!-- 개인상담 심리 검사 UPDATE -->
+	<update id="cnsMngDao.updatePerPsyCnsDoc" parameterClass="egovMap">
+		  UPDATE GS_PSY_CNS_DOC_DTL
+	      SET
+	        EXAM_DOC_NM = #examDocNm#,
+	        NO1 = #no1#
+	      WHERE NUM = #num#
+	</update>
+	
+	<!-- 개인상담 심리 검사 DELETE -->
+	<update id="cnsMngDao.deletePerPsyCnsDoc" parameterClass="java.util.ArrayList">
+		DELETE 
+			FROM GS_PSY_CNS_DOC_DTL
+		WHERE
+			NUM IN
+		<iterate open="(" conjunction="," close=")">
+			#[].num#
+		</iterate>
 	</update>
 	
 	<update id="cnsMngDao.deleteUser" parameterClass="java.lang.String">
