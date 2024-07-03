@@ -2095,6 +2095,8 @@
 					</isNotEmpty>)
 			) AS 'C66' ,
 		    (
+		    	select
+		    	(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2108,8 +2110,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+		    	)
+		    	+
+		    	(
+				select count(*) from GS_CNS_INFO as gci where 1=1
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+		    	)
 			) AS 'C67' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '1' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2123,8 +2144,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '1'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C68' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '2' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2138,8 +2178,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '2'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C69' ,
 			(
+				select 
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '3' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2153,8 +2212,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '3'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C70' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '4'AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2168,8 +2246,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '4'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C71' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '5' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2183,8 +2280,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '5'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C72' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '6' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2198,8 +2314,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '6'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C73' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '7' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2213,8 +2348,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '7'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C74' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '8' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2228,8 +2382,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '8'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C75' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '9' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2243,8 +2416,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '9'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C76' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '10' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2258,8 +2450,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '10'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C77' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '11' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2273,8 +2484,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '11'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C78' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '12' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2288,8 +2518,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '12'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C79' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '13' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2303,8 +2552,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '13'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C80' ,
 			(
+				select 
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '14' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2318,8 +2586,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '14'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C81' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '15' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2333,8 +2620,27 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '15'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C82' ,
 			(
+				select
+				(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '1' and MAJOR_APPL_CD = '16' AND use_yn = 'Y'
 		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
 					CNS_GB = #schCnsGb#
@@ -2348,6 +2654,23 @@
 				<isNotEmpty property="schEndDate" prepend="AND">
 					DATE(gpct.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 				</isNotEmpty>
+				)
+				+
+				(
+					select count(*) from GS_CNS_INFO as gci where MAJOR_APPL_CD = '16'
+		  		<isNotEmpty property="schCnsGb" prepend="AND"> 
+					CNS_GB = #schCnsGb#
+				</isNotEmpty>
+				<isNotEmpty property="schCenterGb" prepend="AND"> 
+					CENTER_GB = #schCenterGb#
+				</isNotEmpty>
+				<isNotEmpty property="schStartDate" prepend="AND">
+			      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				<isNotEmpty property="schEndDate" prepend="AND">
+					DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+				</isNotEmpty>
+				)
 			) AS 'C83' ,
 			(
 				select count(*) from GS_PER_CNS_DTL as gpct where cns_dtl_gb_cd = '2' AND use_yn = 'Y'
