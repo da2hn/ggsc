@@ -206,8 +206,8 @@
 	    parseInt(nowTime);
 	    parseInt(dbInsTm);		
 		var authCd = $("input[name='cnsrGb']").val();
-
-		var closetDate = new Date(nowTime.substring(0,7)+"-5");
+		
+		var closetDate = new Date(nowTime.substring(0,7)+"-8");
 		var monthDate = new Date(nowTime.substring(0,7)+"-1");
 		var nowDate = new Date();
 		var dbInstDate = new Date(dbInsTm);
@@ -217,8 +217,9 @@
 		
 		var dbInsertYear = dbInstDate.getFullYear();
 		var nowYear = nowDate.getFullYear();
-		
-		
+		console.log(closetDate);
+		console.log(nowDate);
+		console.log(dbInstDate);
 		// 마감일자보다 현재 시간이 큰가 ? 
 		// 익월 7일 기준으로 마감이 진행되야 하기 때문에 if 구조 동작
 		if(closetDate < nowDate){
@@ -279,21 +280,18 @@
 		// end if
 		}
 		
-		// 현재 날짜 객체 생성
-		var currentDate = new Date();
 
-		// 비교할 날짜 객체 생성 (2024년 6월 30일)
-		var targetDate = new Date("2024-06-30");
+		// dbInstDate로부터 익월 8일 생성
+		var nextMonthDate = new Date(dbInstDate.getFullYear(), dbInstDate.getMonth() + 1, 8);
 		
-		if(cnsrGb == 1){
+		if(authCd == 1){
 			$('.btn-basic[onClick*=fn_update]').show();
 			$('.btn-basic[onClick*=fn_delete]').show();
 			$('#showdisable').hide();
-		}else if((currentDate < targetDate) && cnsrGb == 3){
+		}else if((nowDate < nextMonthDate) && authCd == 3){
+			console.log("들어옴");
 			$('.btn-basic[onClick*=fn_update]').show();
-			$('.btn-basic[onClick*=fn_delete]').show();
 			$('#showdisable').hide();
-			
 		}
 
 		
@@ -893,16 +891,6 @@
 									</c:choose>
 							</select> 
 							<a href="javascript:cnsEndPopup();" style='color:red'>&nbsp;&nbsp;▶ 종결서 작성하기</a>
-						</td>
-						<th class='hide' data-type='hideClass1' data-class='3'><label>보류 <span style="color: red;">*</span></label></th>
-						<td class='hide' data-type='hideClass1' data-class='3'>
-							<span class="form"><input type="text" class="wd200" id="datepicker2" name="defrDt" value="" /></span>
-							<select class="wd200 mg-l25" id="defrCd" name="defrCd">
-								<option value="1" selected="selected">선택</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-							</select> 
 						</td>
 						<th class='hide' data-type='hideClass1' data-class='4'><label>재신청 <span style="color: red;">*</span></label></th>
 						<td class='hide' data-type='hideClass1' data-class='4' colspan="2">

@@ -566,6 +566,12 @@ public class CounselMngServiceImpl extends EgovAbstractServiceImpl implements Co
 		return cnsMngDao.getGcns(vo);
 	}
 	
+	// 집단상담일지 내담자명 조회
+	@Override
+	public String getAtdeNm(String atdeId) {
+		return cnsMngDao.getAtdeNm(atdeId);
+	}
+	
 	// 집단상담일지 수정
 	@Override
 	public void updateGcns(GcnsVO vo) throws Exception {
@@ -1107,7 +1113,18 @@ public class CounselMngServiceImpl extends EgovAbstractServiceImpl implements Co
 	
 	@Override
 	public void deleteAcpt(String caseNo) {
-		cnsMngDao.deleteAcpt(caseNo);
+		cnsMngDao.deleteUser(caseNo);
+		cnsMngDao.deleteCnsAccept(caseNo);
+		cnsMngDao.deletePreExamM(caseNo);
+		cnsMngDao.deleteCnsAgre(caseNo);
+		cnsMngDao.deletePerInfo(caseNo);
+		cnsMngDao.deleteDocCntn(caseNo);
+		cnsMngDao.deleteEalyCnsDoc(caseNo);
+		cnsMngDao.deletePerCnsDtl(caseNo);
+		cnsMngDao.deletePsyCnsDocDtl(caseNo);
+		cnsMngDao.deleteLinkReq(caseNo);
+		cnsMngDao.deleteCnsEnd(caseNo);
+		cnsMngDao.deleteExiPrevPost(caseNo);
 	}
 
 	

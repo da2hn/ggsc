@@ -11,6 +11,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +30,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import ams.cmm.AES256Crypto;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -515,10 +514,6 @@ public class CounselMngController {
 		
 		counselMngService.deleteAcpt(caseNo);
 		
-		String msg = "상담신청이 삭제되었습니다.";
-
-		model.addAttribute("msg", msg);
-		
 		return "jsonView";
 	}
 	
@@ -678,7 +673,6 @@ public class CounselMngController {
 		vo.setSigunCd(Details.get("sigunCd").toString());
 		vo.setRegId(login.get("userId").toString());
 		if(vo.getCaseNo() == 0) {
-			System.out.println("caseNO 값이 0일경우 실행되는 영역 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 			counselMngService.updateCnsAcceptCaseNo(vo);
 		}
 		counselMngService.updateConfirm(vo, cnsrId);
@@ -755,7 +749,26 @@ public class CounselMngController {
 
 		vo.setFirstIndex((vo.getCurrentPageNo() - 1) * 10);
 		vo.setLastIndex((vo.getCurrentPageNo()) * 10);
+		
+		String schStarDate = vo.getSchStartDate();
+		String schEndDate = vo.getSchEndDate();
+		
+		if(schStarDate == null && schEndDate == null) {
+			// 현재 날짜 가져오기
+	        LocalDate today = LocalDate.now();
 
+	        // 한 달 전 날짜 계산
+	        LocalDate oneMonthAgo = today.minusMonths(1);
+
+	        // 날짜를 원하는 형식(YYYY.MM.DD)으로 포맷팅
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+	        String todayFormatted = today.format(formatter);
+	        String oneMonthAgoFormatted = oneMonthAgo.format(formatter);
+	        
+	        vo.setSchStartDate(oneMonthAgoFormatted);
+	        vo.setSchEndDate(todayFormatted);
+		}
+		
 		List<EgovMap> preList = counselMngService.getPreList(vo);
 		int totalPageCnt = counselMngService.getPreListTotCnt(vo);
 		model.addAttribute("totalPageCnt", totalPageCnt);
@@ -1183,7 +1196,26 @@ public class CounselMngController {
 
 		vo.setFirstIndex((vo.getCurrentPageNo() - 1) * 10);
 		vo.setLastIndex((vo.getCurrentPageNo()) * 10);
+		
+		String schStarDate = vo.getSchStartDate();
+		String schEndDate = vo.getSchEndDate();
+		
+		if(schStarDate == null && schEndDate == null) {
+			// 현재 날짜 가져오기
+	        LocalDate today = LocalDate.now();
 
+	        // 한 달 전 날짜 계산
+	        LocalDate oneMonthAgo = today.minusMonths(1);
+
+	        // 날짜를 원하는 형식(YYYY.MM.DD)으로 포맷팅
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+	        String todayFormatted = today.format(formatter);
+	        String oneMonthAgoFormatted = oneMonthAgo.format(formatter);
+	        
+	        vo.setSchStartDate(oneMonthAgoFormatted);
+	        vo.setSchEndDate(todayFormatted);
+		}
+		
 		List<EgovMap> ealyList = counselMngService.getEalyCnsDocList(vo);
 		int totalPageCnt = counselMngService.getEalyCnsDocListTotCnt(vo);
 		model.addAttribute("totalPageCnt", totalPageCnt);
@@ -1366,7 +1398,6 @@ public class CounselMngController {
 		int totalPageCnt = counselMngService.getCnsDiaHysListTotCnt(vo);
 		model.addAttribute("totalPageCnt", totalPageCnt);
 		paginationInfo.setTotalRecordCount(totalPageCnt); // 전체 게시물 건 수
-
 		model.addAttribute("paginationInfo", paginationInfo);
 		model.addAttribute("cnsList", cnsList);
 		model.addAttribute("authCd", userAuth);
@@ -1500,7 +1531,6 @@ public class CounselMngController {
 		
 		
 		if(newExamDocNmList != null) {
-			System.out.println("length : " + newExamDocNmList.length);
 			for (int i = 0; i < newExamDocNmList.length; i++) {
 				EgovMap insertRowDatas = new EgovMap();
 				insertRowDatas.put("cnsDtlNum", counselMngService.selectCnsDtlNum());
@@ -1552,9 +1582,6 @@ public class CounselMngController {
 		//vo.setLocalGb((String) map.get("localGb"));
 		//vo.setCnsrGb((String) map.get("cnsrGb"));
 		counselMngService.updatePerCns(vo);
-		System.out.println(examNumList);
-		System.out.println(newExamDocNmList);
-		System.out.println(newNo1List);
 		
  		if(newExamDocNmList != null) {
 			System.out.println("length : " + newExamDocNmList.length);
@@ -1832,6 +1859,20 @@ public class CounselMngController {
 		model.addAttribute("cnsCenterList", cnsCenterList);
 
 		EgovMap result = counselMngService.getGcns(vo);
+		
+		String atdeId = (String)result.get("atdeId");
+		
+		String[] atdeIdList = atdeId.split(",");
+		
+		String atdeNmList = "";
+		for (int i = 0; i < atdeIdList.length; i++) {
+			String atdeNm = counselMngService.getAtdeNm(atdeIdList[i]);
+			atdeNmList += (i + 1 ) == atdeIdList.length ? atdeNm : (atdeNm + ",");
+		}
+		
+		if(atdeIdList.length > 0) {
+			result.put("atdeNm", atdeNmList);
+		}
 		
 		// 현재 날짜 구하기
         LocalDate now = LocalDate.now();
@@ -2808,7 +2849,6 @@ public class CounselMngController {
 		vo.setCaseNo(Integer.parseInt(request.getParameter("caseNo")));
 		vo.setCnsrId((String)login.get("userId"));
 		String msg = "";
-		System.out.println("@@@@@@@@@@@@@@@vo : " + vo);
 		
 
 		if (vo.getdtlIdx() == 0) {
@@ -2868,7 +2908,6 @@ public class CounselMngController {
 
 		List<EgovMap> psyCnsList = counselMngService.getPsyCnsListUser(g_idx);
 
-		System.out.println("psyCnsList : " + psyCnsList);
 		model.addAttribute("psyCnsList", psyCnsList);
 		
 		return "cnsmng/psyCns_popup";
