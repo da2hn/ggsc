@@ -67,6 +67,19 @@
 			}
 		}*/
 		
+		// dbInstDate로부터 익월 8일 생성
+		var dbInstDate = new Date(dbInsTm);
+		var nextMonthDate = new Date(dbInstDate.getFullYear(), dbInstDate.getMonth() + 1, 8);
+		
+		if(authCd == 1 && type == "D"){
+			$('#dBtn').show();
+			$('#uBtn').show();
+		}else if(authCd <= 3 && type == "D"){
+			$('#uBtn').hide();
+			$('#dBtn').hide();
+			$('#showdisable').show();
+		}
+		
 	});
 	var idCheck;
 
@@ -186,7 +199,7 @@
 		if(type == "R"){
 			url = "/gnoincoundb/cnsAcptReg_ajax.do";
 		}else if(type == "D"){
-			url = "/gnoincoundb/cnsAcptUpd_ajax.do";
+			url = "/gnoincoundb/exiCnsAcptUpd_ajax.do";
 		}
 		var param = $("#frm").serialize();
 		var token = $("meta[name='_csrf']").attr("th:content");
@@ -307,13 +320,9 @@
 					xhr.setRequestHeader(header, token);
 				},
 				success: function(json){
-					if(json.msg){
-						alert(json.msg);
+						alert("상담신청이 삭제되었습니다.");
 						opener.parent.location.reload();
 						window.close();
-					} else {
-						alert("삭제 중 오류가 발생했습니다.");
-					}
 				},
 				error: function(e){
 					alert("서버와 통신 오류입니다.");
@@ -518,7 +527,7 @@
 		</c:if>
 		<button type="button" id="sBtn" class="btn-basic" onclick="javascript:fn_save('${type}');">저장</button>
 		<button type="button" id="uBtn" class="btn-basic" onclick="javascript:fn_save('D');">수정</button>
-		<c:if test="${type == 'D' }">
+		<c:if test="${type == 'D'}">
 			<button type="button" id="dBtn" class="btn-basic" onclick="javascript:fn_delete();">삭제</button>
 		</c:if>
 		<button type="button" class="btn-basic" id="showdisable" style="background-color: red;color:white; display:none;">수정불가</button>

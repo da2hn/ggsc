@@ -460,6 +460,11 @@ public class CounselMngDAO extends EgovAbstractDAO {
 		return (EgovMap)select("cnsMngDao.getGcns", vo);
 	}
 	
+	// 집단상담일지 내담자명 조회
+	public String getAtdeNm(String atdeNm){
+		return (String)select("cnsMngDao.getAtdeNm", atdeNm);
+	}
+	
 	// 집단상담일지(상세) 수정
 	public void updateGcnsDtl(GcnsVO vo){
 		update("cnsMngDao.updateGcnsDtl", vo);

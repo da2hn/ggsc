@@ -208,6 +208,9 @@ public interface CounselMngService {
 	// 집단상담일지 상세
 	EgovMap getGcns(GcnsVO vo);
 	
+	// 집단상담일지 내담자명 조회
+	String getAtdeNm(String atdeId);
+	
 	// 집단상담일지 수정
 	void updateGcns(GcnsVO vo) throws Exception;
 		

@@ -452,13 +452,13 @@
 					<td colspan="7">
 						<span class="form"><input type="text" class="wd200" id="datepicker8" name="cnsDt" value="${result.cnsDt }" readonly /></span>
 						<select class="wd50 mg-l25" id="cnsDtWeekCd" name="cnsDtWeekCd">
-							<option value="1" selected="selected">월</option>
-							<option value="2">화</option>
-							<option value="3">수</option>
-							<option value="4">목</option>
-							<option value="5">금</option>
-							<option value="6">토</option>
-							<option value="7">일</option>
+							<option value="1" <c:if test="${result.cnsDtWeekCd == '1'}">selected</c:if>>월</option>
+							<option value="2" <c:if test="${result.cnsDtWeekCd == '2'}">selected</c:if>>화</option>
+							<option value="3" <c:if test="${result.cnsDtWeekCd == '3'}">selected</c:if>>수</option>
+							<option value="4" <c:if test="${result.cnsDtWeekCd == '4'}">selected</c:if>>목</option>
+							<option value="5" <c:if test="${result.cnsDtWeekCd == '5'}">selected</c:if>>금</option>
+							<option value="6" <c:if test="${result.cnsDtWeekCd == '6'}">selected</c:if>>토</option>
+							<option value="7" <c:if test="${result.cnsDtWeekCd == '7'}">selected</c:if>>일</option>
 						</select>
 						(<input type="text" class="wd50" id="cnsDtStdHour" name="cnsDtStdHour" value="${result.cnsDtStdHour }" />시
 						<input type="text" class="wd50" id="cnsDtStdMin" name="cnsDtStdMin" value="${result.cnsDtStdMin }" />분 ~

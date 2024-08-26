@@ -128,6 +128,23 @@ $(document).ready(function() {
 			$('#showdisable').show();
 		}
 	}*/
+	
+	// 현재 날짜 객체 생성
+	var currentDate = new Date();
+
+	// 비교할 날짜 객체 생성 (2024년 6월 30일)
+	var targetDate = new Date("2024-06-30");
+	
+	if(cnsrGb == 1){
+		$('.btn-basic[onClick*=fn_update]').show();
+		$('.btn-basic[onClick*=fn_delete]').show();
+		$('#showdisable').hide();
+	}else if((currentDate < targetDate) && cnsrGb == 3){
+		$('.btn-basic[onClick*=fn_update]').show();
+		$('.btn-basic[onClick*=fn_delete]').show();
+		$('#showdisable').hide();
+		
+	}
 
 });
 	
