@@ -370,7 +370,6 @@
 		GS_CNS_ACPT gca, GS_USER_M gum
 		WHERE
 		gca.USER_ID = gum.USER_ID
-		AND gca.ACPT_YN != 'Y'
 		<isNotEmpty property="schCnsGb" prepend="AND">
 			gca.CNS_GB = #schCnsGb#
 		</isNotEmpty>
@@ -471,7 +470,7 @@
 			(SELECT FLOOR((TO_DAYS(NOW()) - (TO_DAYS(gum.BIRTH_DT)))/365)) AS AGE ,
 			gum.EMAIL AS EMAIL ,
 			gum.TEL AS TEL ,
-			gum.USER_NM AS USER_NM ,
+			gum.USER_NM AS USER_NM,
 			gpem.CASE_NO ,
 			( SELECT CENTER_NM FROM gs_center_m WHERE NUM = gpem.CENTER_GB ) AS centerGbNm ,
 			(SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G15' AND ODR = gpem.CNS_GB) AS cnsGbNm ,
@@ -479,7 +478,6 @@
 			(SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G72' AND ODR = gpem.LOCAL_GB) AS localGbNm ,
 			(SELECT mclass_nm FROM gs_m_class WHERE hclass_cd = 'G89' and odr = gpem.sigun_cd) AS sigunCd ,
 			date_format(gpem.DB_INS_TM,'%Y.%m.%d') AS dbInsTmNm ,
-			gpem.USER_NM ,
 			CASE gpem.agre_path WHEN IFNULL(gpem.agre_path,'작성') THEN '작성' ELSE '미작성' END AS agrePathNm ,
 			CASE gpem.per_info_path WHEN IFNULL(gpem.per_info_path,'작성') THEN '작성' ELSE '미작성' END AS perInfoPathNm ,
 			CASE gpem.doc_cntn_path WHEN IFNULL(gpem.doc_cntn_path,'작성') THEN '작성' ELSE '미작성' END AS docCntnPathNm ,
@@ -545,7 +543,7 @@
 			(SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G21' AND ODR = gecd.cns_dtl) AS cnsDtl ,
 			(SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G44' AND ODR = gecd.older_rel) AS olderRel ,
 			(SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G58' AND ODR = gecd.major_appl_cd) AS majorApplCd ,
-			gecd.cnsle_nm ,
+			gum.user_nm AS CNSLE_NM,
 			gecd.mobile ,
 			gecd.emgcy_tel ,
 			gecd.addr ,
@@ -680,11 +678,11 @@
 			(SELECT mclass_nm FROM gs_m_class WHERE hclass_cd = 'G19' AND odr = gpcd.CNSR_GB) AS cnsrGb ,
 			gpcd.cns_cnt ,
 			gpcd.cnsr_nm ,
-			gpcd.cnsle_nm ,
+			(SELECT USER_NM FROM GS_USER_M WHERE USER_ID = gpcd.CNSLE_ID) AS CNSLE_NM,
 			gpcd.birth_dt ,
 			case gpcd.GENDER when 'M' then '남자' when 'F' then '여자' ELSE '알수없음' END AS gender ,
-			gpcd.addr ,
-			gpcd.mobile ,
+			gpcd.ADDR ,
+			gpcd.MOBILE,
 			gpcd.emgcy_tel ,
 			gpcd.cns_dt ,
 			(SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G14' AND ODR = gpcd.cns_methd) AS cnsMethd ,
@@ -765,7 +763,7 @@
 			glrm.help_dept ,
 			glrm.help_dept_per ,
 			date_format(glrm.rely_term,'%Y-%m-%d') as relyTerm ,
-			glrm.cnsle_nm ,
+			(SELECT USER_NM FROM GS_USER_M WHERE USER_ID = glrm.CNSLE_ID) AS CNSLE_NM,
 			case glrm.gender when 'M' then '남자' when 'F' then '여자' END AS gender ,
 			glrm.birth_dt ,
 			glrm.addr ,
@@ -1615,7 +1613,7 @@
 			gpem.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			gpem.USER_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = gpem.USER_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<isNotEmpty property="schWriteYn" prepend="AND">
 			gpem.WRITE_YN = #schWriteYn#
@@ -1664,7 +1662,7 @@
 			gpem.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			gpem.USER_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = gpem.USER_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<isNotEmpty property="schWriteYn" prepend="AND">
 			gpem.WRITE_YN = #schWriteYn#
@@ -2391,7 +2389,48 @@
 		FROM(SELECT
 		ROW_NUMBER() OVER(ORDER BY gecd.NUM) AS RNUM
 		, ROW_NUMBER() OVER(ORDER BY gecd.NUM DESC) AS RNUM2
-		, gecd.*
+			, gecd.NUM
+			, gecd.CASE_NO
+			, gecd.CNS_GB
+			, gecd.ZONE_GB
+			, gecd.CENTER_GB
+			, gecd.LOCAL_GB
+			, gecd.CNSLE_ID
+			, gecd.CNSR_ID
+			, gecd.CNSR_NM
+			, (SELECT USER_NM FROM GS_USER_M WHERE USER_ID = gecd.CNSLE_ID) AS CNSLE_NM
+			, gecd.CNSR_GB
+			, gecd.CNS_DT
+			, gecd.CNS_TIME_HOUR_S
+			, gecd.CNS_TIME_MIN_S
+			, gecd.CNS_TIME_HOUR_E
+			, gecd.CNS_TIME_MIN_E
+			, gecd.CNS_TIME_TOT_MIN
+			, gecd.CNS_METHD
+			, gecd.CNS_DTL
+			, gecd.OLDER_REL
+			, gecd.GENDER
+			, gecd.BIRTH_DT
+			, gecd.MOBILE
+			, gecd.EMGCY_TEL
+			, gecd.ADDR
+			, gecd.ADDR_DTL
+			, gecd.EDU
+			, gecd.DECODE_LVL
+			, gecd.RELG
+			, gecd.LIVG_FORM
+			, gecd.HOUSE_FORM
+			, gecd.MERR_STAT
+			, gecd.LIVE_FORM
+			, gecd.MAJOR_APPL_CD
+			, gecd.CNS_CNTN
+			, gecd.CNS_SUMMARY
+			, gecd.PSYC_EXAM_CNTN
+			, gecd.INTR_LINK_CNTN
+			, gecd.EXTR_LINK_CNTN
+			, gecd.WRITE_DT
+			, gecd.DB_INS_TM
+			, gecd.SIGUN_CD
 		, (SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G58' AND ODR = gecd.MAJOR_APPL_CD) AS majorCd
 		, (SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G15' AND ODR = gecd.CNS_GB) AS CNS_GB_NM
 		, (SELECT MCLASS_NM FROM GS_M_CLASS WHERE HCLASS_CD = 'G14' AND ODR = gecd.CNS_METHD) AS CNS_METHD_NM
@@ -2415,7 +2454,7 @@
 			gecd.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			gecd.CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		
 		<!-- 권한별 검색 조건 -->
@@ -2434,10 +2473,10 @@
 
 		<!-- 기간별 검색 -->
 		<isNotEmpty property="schStartDate" prepend="AND">
-	       	DATE(gecd.DB_INS_TM) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+	       	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 	    </isNotEmpty>
 	    <isNotEmpty property="schEndDate" prepend="AND">
-	    	DATE(gecd.DB_INS_TM) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+	    	DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 	    </isNotEmpty>		
 
 		) A
@@ -2464,7 +2503,7 @@
 			CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -2481,10 +2520,10 @@
 		</isEqual>
 		<!-- 기간별 검색 -->
 		<isNotEmpty property="schStartDate" prepend="AND">
-	       	DATE(DB_INS_TM) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+	       	DATE(CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 	    </isNotEmpty>
 	    <isNotEmpty property="schEndDate" prepend="AND">
-	    	DATE(DB_INS_TM) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+	    	DATE(CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 	    </isNotEmpty>
 
 	</select>
@@ -2504,8 +2543,49 @@
 	<select id="cnsMngDao.getEalyCnsDoc" parameterClass="Integer"
 		resultClass="EgovMap">
 		SELECT
-		gecd.* ,
-		gecf.SYS_FILE_NM
+			 gecd.NUM
+			, gecd.CASE_NO
+			, gecd.CNS_GB
+			, gecd.ZONE_GB
+			, gecd.CENTER_GB
+			, gecd.LOCAL_GB
+			, gecd.CNSLE_ID
+			, gecd.CNSR_ID
+			, gecd.CNSR_NM
+			, (SELECT USER_NM FROM GS_USER_M WHERE USER_ID = gecd.CNSLE_ID) AS CNSLE_NM
+			, gecd.CNSR_GB
+			, gecd.CNS_DT
+			, gecd.CNS_TIME_HOUR_S
+			, gecd.CNS_TIME_MIN_S
+			, gecd.CNS_TIME_HOUR_E
+			, gecd.CNS_TIME_MIN_E
+			, gecd.CNS_TIME_TOT_MIN
+			, gecd.CNS_METHD
+			, gecd.CNS_DTL
+			, gecd.OLDER_REL
+			, gecd.GENDER
+			, gecd.BIRTH_DT
+			, gecd.MOBILE
+			, gecd.EMGCY_TEL
+			, gecd.ADDR
+			, gecd.ADDR_DTL
+			, gecd.EDU
+			, gecd.DECODE_LVL
+			, gecd.RELG
+			, gecd.LIVG_FORM
+			, gecd.HOUSE_FORM
+			, gecd.MERR_STAT
+			, gecd.LIVE_FORM
+			, gecd.MAJOR_APPL_CD
+			, gecd.CNS_CNTN
+			, gecd.CNS_SUMMARY
+			, gecd.PSYC_EXAM_CNTN
+			, gecd.INTR_LINK_CNTN
+			, gecd.EXTR_LINK_CNTN
+			, gecd.WRITE_DT
+			, gecd.DB_INS_TM
+			, gecd.SIGUN_CD
+			, gecf.SYS_FILE_NM
 		FROM
 		GS_EALY_CNS_DOC gecd
 		INNER JOIN GS_EALY_CNS_FILE gecf
@@ -2573,7 +2653,7 @@
 					CASE_NO ,
 					CNSR_NM ,
 					(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = GS_PER_CNS_DTL.CNSLE_ID) AS CNSLE_NM ,
-					GENDER ,
+					(SELECT GENDER FROM GS_USER_M AS G WHERE G.USER_ID = GS_PER_CNS_DTL.CNSLE_ID) AS GENDER ,
 					CNS_END_YN ,
 					CNS_CNTN ,
 					CNS_STAT ,
@@ -2596,7 +2676,7 @@
 					CENTER_GB = #schCenterGb#
 				</isNotEmpty>
 				<isNotEmpty property="schCnsleNm" prepend="AND">
-					CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+					(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = GS_PER_CNS_DTL.CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 				</isNotEmpty>
 				
 				<!-- 권한별 검색 조건 -->
@@ -2649,7 +2729,7 @@
 			CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = GS_PER_CNS_DTL.CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -3171,7 +3251,101 @@
 		#caseNo#
 		AND gpcd.NUM = #num# -->
 		SELECT
-			*
+			NUM
+			, CASE_NO
+			, CNS_GB
+			, CNS_DTL_GB_CD
+			, ZONE_GB
+			, LOCAL_GB
+			, CENTER_GB
+			, CNSLE_ID
+			, CNS_EFFT_PLACE
+			, CNS_RSVT_PLACE
+			, CNS_CNT
+			, EMGCY_URGT
+			, CNS_DT
+			, CNS_DT_WEEK_CD
+			, CNS_DT_STD_HOUR
+			, CNS_DT_STD_MIN
+			, CNS_DT_END_HOUR
+			, CNS_DT_END_MIN
+			, CNS_TIME_TOT_MIN
+			, CNS_RSVT_DT
+			, CNS_RSVT_WEEK_CD
+			, CNS_RSVT_STRT_HOUR
+			, CNS_RSVT_STRT_MIN
+			, CNS_RSVT_END_HOUR
+			, CNS_RSVT_END_MIN
+			, CNS_RSVT_TOT_MIN
+			, CNSLE_REL
+			, CNS_METHD
+			, KILLS_OPTN
+			, AHYD_SUPT_YN
+			, AHYD_ACPT_DT
+			, AHYD_END_DT
+			, ABUS_OPTN
+			, LIVG_FORM
+			, HOUSE_FORM
+			, HOUSE_CHNG
+			, MERR_STAT
+			, LIVE_FORM
+			, SUJT_HELCY_STAT
+			, DIGN_MHIST
+			, MNDS
+			, ECONO_STAT
+			, RECNT_FMLY_DETH
+			, RECNT_MMAN_DETH
+			, OLDER_WORK_PTPT_YN
+			, KILLS_RSKN
+			, PSYC_QUST
+			, PER_REL_QUST
+			, PSNG
+			, DMTA
+			, DSM
+			, HELTH_QUST
+			, ECONO_QUST
+			, LIFE_QUST
+			, CNS_ITVT_LINK
+			, CNS_CNT_EVAT_CNTN
+			, DAFT_MNG
+			, CNS_CNTN
+			, EMOT_CPTV_DEGR
+			, HELP_DEGR
+			, CNS_CHNG_DEGR
+			, EMGCY_EVAT
+			, EMGCY_EVAT_POINT
+			, EMGCY_EXAM_DT
+			, NSSY_PSYC_EXAM
+			, NSSY_GDSKR_POINT
+			, NSSY_GDSKR_DT
+			, NSSY_SSI_POINT
+			, NSSY_SSI_DT
+			, MAJOR_APPL_CD
+			, MAJOR_APPL_CD_DETAIL
+			, (SELECT USER_NM FROM GS_USER_M WHERE USER_ID = CNSLE_ID) AS CNSLE_NM
+			, CNSR_GB
+			, CNSR_NM
+			, CNSR_ID
+			, CNS_STAT
+			, CNS_END_CD
+			, CNS_END_DT
+			, DEFR_CD
+			, DEFR_DT
+			, RE_REQ_DT
+			, CMBK_DT
+			, BIRTH_DT
+			, GENDER
+			, MOBILE
+			, EMGCY_TEL
+			, ADDR
+			, ADDR_DTL
+			, CNS_END_YN
+			, DB_INS_TM
+			, DB_UPD_TM
+			, SIGUN_CD
+			, USE_YN
+			, GCNS_NUM
+			, CNS_TYPE
 		FROM
 			GS_PER_CNS_DTL
 		WHERE
@@ -3235,7 +3409,7 @@
 	       	DATE(ggd.DB_INS_TM) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 	    </isNotEmpty>
 	    <isNotEmpty property="schEndDate" prepend="AND">
-	    	DATE(ggd.DB_INS_TM) <![CDATA[ >= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+	    	DATE(ggd.DB_INS_TM) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 	    </isNotEmpty>
 		) A
 		<![CDATA[
@@ -3283,7 +3457,7 @@
 	       	DATE(DB_INS_TM) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 	    </isNotEmpty>
 	    <isNotEmpty property="schEndDate" prepend="AND">
-	    	DATE(DB_INS_TM) <![CDATA[ >= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
+	    	DATE(DB_INS_TM) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 	    </isNotEmpty>
 	</select>
 
@@ -3519,12 +3693,72 @@
 	<select id="cnsMngDao.getGcns" parameterClass="gCnsVO"
 		resultClass="EgovMap">
 		SELECT 
-			*
+			NUM
+			, CNSR_ID
+			, CASE_NO
+			, CNS_GB
+			, CNS_DTL_GB_CD
+			, ZONE_GB
+			, SIGUN_CD
+			, LOCAL_GB
+			, CENTER_GB
+			, CNSLE_ID
+			, (SELECT USER_NM FROM GS_USER_M WHERE USER_ID = CNSLE_ID) AS CNSLE_NM
+			, CNS_CNT
+			, PGRM_CD
+			, PGRM_NM
+			, ATVY_TITLE
+			, ATVY_DT
+			, ATVY_STRT_HOUR
+			, ATVY_STRT_MIN
+			, ATVY_END_HOUR
+			, ATVY_END_MIN
+			, ATVY_TOT_MIN
+			, ATVY_PLACE
+			, LEADER
+			, LEADER_GB
+			, ANCHOR
+			, INPUT_NM
+			, ATDE_CNT
+			, ATDE_NM
+			, ATVY_GOAL
+			, PGRM_CNTN
+			, EVAT
+			, AFTER_PLAN
+			, ETC
+			, MAJOR_APPL_CD
+			, REG_ID
+			, DB_INS_TM
+			, GENDER
+			, BIRTH_DT
+			, CNS_METHD
+			, PSYC_QUST
+			, PER_REL_QUST
+			, PSNG
+			, DMTA
+			, DSM
+			, HELTH_QUST
+			, ECONO_QUST
+			, SUNG_QUST
+			, LIFE_QUST
+			, COUPLE_QUST
+			, FAMILY_QUST
+			, PART_QUST
+			, ETC_QUST
+			, CNS_TYPE
+			, OLDER_REL
+			, ATDE_ID
 		FROM 
 			GS_GCNS_DTL
 		WHERE 
 			CASE_NO = #caseNo#
 		AND NUM = #num#
+	</select>
+
+	<!-- 집단상담일지 내담자명 조회 -->
+	<select id="cnsMngDao.getAtdeNm" parameterClass="java.lang.String"
+		resultClass="java.lang.String">
+		SELECT USER_NM FROM GS_USER_M WHERE USER_ID = #atdeNm# 
 	</select>
 
 	<!-- 집단상담일지 수정 -->
@@ -3607,7 +3841,6 @@
 			ON dtl.CASE_NO = ealy.CASE_NO
 		WHERE
 			1=1
-			AND dtl.CNS_STAT = '1'
 		<isNotEmpty property="schCnsGb" prepend="AND">
 			dtl.CNS_GB = #schCnsGb#
 		</isNotEmpty>
@@ -3615,7 +3848,7 @@
 			dtl.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			dtl.CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = dtl.CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		
 		<!-- 권한별 검색 조건 -->
@@ -3677,7 +3910,7 @@
 			CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -3901,7 +4134,7 @@
 			m.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			m.CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -3948,7 +4181,7 @@
 			CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -4328,7 +4561,7 @@
 				A.HELP_DEPT ,
 				A.HELP_DEPT_PER ,
 				DATE_FORMAT(A.RELY_TERM, '%Y-%m-%d') AS relyTerm ,
-				A.CNSLE_NM ,
+				(SELECT USER_NM FROM GS_USER_M WHERE USER_ID = A.CNSLE_ID) AS CNSLE_NM ,
 				CASE
 				A.GENDER WHEN 'M' THEN '남' WHEN 'F' THEN '여' ELSE A.GENDER END AS
 				GENDER ,
@@ -4589,7 +4822,7 @@
 			gcpp.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			gcpp.CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -4636,7 +4869,7 @@
 			CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -4664,7 +4897,30 @@
 	<select id="cnsMngDao.getCnsPrevPostDetail"
 		parameterClass="Integer" resultClass="EgovMap">
 			SELECT
-				*
+				NUM
+				, CASE_NO
+				, CNS_GB
+				, ZONE_GB
+				, CENTER_GB
+				, LOCAL_GB
+				, PREV_POST_GB
+				, SIGUN_CD
+				, CNSLE_ID
+				, CNSR_ID
+				, CNSR_NM
+				, (SELECT USER_NM FROM GS_USER_M WHERE USER_ID = CNSLE_ID) AS CNSLE_NM
+				, CNSR_GB
+				, INSPECT_DT
+				, INSPECT_CNT
+				, PREV_STATE
+				, POST_STATE
+				, PREV_SCORE
+				, POST_SCORE
+				, MAJOR_APPL_CD
+				, CNS_BEFORE
+				, CNS_AFTER
+				, SUGGESTION
+				, DB_INS_TM
 			FROM
 				GS_CNS_PREV_POST
 			WHERE
@@ -5672,7 +5928,7 @@
 	<update id="cnsMngDao.deletePerCnsDtl" parameterClass="java.lang.String">
 		DELETE 
 			FROM gs_per_cns_dtl
-		WHERE 
+		WHERE  
 			NUM = #num#
 	</update>
 	
@@ -5975,14 +6231,6 @@
 		 	ZONE_GB = #zoneGb#,
 		    CNSLE_NM = #userNm#
 		WHERE
-			CASE_NO = #caseNo#
-	</update>
-	
-	<!--접수관리 삭제-->
-	<update id="cnsMngDao.deleteAcpt" parameterClass="java.lang.String">
-		DELETE 
-			FROM gs_cns_acpt
-		WHERE 
 			CASE_NO = #caseNo#
 	</update>
 	
