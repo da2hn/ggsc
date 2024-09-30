@@ -11,47 +11,83 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
-		if("${authCd}" > 1) {
-			var centerGb = "${vo.schCenterGb}";
-			$("select[name=centerGb]").val(centerGb);
-			$("select[name=sigunGb]").val("${loginVo.sigunCd}");
-			$("select[name=zoneGb]").val("${loginVo.zoneGb}");
-		}
-		
-	    //날짜
+
+	    //날짜+특수문자해체
 		var nowTime = $("#nowTime").val();
 		var dbInsTm = $("#dbInsTm").val();
 		var authCd = $("#authCd").val();
 		nowTime = nowTime.replace(/-/gi, "");
 		dbInsTm = dbInsTm.replace(/-/gi, "");
+		
+		// 각 월 일수 로직
+		var Md = nowTime.substring(4,6);
+		if(Md==01||Md==03||Md==05||Md==07||Md==08||Md==10||Md==12) {
+			var MonthDay = 29;
+		} else if(Md==04||Md==06||Md==09||Md==11) {
+			var MonthDay = 30;
+		} else {
+			var MonthDay = 31;
+		}
+		
 		parseInt(nowTime);
 		parseInt(dbInsTm);
 		var onelastMonth = nowTime.substring(0,6).concat("01");
+		var onelastDay = '"-10Y"';
+		var maxDay = '"+10Y"';
+		var hideBtn = new Boolean(false);
 		
-		//check
-/* 	  	console.log(dbInsTm);
-		console.log(nowTime.substring(6,8));
-		console.log(nowTime.substring(0,6));
-		console.log(nowTime.substring(0,6).concat("01"));
-		console.log(onelastMonth-100); */
-		
-			//등록된 데이터가 지난달 1일보다 낮을경우
-		if(onelastMonth-100 > dbInsTm && authCd >= 2) {
-			$('.btn-basic[onClick*=fn_save]').hide();
-			$('.btn-basic[onClick*=fn_delete]').hide();
-			$('#showdisable').show();
+		if(authCd >= 2) {
+			var onelastDay = '"-'+(nowTime.substring(6,8)-1)+'D"';
+			var maxDay = '"+1Y"';
 			
 			//현재 날짜가 7일 후일 경우
-		} else if(nowTime.substring(6,8) > 07 && authCd >= 2) {
-			//등록된 데이터가 요번달이 아닌 경우
-			if(nowTime.substring(0,6).concat("01") > dbInsTm) {
-				$('.btn-basic[onClick*=fn_save]').hide();
-				$('.btn-basic[onClick*=fn_delete]').hide();
+		    if(nowTime.substring(6,8) > 07) {			
+		    	//등록된 데이터가 이번달이 아닌경우
+				if(nowTime.substring(0,6).concat("01") > dbInsTm) {		
+					if(dbInsTm != "") { hideBtn = true; }
+				}
+		    	
+			} else if(nowTime.substring(6,8) <= 07) {	
+				var onelastDay = '"-'+(parseInt(nowTime.substring(6,8))+MonthDay)+'D"';
+				//등록된 데이터가 지난달 1일보다 낮을경우
+				if(onelastMonth-100 > dbInsTm) {	
+					if(dbInsTm != "") { hideBtn = true; }				
+				} 
+			} if (hideBtn==true) {
+				$('#uBtn').hide();
 				$('#showdisable').show();
+				$('#datepicker').attr('id','datepicker_none');
 			}
 		}
-		
-	});
+
+ 		// datepicker
+		  $( function() {
+				$( "#datepicker" ).datepicker({
+				  showOn: "button",
+				  buttonImage: "/gnoincoundb/images/calendar.gif",
+				  buttonImageOnly: true,
+				  buttonText: "Select date",
+				  showMonthAfterYear: true ,
+				  dateFormat: 'yy.mm.dd',
+				  monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+				  dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+				  minDate: onelastDay,
+				  maxDate: maxDay,
+				  changeYear: true,
+				  changeMonth: true,
+				  beforeShowDay: function(date){
+					  var day = date.getDay();
+					  if(day != 1 && day != 2 && day != 3 && day != 4 && day != 5 && day != 0){			//토요일
+						  return [true, "Highlighted_sat", ''];
+					  }else if(day != 1 && day != 2 && day != 3 && day != 4 && day != 5 && day != 6){	//일요일
+						  return [true, "Highlighted_sun", ''];
+					  }
+					  return [true, '', ''];
+				  }
+				});
+		  } ); 
+	});	
+	
 	var idCheck;
 
 	function fn_save(type){
@@ -64,7 +100,7 @@
 		var userId = $("#userId").val(); // 아이디
 		var pw = $("#pw").val(); // 비밀번호
 		var cnsCnt = $("#cnsCnt").val();
-		var datepicker8 = $("#datepicker8").val(); 
+		var datepicker = $("#datepicker").val(); 
 		var cnsDtStdHour = $("#cnsDtStdHour").val(); 
 		var cnsDtStdMin = $("#cnsDtStdMin").val(); 
 		var cnsDtEndHour = $("#cnsDtEndHour").val();
@@ -160,9 +196,9 @@
 			return;
 		}
 		
-		if(datepicker8.length == 0) {
+		if(datepicker.length == 0) {
 			alert("상담일시를 입력해 주세요");
-			$("#datepicker8").focus();
+			$("#datepicker").focus();
 			return;
 		}
 		if(cnsDtStdHour.length == 0) {
@@ -290,11 +326,11 @@
 				<c:if test="${result == null}">
 					<button type="button" id="sBtn" class="btn-basic" onclick="javascript:fn_save('R');">저장</button>
 				</c:if>
-				<c:if test="${ result != null && (authCd <= 3 || ( authCd > 3 && userId == result.cnsrId )) }">
+				<c:if test="${result != null && (authCd <= 3 || ( authCd > 3 && userId == result.cnsrId )) }">
 					<button type="button" id="uBtn" class="btn-basic" onclick="javascript:fn_save('D');">수정</button>
-				</c:if>
 				<c:if test="${authCd <= 1 }">
 					<button type="button" id="dBtn" class="btn-basic" onClick="javascript:fn_delete();" style="background-color: green;color:white;">삭제</button>
+				</c:if>
 				</c:if>
 				<button type="button" class="btn-basic" id="showdisable" style="background-color: red;color:white; display:none;">수정불가</button>
 			</div>	
@@ -450,7 +486,7 @@
 				<tr>
 					<th>상담일시 <span style="color: red;">*</span></th>
 					<td colspan="7">
-						<span class="form"><input type="text" class="wd200" id="datepicker8" name="cnsDt" value="${result.cnsDt }" readonly /></span>
+						<span class="form"><input type="text" class="wd200" id="datepicker" name="cnsDt" value="${result.cnsDt }" readonly /></span>
 						<select class="wd50 mg-l25" id="cnsDtWeekCd" name="cnsDtWeekCd">
 							<option value="1" <c:if test="${result.cnsDtWeekCd == '1'}">selected</c:if>>월</option>
 							<option value="2" <c:if test="${result.cnsDtWeekCd == '2'}">selected</c:if>>화</option>
