@@ -24,6 +24,7 @@
 		$("select[name=schCenterGb]").val(schCenterGb);
 		$("select[name=schWriteYn]").val(schWriteYn);
 		$("#totalPageCnt").html("${totalPageCnt}");
+		
 	});
 
 	function fn_detail(caseNo){

@@ -637,16 +637,6 @@
 							</select> 
 							<a href="javascript:cnsEndPopup();" style='color:red'>&nbsp;&nbsp;▶ 종결서 작성하기</a>
 						</td>
-						<th class='hide' data-type='hideClass1' data-class='3'><label>보류 <span style="color: red;">*</span></label></th>
-						<td class='hide' data-type='hideClass1' data-class='3'>
-							<span class="form"><input type="text" class="wd200" id="datepicker2" name="defrDt" value="" readonly/></span>
-							<select class="wd200 mg-l25" id="defrCd" name="defrCd">
-								<option value="1" selected="selected">선택</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-							</select> 
-						</td>
 						<th class='hide' data-type='hideClass1' data-class='4'><label>재신청 <span style="color: red;">*</span></label></th>
 						<td class='hide' data-type='hideClass1' data-class='4' colspan="2">
 							<span class="form"><input type="text" class="wd200" id="datepicker3" name="reReqDt" value="" readonly /></span> 
