@@ -255,7 +255,7 @@
 				<input type="hidden" id="mnuCd" name="mnuCd" value="${mnuCd }" />
 				<input type="hidden" id="prAtvyNo" name="prAtvyNo" value="${result.prAtvyNo }" />
 				<input type="hidden" id="save" name="save" />
-				<input type='hidden' name='cnsGb' value='0' />
+				<input type='hidden' name='cnsGb' value='${map.cnsGb}' />
 				<input type='hidden' name='localGb' value='0' />
 				<input type='hidden' name='fDel' value='N' />
 				<input type='hidden' name='delYn' value='N' />

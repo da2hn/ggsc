@@ -197,7 +197,7 @@
 			
 			<form id="frm" name="frm" method="post" encType="multipart/form-data">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-				<input type="hidden" id="cnsGb" name="cnsGb" value="${result.cnsGb }" />	
+				<input type="hidden" id="cnsGb" name="cnsGb" value="${map.cnsGb }" />	
 				<input type="hidden" id="zoneGb" name="zoneGb" value="${map.zoneGb }" />
 				<input type="hidden" id="centerGb" name="centerGb" value="${map.centerGb }" />
 				<%-- <input type="hidden" id="inputNm" name="inputNm" value="${result.inputNm }" /> --%>

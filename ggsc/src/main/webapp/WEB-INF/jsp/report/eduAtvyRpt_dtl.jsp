@@ -230,6 +230,7 @@
 			<form id="frm" name="frm" method="post" encType="multipart/form-data">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<input type="hidden" id="mnuCd" name="mnuCd" value="${mnuCd }" />
+				<input type='hidden' name='cnsGb' value='${map.cnsGb}' />
 				<input type="hidden" id="eduAtvyNo" name="eduAtvyNo" value="${result.eduAtvyNo }" />
 				<input type="hidden" id="save" name="save" />
 				<input type='hidden' name='fDel' value='N' />

@@ -1613,7 +1613,7 @@
 			gpem.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			gpem.USER_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = gpem.USER_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<isNotEmpty property="schWriteYn" prepend="AND">
 			gpem.WRITE_YN = #schWriteYn#
@@ -1662,7 +1662,7 @@
 			gpem.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			gpem.USER_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = gpem.USER_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<isNotEmpty property="schWriteYn" prepend="AND">
 			gpem.WRITE_YN = #schWriteYn#
@@ -2454,7 +2454,7 @@
 			gecd.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			gecd.CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		
 		<!-- 권한별 검색 조건 -->
@@ -2503,7 +2503,7 @@
 			CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -2676,7 +2676,7 @@
 					CENTER_GB = #schCenterGb#
 				</isNotEmpty>
 				<isNotEmpty property="schCnsleNm" prepend="AND">
-					CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+					(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = GS_PER_CNS_DTL.CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 				</isNotEmpty>
 				
 				<!-- 권한별 검색 조건 -->
@@ -2729,7 +2729,7 @@
 			CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = GS_PER_CNS_DTL.CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -3848,7 +3848,7 @@
 			dtl.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			dtl.CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = dtl.CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		
 		<!-- 권한별 검색 조건 -->
@@ -3910,7 +3910,7 @@
 			CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -4134,7 +4134,7 @@
 			m.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			m.CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -4181,7 +4181,7 @@
 			CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -4822,7 +4822,7 @@
 			gcpp.CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			gcpp.CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -4869,7 +4869,7 @@
 			CENTER_GB = #schCenterGb#
 		</isNotEmpty>
 		<isNotEmpty property="schCnsleNm" prepend="AND">
-			CNSLE_NM LIKE CONCAT('%', #schCnsleNm#, '%')
+			(SELECT USER_NM FROM GS_USER_M AS G WHERE G.USER_ID = CNSLE_ID LIMIT 1) LIKE CONCAT('%', #schCnsleNm#, '%')
 		</isNotEmpty>
 		<!-- 권한별 검색 조건 -->
 		<isEqual property="authCd" compareValue="2">
@@ -5928,7 +5928,7 @@
 	<update id="cnsMngDao.deletePerCnsDtl" parameterClass="java.lang.String">
 		DELETE 
 			FROM gs_per_cns_dtl
-		WHERE 
+		WHERE  
 			NUM = #num#
 	</update>
 	
