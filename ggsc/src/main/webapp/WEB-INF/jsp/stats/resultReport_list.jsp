@@ -30,6 +30,7 @@
 		}).done(function(json){
 			var d = json.list[0];
 			var obj = Object.entries(d);
+			console.log(obj.length);
 			for(var i=0;i<obj.length;i++){
 				var c = obj[i];
 				$("td[data-class='" + c[0] + "']").text(c[1]);
