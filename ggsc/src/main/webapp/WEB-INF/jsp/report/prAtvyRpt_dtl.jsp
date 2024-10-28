@@ -39,19 +39,21 @@
 		console.log(nowTime.substring(0,6).concat("01"));
 		console.log(onelastMonth-100); */
 		
-			//등록된 데이터가 지난달 1일보다 낮을경우
-		if(onelastMonth-100 > dbInsTm && authCd >= 2) {
-			$('.btn-basic[onClick*=fn_save]').hide();
-			$('.btn-basic[onClick*=fn_fileDelete]').hide();
-			$('#showdisable').show();
-			
-			//현재 날짜가 7일 후일 경우
-		} else if(nowTime.substring(6,8) > 07 && authCd >= 2) {
-			//등록된 데이터가 요번달이 아닌 경우
-			if(nowTime.substring(0,6).concat("01") > dbInsTm) {
+		//등록된 데이터가 지난달 1일보다 낮을경우
+		if(dbInsTm != null && dbInsTm != ""){
+			if(onelastMonth-100 > dbInsTm && authCd >= 2) {
 				$('.btn-basic[onClick*=fn_save]').hide();
 				$('.btn-basic[onClick*=fn_fileDelete]').hide();
 				$('#showdisable').show();
+				
+				//현재 날짜가 7일 후일 경우
+			} else if(nowTime.substring(6,8) > 07 && authCd >= 2) {
+				//등록된 데이터가 요번달이 아닌 경우
+				if(nowTime.substring(0,6).concat("01") > dbInsTm) {
+					$('.btn-basic[onClick*=fn_save]').hide();
+					$('.btn-basic[onClick*=fn_fileDelete]').hide();
+					$('#showdisable').show();
+				}
 			}
 		}
 		
@@ -137,8 +139,8 @@
 	function fn_checked(str, name){
 		
 		var arr = str.split(",");
-		for(var i in arr){
-			$("input[name=" + name + "][value=" + arr[i] + "]").prop("checked", true);
+		for(var i in str){
+			$("input[name=" + name + "][value=" + str[i] + "]").prop("checked", true);
 		}
 	}
 	
