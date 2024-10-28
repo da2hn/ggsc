@@ -1092,68 +1092,38 @@
 		   ) as 'C30' ,
 		  
 		   (
-		   		select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl not in('14') WHERE 1=1
+		   			select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where 1=1 and cns_dtl NOT IN('14')
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C31' ,
 		   (
-		   		select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='1' WHERE 1=1
+		   			select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='1' 
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci WHERE CNS_DTL = '1'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C32' ,
 		   ( 	
-		   		select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='1' WHERE 1=1
+		   	select(
+		   			select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON gecd.case_no = gpcd.case_no AND gecd.cns_dtl ='1' WHERE 1=1
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
 						gpcd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
@@ -1182,423 +1152,201 @@
 					</isNotEmpty>)
 		   ) as 'C33' ,
 		   (	
-		   		select 
-					(select COUNT(DISTINCT case_no) FROM gs_per_cns_dtl as gpcd where 1=1
+					select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl NOT IN('1','13','14')
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where 1=1
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					-
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl IN('1','13','14') WHERE 1=1
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
-					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					-
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL IN('1','13','14')
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
-					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
+					
 		   ) as 'C34' ,
 		   ( 
-				select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='2' WHERE 1=1
+					select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='2'
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '2'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C35' ,
 		   (	
-		   		select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='3' WHERE 1=1
+		   			select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='3'
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '3'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C36' ,
 		   (	
-				select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='4' WHERE 1=1
+					select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='4'
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
 						gpcd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '4'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C37' ,
 		   (	
-		   		select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='5' WHERE 1=1
+		   			select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='5'
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '5'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C38' ,
 		   (	
-				select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='6' WHERE 1=1
+					select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='6'
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '6'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C39' ,
 		   (	
-				select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='7' WHERE 1=1
+					select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='7'
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '7'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C40' ,
 		   
 		   ( 
-		   		select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='8' WHERE 1=1
+		   			select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='8'
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '8'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) AS 'C41' ,
 		   (
-		   		select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='9' WHERE 1=1
+		   			select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='9'
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '9'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C42' ,
 		   ( 
-		   		select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='10' WHERE 1=1
+		   			select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='10'
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '10'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C43' ,
 		   (
-		   		select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='11' WHERE 1=1
+		   			select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='11'
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '11'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C44' ,
 		   (
-		   		select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='12' WHERE 1=1
+		   			select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl ='12'
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '12'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C45' ,
 		   (
-		   		select 
-					(select COUNT(DISTINCT gpcd.case_no) from GS_PER_CNS_DTL as gpcd inner JOIN GS_EALY_CNS_DOC as gecd ON GPCD.case_no = GECD.case_no AND gecd.cns_dtl ='13' WHERE 1=1
+		   			select COUNT(DISTINCT gecd.case_no) from GS_EALY_CNS_DOC as gecd WHERE 1=1 AND gecd.cns_dtl IN('13','14')
 					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gpcd.CNS_GB = #schCnsGb#
+						gecd.CNS_GB = #schCnsGb#
 					</isNotEmpty>
 					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gpcd.CENTER_GB = #schCenterGb#
+						gecd.CENTER_GB = #schCenterGb#
 					</isNotEmpty>
 					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gpcd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
+				      	DATE(gecd.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
 					</isNotEmpty>
 					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gpcd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
-					+
-					(select count(*) from GS_CNS_INFO as gci where CNS_DTL = '13'
-					<isNotEmpty property="schCnsGb" prepend="AND"> 
-						gci.CNS_GB = #schCnsGb#
+						DATE(gecd.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
 					</isNotEmpty>
-					<isNotEmpty property="schCenterGb" prepend="AND"> 
-						gci.CENTER_GB = #schCenterGb#
-					</isNotEmpty>
-					<isNotEmpty property="schStartDate" prepend="AND">
-				      	DATE(gci.CNS_DT) <![CDATA[ >= ]]> DATE_FORMAT(#schStartDate#,'%Y.%m.%d')
-					</isNotEmpty>
-					<isNotEmpty property="schEndDate" prepend="AND">
-						DATE(gci.CNS_DT) <![CDATA[ <= ]]> DATE_FORMAT(#schEndDate#,'%Y.%m.%d')
-					</isNotEmpty>)
 		   ) as 'C46' ,
 		   ( 	
 				select 
