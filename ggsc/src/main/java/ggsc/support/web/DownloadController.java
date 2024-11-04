@@ -840,7 +840,7 @@ public class DownloadController {
 			for(int i=2; i<8; i++) {
 				cell = row.createCell(i);
 				cell.setCellStyle(headStyleArr[2]);
-				cell.setCellValue("1-1. 성별");
+				cell.setCellValue("1-1. 성별(정보제공상담, 개인상담, 집단상담 참석자)");
 			}
 			
 			for (int i = 0; i < columnTitleNum; i++) {
@@ -851,17 +851,17 @@ public class DownloadController {
 			worksheet.addMergedRegion(new CellRangeAddress(0, 0, 8, 15));
 			cell = row.createCell(8);
 			cell.setCellStyle(headStyleArr[2]);
-			cell.setCellValue("1-2. 내담자와의 관계");
+			cell.setCellValue("1-2. 내담자와의 관계(개인상담, 집단상담 참석자)");
 			
 			worksheet.addMergedRegion(new CellRangeAddress(0, 0, 16, 29));
 			cell = row.createCell(16);
 			cell.setCellStyle(headStyleArr[2]);
-			cell.setCellValue("1-3. 연령별 현황");
+			cell.setCellValue("1-3. 연령별 현황(정보제공상담, 개인상담, 집단상담 참석자)");
 			
 			worksheet.addMergedRegion(new CellRangeAddress(0, 0, 30, 44));
 			cell = row.createCell(30);
 			cell.setCellStyle(headStyleArr[3]);
-			cell.setCellValue("2. 상담경위");
+			cell.setCellValue("2.신규내담자 상담경위");
 			
 			worksheet.addMergedRegion(new CellRangeAddress(0, 0, 45, 54));
 			cell = row.createCell(45);
@@ -1509,7 +1509,7 @@ public class DownloadController {
 			cell.setCellValue("외부연계 소계");
 			cell = row.createCell(90);
 			cell.setCellStyle(headStyleArr[6]);
-			cell.setCellValue("정신보건 자살예방 센터");
+			cell.setCellValue("정신건강 자살예방센터");
 			cell = row.createCell(91);
 			cell.setCellStyle(headStyleArr[6]);
 			cell.setCellValue("노인 보호전문 기관");
@@ -1521,19 +1521,19 @@ public class DownloadController {
 			cell.setCellValue("일자리 관련기관");
 			cell = row.createCell(94);
 			cell.setCellStyle(headStyleArr[6]);
-			cell.setCellValue("재가노인관련기관");
+			cell.setCellValue("법률기관");
 			cell = row.createCell(95);
 			cell.setCellStyle(headStyleArr[6]);
-			cell.setCellValue("법률기관");
+			cell.setCellValue("성폭력, 가정폭력 상담소");
 			cell = row.createCell(96);
 			cell.setCellStyle(headStyleArr[6]);
-			cell.setCellValue("성폭력, 가정폭력 상담소");
+			cell.setCellValue("치매 관련기관");
 			cell = row.createCell(97);
 			cell.setCellStyle(headStyleArr[6]);
-			cell.setCellValue("치매 관련기관");
+			cell.setCellValue("건강가정 다문화 가정 지원센터");
 			cell = row.createCell(98);
 			cell.setCellStyle(headStyleArr[6]);
-			cell.setCellValue("건강가정 다문화 가정");
+			cell.setCellValue("재가노인관련기관");
 			cell = row.createCell(99);
 			cell.setCellStyle(headStyleArr[6]);
 			cell.setCellValue("행정기관 \n(무한돌봄)");
@@ -1727,9 +1727,10 @@ public class DownloadController {
 				cell.setCellStyle(headStyle);
 				if(i == 31) {
 					param = String.valueOf(totalExcelList.get(0).get("c"+String.valueOf(i+15)));
-					
+					System.out.println("c"+String.valueOf(i+15));
 				}else {
 					param = String.valueOf(totalExcelList.get(0).get("c"+String.valueOf(i+2)));
+					System.out.println("c"+String.valueOf(i+2));
 				}
 				cell.setCellValue(param);
 			}
