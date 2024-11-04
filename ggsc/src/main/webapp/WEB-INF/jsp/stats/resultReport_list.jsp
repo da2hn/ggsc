@@ -128,9 +128,9 @@
         <!-- <h3 class="h3-title" style="margin-top: 15px; margin-bottom:15px;">실적보고서 -->
 			<div class="btn" style="float: right; margin: 0;">
 				<!-- <button type="button" class="btn-basic" onclick="fn_excelDownload(16, document.searchForm)" style="background-color:green;color:white;">Excel 다운로드</button> -->		
-				<c:if test="${authCd eq 1 }">
+				<%-- <c:if test="${authCd eq 1 }"> --%>
 					<button type="button" class="btn-basic" onclick="fn_excelArea()" style="background-color:green;color:white;">Excel 다운로드</button>
-				</c:if>
+				<%-- </c:if> --%>
 			</div>
 		</h3>
 		
