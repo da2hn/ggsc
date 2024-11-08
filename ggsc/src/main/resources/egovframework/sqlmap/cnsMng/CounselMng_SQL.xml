@@ -482,7 +482,8 @@
 			CASE gpem.per_info_path WHEN IFNULL(gpem.per_info_path,'작성') THEN '작성' ELSE '미작성' END AS perInfoPathNm ,
 			CASE gpem.doc_cntn_path WHEN IFNULL(gpem.doc_cntn_path,'작성') THEN '작성' ELSE '미작성' END AS docCntnPathNm ,
 			CASE gpem.CNS_TARGET_GB WHEN 'Y' then '대상자' ELSE '' END AS cnsTargetGbNm ,
-			(SELECT CNSR_OPTN_TOT FROM gs_doc_cntn_comm as gdcc WHERE gdcc.case_no = gpem.case_no) AS cnsrOptnTot
+			(SELECT CNSR_OPTN_TOT FROM gs_doc_cntn_comm as gdcc WHERE gdcc.case_no = gpem.case_no ORDER BY NUM DESC LIMIT 1) AS cnsrOptnTot
+
 		FROM
 			gs_pre_exam_m gpem, GS_USER_M gum
 		WHERE
